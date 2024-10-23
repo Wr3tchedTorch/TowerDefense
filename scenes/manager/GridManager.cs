@@ -34,13 +34,19 @@ public partial class GridManager : Node
 		return new Vector2I((int)gridPosition.X, (int)gridPosition.Y);
 	}
 
-	public bool IsValidBuildingTile(Vector2I cellPos)
+	public bool IsValidBuildingTile(Vector2I cellPos, int towerCellWidth)
 	{
-		var customData = _terrainTileMapLayer.GetCellTileData(cellPos);
-		if (customData == null)
-			return false;
-
-		return !_occupiedGridCells.Contains(cellPos) && (bool)customData.GetCustomData("IsBuildable");
+		for (int xPos = cellPos.X; xPos < cellPos.X + towerCellWidth; xPos++)
+		{
+			for (int yPos = cellPos.Y; yPos < cellPos.Y + towerCellWidth; yPos++)
+			{
+				var customData = _terrainTileMapLayer.GetCellTileData(new Vector2I(xPos, yPos));
+				var isBuildable = (bool)customData.GetCustomData("IsBuildable");
+				if (customData == null || _occupiedGridCells.Contains(new Vector2I(xPos, yPos)) || !isBuildable)
+					return false;
+			}
+		}
+		return true;
 	}
 
 	public Vector2 GetGlobalPositionSnappedToGrid(Vector2 globalPosition)
@@ -51,6 +57,15 @@ public partial class GridManager : Node
 
 	private void OnTowerPlaced(BuildingComponent buildingComponent)
 	{
-		_occupiedGridCells.Add(buildingComponent.GetGridCellPosition());
+		TowerResource towerResource = GD.Load<TowerResource>(buildingComponent.TowerResourceFilePath);
+
+		Vector2I towerPos = buildingComponent.GetGridCellPosition();
+		for (int xPos = towerPos.X; xPos < towerPos.X + towerResource.TowerCellWidth; xPos++)
+		{
+			for (int yPos = towerPos.Y; yPos < towerPos.Y + towerResource.TowerCellWidth; yPos++)
+			{
+				_occupiedGridCells.Add(new Vector2I(xPos, yPos));
+			}
+		}
 	}
 }

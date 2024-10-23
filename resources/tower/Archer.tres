@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TowerResource" load_steps=3 format=3 uid="uid://8p6wt4qw1clv"]
+
+[ext_resource type="PackedScene" uid="uid://c075insix0hkd" path="res://scenes/tower/Tower.tscn" id="1_1764s"]
+[ext_resource type="Script" path="res://resources/TowerResource.cs" id="1_ly4m0"]
+
+[resource]
+script = ExtResource("1_ly4m0")
+TowerRangeRadius = 5
+TowerCellWidth = 2
+TowerScene = ExtResource("1_1764s")

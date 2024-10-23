@@ -6,17 +6,39 @@ namespace Game;
 public partial class Main : Node
 {
 
-	[Export] private PackedScene _towerScene;
-
+	private TowerResource _towerResource;
 	private GridManager _gridManager;
 	private Sprite2D _cursor;
-	private PackedScene _towerBeingPlaced;
+
+	private TowerResource _towerBeingPlaced;
 	private Button _towerPlacementButton;
 	private Vector2I _hoveredGridCellPosition;
+
+	public override void _UnhandledInput(InputEvent evt)
+	{
+
+		if (_towerBeingPlaced == null)
+			return;
+
+		if (evt.IsActionPressed("left_mb_click") &&
+			_cursor.Visible &&			 
+			_gridManager.IsValidBuildingTile(_hoveredGridCellPosition, _towerBeingPlaced.TowerCellWidth))
+		{
+			_cursor.Visible = false;
+			PlaceNewTower(_gridManager.GridCellToGlobalPosition(_hoveredGridCellPosition));
+		}
+	}
+
+	public override void _Process(double delta)
+	{
+
+		_hoveredGridCellPosition = _gridManager.GetGridCellPosition(_cursor.GetGlobalMousePosition());
+	}
 
 	public override void _Ready()
 	{
 
+		_towerResource = GD.Load<TowerResource>("res://resources/tower/Archer.tres");
 		_gridManager = GetNode<GridManager>("GridManager");
 
 		_cursor = GetNode<Sprite2D>("Cursor");
@@ -26,25 +48,10 @@ public partial class Main : Node
 		_cursor.Visible = false;
 	}
 
-	public override void _Process(double delta)
-	{
-
-		_hoveredGridCellPosition = _gridManager.GetGridCellPosition(_cursor.GetGlobalMousePosition());
-		GD.Print(_hoveredGridCellPosition);
-		if (_gridManager.IsValidBuildingTile(_hoveredGridCellPosition) &&
-			_towerBeingPlaced != null &&
-			_cursor.Visible &&
-			Input.IsActionPressed("left_mb_click"))
-		{
-			_cursor.Visible = false;
-			PlaceNewTower(_gridManager.GridCellToGlobalPosition(_hoveredGridCellPosition));
-		}
-	}
-
 	private void PlaceNewTower(Vector2 globalPos)
 	{
 
-		Node2D tower = _towerScene.Instantiate<Node2D>();
+		Node2D tower = _towerResource.TowerScene.Instantiate<Node2D>();
 		AddChild(tower);
 		tower.GlobalPosition = globalPos;
 	}
@@ -52,6 +59,6 @@ public partial class Main : Node
 	private void OnPlaceTowerButtonPressed()
 	{
 		_cursor.Visible = true;
-		_towerBeingPlaced = _towerScene;
+		_towerBeingPlaced = _towerResource;
 	}
 }
