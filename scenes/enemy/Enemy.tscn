@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwbpil0duhhx0"]
+
+[ext_resource type="Script" path="res://scenes/enemy/Enemy.cs" id="1_g1nm3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_s1wft"]
+size = Vector2(16, 32)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iqm43"]
+radius = 9.0
+height = 32.0
+
+[node name="Enemy" type="PathFollow2D"]
+script = ExtResource("1_g1nm3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = SubResource("PlaceholderTexture2D_s1wft")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -16)
+shape = SubResource("CapsuleShape2D_iqm43")

@@ -29,16 +29,16 @@ public partial class RangedAttackComponent : Node
 
 		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
 
-		CharacterBody2D closestEnemy = GetClosestEnemy();
+		CharacterBody2D closestEnemy = GetClosestEnemyInRadius();
 		if (closestEnemy == null)
 			return;
 
 		SpawnBullet(closestEnemy);
 	}
 
-	private CharacterBody2D GetClosestEnemy()
+	private CharacterBody2D GetClosestEnemyInRadius()
 	{
-		CharacterBody2D[] allEnemies = GetTree().GetNodesInGroup("enemies").Cast<CharacterBody2D>().ToArray();
+		CharacterBody2D[] allEnemies = GetTree().GetNodesInGroup(nameof(Enemy)).Cast<CharacterBody2D>().ToArray();
 		if (allEnemies.Length == 0)
 			return null;
 		if (allEnemies.Length == 1)
