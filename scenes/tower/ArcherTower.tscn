@@ -43,7 +43,7 @@ _data = {
 "tower_idle": SubResource("Animation_ih0fm")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_f3chh"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_kxnbi"]
 radius = 120.0
 
 [node name="ArcherTower" type="Node2D"]
@@ -53,6 +53,11 @@ Radius = 120.0
 [node name="BuildingComponent" parent="." instance=ExtResource("1_mhbfi")]
 TowerResourceFilePath = "res://resources/tower/Archer.tres"
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_q3u4y")
+}
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_117lp")
 centered = false
@@ -60,11 +65,6 @@ offset = Vector2(-4, -5)
 hframes = 4
 region_enabled = true
 region_rect = Rect2(0, 62, 280, 68)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_q3u4y")
-}
 
 [node name="ArcherUnit" parent="." instance=ExtResource("3_160gv")]
 position = Vector2(32, 19)
@@ -74,4 +74,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 position = Vector2(32, 32)
-shape = SubResource("CircleShape2D_f3chh")
+shape = SubResource("CircleShape2D_kxnbi")
+
+[node name="CenterMarker2D" type="Marker2D" parent="."]
+position = Vector2(32, 32)

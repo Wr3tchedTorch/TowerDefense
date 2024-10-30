@@ -2,7 +2,7 @@ using Godot;
 
 namespace Game.Bullet;
 
-public partial class Bullet : Area2D
+public partial class BaseBullet : Area2D
 {
 
 	[Export] private float _speed;

@@ -1,4 +1,5 @@
 using System.Linq;
+using Game.Bullet;
 using Game.Unit;
 using Godot;
 
@@ -7,7 +8,7 @@ namespace Game.Component;
 public partial class RangedAttackComponent : Node
 {
 
-	[Export] private Marker2D[] _bulletSpawnPoints;
+	[Export] private Marker2D _bulletSpawnPoint;
 
 	// Make these attributes into a bullet resource
 	[Export(PropertyHint.Range, "0,100")] private float _fireRatePercentage;
@@ -40,6 +41,10 @@ public partial class RangedAttackComponent : Node
 	{
 
 		GD.Print($"SpawnBullet - targeting: {Target.Name} at {Target.GlobalPosition}");
+		
+		var bullet = _bulletScene.Instantiate<BaseBullet>();
+		GetTree().GetFirstNodeInGroup(nameof(Main)).AddChild(bullet);
+		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 
 		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
 		_canSpawnBullet = true;

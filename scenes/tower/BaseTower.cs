@@ -11,6 +11,13 @@ public partial class BaseTower : Node2D
 
 	private float _radius;
 	private CollisionShape2D _radiusCollisionShape;
+	private Marker2D _centerMarker;
+
+	public override void _Ready()
+	{
+
+		_centerMarker = GetNode<Marker2D>("CenterMarker2D");
+	}
 
 	public Node2D GetClosestEnemyInRadius()
 	{
@@ -41,12 +48,12 @@ public partial class BaseTower : Node2D
 
 	public float GetDistanceToNode(Node2D target)
 	{
-		return (target.GlobalPosition - GlobalPosition).Length();
+		return (target.GlobalPosition - _centerMarker.GlobalPosition).Length();
 	}
 
 	private void UpdateTowerRadius()
 	{
-		
+
 		_radiusCollisionShape ??= GetNode<CollisionShape2D>("RadiusArea2D/CollisionShape2D");
 		_radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
 	}

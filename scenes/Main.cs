@@ -17,11 +17,13 @@ public partial class Main : Node
 	public override void _UnhandledInput(InputEvent evt)
 	{
 
+		AddToGroup(nameof(Main));
+
 		if (_towerBeingPlaced == null)
 			return;
 
 		if (evt.IsActionPressed("left_mb_click") &&
-			_cursor.Visible &&			 
+			_cursor.Visible &&
 			_gridManager.IsValidBuildingTile(_hoveredGridCellPosition, _towerBeingPlaced.TowerCellWidth))
 		{
 			_cursor.Visible = false;
