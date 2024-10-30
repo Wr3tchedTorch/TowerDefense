@@ -11,7 +11,6 @@ public partial class Enemy : PathFollow2D
 
 	public override void _Ready()
 	{
-
 		AddToGroup(nameof(Enemy));
 	}
 

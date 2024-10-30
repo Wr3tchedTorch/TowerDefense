@@ -1,9 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dext42rivcdy3"]
+[gd_scene load_steps=5 format=3 uid="uid://dext42rivcdy3"]
+
+[ext_resource type="PackedScene" uid="uid://76rd6k1wab6x" path="res://scenes/component/RangedAttackComponent.tscn" id="1_kbaph"]
+[ext_resource type="Script" path="res://scenes/unit/RangedUnit.cs" id="1_m7l2i"]
+[ext_resource type="PackedScene" uid="uid://dlcinfa5qo0a3" path="res://scenes/bullet/Arrow.tscn" id="3_rj6rw"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pfv3g"]
 size = Vector2(16, 32)
 
 [node name="ArcherUnit" type="Node2D"]
+script = ExtResource("1_m7l2i")
+
+[node name="RangedAttackComponent" parent="." node_paths=PackedStringArray("_bulletSpawnPoints") instance=ExtResource("1_kbaph")]
+_bulletSpawnPoints = [NodePath("../Marker2D")]
+_fireRatePercentage = 50.0
+_bulletScene = ExtResource("3_rj6rw")
+_bulletDamage = 10.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0.781195, 0.88276, 1)

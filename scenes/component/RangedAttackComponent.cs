@@ -1,4 +1,5 @@
 using System.Linq;
+using Game.Unit;
 using Godot;
 
 namespace Game.Component;
@@ -6,62 +7,42 @@ namespace Game.Component;
 public partial class RangedAttackComponent : Node
 {
 
-	[Export(PropertyHint.Range, "0,100")] private float _fireRatePercentage;
 	[Export] private Marker2D[] _bulletSpawnPoints;
+
+	// Make these attributes into a bullet resource
+	[Export(PropertyHint.Range, "0,100")] private float _fireRatePercentage;
 	[Export] private PackedScene _bulletScene;
 	[Export] private float _bulletDamage;
 
-	private CharacterBody2D _targetEnemy;
-	private Node2D _parent;
+	private RangedUnit _parent;
+	private bool _canSpawnBullet = true;
 
 	private float FireRateDelay => 1.8f - (1.5f * (_fireRatePercentage / 100));
+	private Node2D Target => _parent.Target;
 
 	public override void _Ready()
 	{
 
-		_parent = GetParent<Node2D>();
+		_parent = GetParent<RangedUnit>();
 	}
 
-	public async override void _Process(double delta)
+	public override void _Process(double delta)
 	{
-		if (!IsInstanceValid(_targetEnemy))
+
+		if (!_canSpawnBullet || !IsInstanceValid(Target) || Target == null)
 			return;
+
+		SpawnBullet();
+		_canSpawnBullet = false;
+	}
+
+	private async void SpawnBullet()
+	{
+
+		GD.Print($"SpawnBullet - targeting: {Target.Name} at {Target.GlobalPosition}");
 
 		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
-
-		CharacterBody2D closestEnemy = GetClosestEnemyInRadius();
-		if (closestEnemy == null)
-			return;
-
-		SpawnBullet(closestEnemy);
-	}
-
-	private CharacterBody2D GetClosestEnemyInRadius()
-	{
-		CharacterBody2D[] allEnemies = GetTree().GetNodesInGroup(nameof(Enemy)).Cast<CharacterBody2D>().ToArray();
-		if (allEnemies.Length == 0)
-			return null;
-		if (allEnemies.Length == 1)
-			return allEnemies[0];
-
-		CharacterBody2D closestEnemy = allEnemies[0];
-		foreach (var enemy in allEnemies)
-		{
-			if (GetDistanceToParent(enemy) < GetDistanceToParent(closestEnemy))
-				closestEnemy = enemy;
-		}
-
-		return closestEnemy;
-	}
-
-	private float GetDistanceToParent(CharacterBody2D target)
-	{
-		return (target.GlobalPosition - _parent.GlobalPosition).Length();
-	}
-
-	private void SpawnBullet(CharacterBody2D target)
-	{
-		GD.Print($"SpawnBullet - targeting: {target}");
+		_canSpawnBullet = true;
 	}
 }
 
