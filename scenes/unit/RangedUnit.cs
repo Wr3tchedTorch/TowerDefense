@@ -19,9 +19,6 @@ public partial class RangedUnit : Node2D
 	{
 
 		if (!IsInstanceValid(Target) || Parent.IsOutOfRange(Parent.GetDistanceToNode(Target)))
-		{
 			Target = Parent.GetClosestEnemyInRadius();
-			return;
-		}
 	}
 }

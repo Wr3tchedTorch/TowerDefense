@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=8 format=4 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://c075insix0hkd" path="res://scenes/tower/ArcherTower.tscn" id="2_ijrac"]
@@ -14,9 +14,6 @@ point_count = 6
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_05wa5"]
 size = Vector2(32, 32)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_rb6th"]
-radius = 150.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7a2j1")
@@ -67,10 +64,4 @@ position = Vector2(384, 320)
 zoom = Vector2(2.25, 2.25)
 
 [node name="ArcherTower" parent="." instance=ExtResource("2_ijrac")]
-position = Vector2(608, 224)
-Radius = 150.0
-
-[node name="CollisionShape2D" parent="ArcherTower/RadiusArea2D" index="0"]
-shape = SubResource("CircleShape2D_rb6th")
-
-[editable path="ArcherTower"]
+position = Vector2(64, 224)

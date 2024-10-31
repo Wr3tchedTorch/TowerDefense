@@ -1,4 +1,3 @@
-using System.Linq;
 using Game.Bullet;
 using Game.Unit;
 using Godot;
@@ -40,10 +39,9 @@ public partial class RangedAttackComponent : Node
 	private async void SpawnBullet()
 	{
 
-		GD.Print($"SpawnBullet - targeting: {Target.Name} at {Target.GlobalPosition}");
-		
 		var bullet = _bulletScene.Instantiate<BaseBullet>();
-		GetTree().GetFirstNodeInGroup(nameof(Main)).AddChild(bullet);
+		GetTree().GetFirstNodeInGroup(nameof(Main)).AddChild(bullet);		
+		bullet.Target = Target;
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 
 		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
