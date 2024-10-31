@@ -3,9 +3,10 @@ using Godot;
 
 namespace Game.Enemy;
 
-public partial class Enemy : PathFollow2D
+public partial class BaseEnemy : PathFollow2D
 {
-
+	
+	[Export] private float _damage = 10;
 	[Export] private float _movementSpeed = 180;
 
 	private HealthComponent _healthComponent;
@@ -14,7 +15,7 @@ public partial class Enemy : PathFollow2D
 
 	public override void _Ready()
 	{
-		AddToGroup(nameof(Enemy));
+		AddToGroup(nameof(BaseEnemy));
 
 		_healthComponent = GetNode<HealthComponent>("HealthComponent");
 		_healthComponent.Death += OnDeath;
