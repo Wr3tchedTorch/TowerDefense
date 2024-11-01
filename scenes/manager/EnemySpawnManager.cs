@@ -14,9 +14,9 @@ public partial class EnemySpawnManager : Node
 	[Export] private Path2D _enemiesPath;
 
 	private EnemyResource[] _currentEnemiesInThisWave;
-	private Timer[] _enemiesSpawnTimers;
+	private List<Timer> _enemiesSpawnTimers;
 	private int _currentWave = 1;
-	
+
 	private bool _isWavePlaying = false;
 	private bool _canStartWave = false;
 	// private bool _i = false;
@@ -28,7 +28,7 @@ public partial class EnemySpawnManager : Node
 	{
 
 		await ToSignal(GetTree().CreateTimer(_delayBeforeStartingWave), "timeout");
-		_isWavePlaying = true;
+		_canStartWave = true;
 	}
 
 	public override void _Process(double delta)
@@ -51,7 +51,6 @@ public partial class EnemySpawnManager : Node
 
 		await ToSignal(GetTree().CreateTimer(_delayBeforeStartingWave), "timeout");
 		_canStartWave = true;
-		_isWavePlaying = true;
 	}
 
 	private void StartSpawningEnemies()
@@ -59,27 +58,24 @@ public partial class EnemySpawnManager : Node
 
 		_isWavePlaying = true;
 
-		foreach (var enemyResource in EnemiesResourceInCurrentWave)
+		foreach (var timer in _enemiesSpawnTimers)
 		{
-			GetTree().CreateTimer(enemyResource.EnemySpawnDelay).Timeout += () =>
-			{
-				GD.Print("bunda");
-				var enemy = enemyResource.EnemyScene.Instantiate<PathFollow2D>();
-				_enemiesPath.AddChild(enemy);
-				enemy.Progress = 0;
-			};
+			timer.Start();
 		}
 	}
 
 	private void ResetEnemiesTimers()
 	{
-		if (_enemiesSpawnTimers.Length > 0)
+		if (_enemiesSpawnTimers.Count > 0)
+		{
 			_enemiesSpawnTimers.ToList().ForEach(enemyTimer => enemyTimer.QueueFree());
+			_enemiesSpawnTimers.Clear();
+		}
 		_enemiesSpawnTimers = CreateEnemiesSpawnTimer();
-		_enemiesSpawnTimers.ToList().ForEach(enemyTimer => AddChild(enemyTimer));
+		_enemiesSpawnTimers.ForEach(enemyTimer => AddChild(enemyTimer));
 	}
 
-	private Timer[] CreateEnemiesSpawnTimer()
+	private List<Timer> CreateEnemiesSpawnTimer()
 	{
 
 		List<Timer> timers = new();
@@ -91,8 +87,14 @@ public partial class EnemySpawnManager : Node
 				WaitTime = enemyResource.EnemySpawnDelay,
 				OneShot = false
 			};
+			enemyTimer.Timeout += () =>
+			{
+				var enemy = enemyResource.EnemyScene.Instantiate<PathFollow2D>();
+				_enemiesPath.AddChild(enemy);
+				enemy.Progress = 0;
+			};
 			timers.Add(enemyTimer);
 		}
-		return timers.ToArray();
+		return timers.ToList();
 	}
 }
