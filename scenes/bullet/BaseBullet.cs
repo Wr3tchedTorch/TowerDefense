@@ -4,25 +4,25 @@ namespace Game.Bullet;
 
 public partial class BaseBullet : Area2D
 {
-
-	[Export] public float Damage { get; private set; }
-	[Export] private float _speed = 400;
+	public float damage;
+	public float speed = 400;
 
 	public Node2D Target { get; set; }
 
 	public override void _Ready()
 	{
-
 		AreaEntered += OnAreaEntered;
 	}
 
 	public override void _Process(double delta)
 	{
-
 		if (!IsInstanceValid(Target))
+		{
 			return;
+		}
 
-		GlobalPosition += _speed * GetDirectionToPosition(Target.GlobalPosition) * (float)delta;
+		GD.Print("BaseBullet (ln 25): chasing my target");
+		GlobalPosition += speed * GetDirectionToPosition(Target.GlobalPosition) * (float)delta;
 	}
 
 	private Vector2 GetDirectionToPosition(Vector2 position)
@@ -32,6 +32,7 @@ public partial class BaseBullet : Area2D
 
 	private void OnAreaEntered(Node2D area)
 	{
+		GD.Print("BaseBullet (ln 35): exiting the scene");
 		QueueFree();
 	}
 }

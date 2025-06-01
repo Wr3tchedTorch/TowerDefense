@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cwbpil0duhhx0"]
 
-[ext_resource type="Script" path="res://scenes/enemy/Enemy.cs" id="1_g1nm3"]
+[ext_resource type="Script" path="res://scenes/enemy/BaseEnemy.cs" id="1_g1nm3"]
 [ext_resource type="PackedScene" uid="uid://bv2qai24n454x" path="res://scenes/component/HealthComponent.tscn" id="2_rsf3w"]
 [ext_resource type="PackedScene" uid="uid://cejoh5muyuf1y" path="res://scenes/component/HitboxComponent.tscn" id="3_vrdmi"]
 
@@ -26,7 +26,7 @@ anti_aliasing = false
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rmr3u"]
 radius = 9.0
 
-[node name="Enemy" type="PathFollow2D"]
+[node name="BaseEnemy" type="PathFollow2D" groups=["Enemy"]]
 script = ExtResource("1_g1nm3")
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("_progressBar") instance=ExtResource("2_rsf3w")]

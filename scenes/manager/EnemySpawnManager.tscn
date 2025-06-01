@@ -2,5 +2,6 @@
 
 [ext_resource type="Script" path="res://scenes/manager/EnemySpawnManager.cs" id="1_vfmon"]
 
-[node name="EnemySpawnManager" type="Node"]
+[node name="EnemySpawnManager" type="Node" node_paths=PackedStringArray("_enemiesResource")]
 script = ExtResource("1_vfmon")
+_enemiesResource = []

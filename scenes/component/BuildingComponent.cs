@@ -6,14 +6,12 @@ namespace Game.Component;
 
 public partial class BuildingComponent : Node
 {
-
 	[Export(PropertyHint.File, "*.tres")] public string TowerResourceFilePath { get; private set; }
 
 	private Node2D _parent;
 
 	public override void _Ready()
 	{
-
 		_parent = GetParent<Node2D>();
 		Callable.From(() => GameEvents.Instance.EmitSignalTowerPlaced(this)).CallDeferred();
 	}

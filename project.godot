@@ -48,6 +48,11 @@ folder_colors={
 "res://scenes/": "blue"
 }
 
+[global_group]
+
+Enemy=""
+Main=""
+
 [input]
 
 left_mb_click={

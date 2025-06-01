@@ -19,8 +19,8 @@ public partial class HitboxComponent : Area2D
 
 		if (area is BaseBullet bullet)
 		{
-			GD.Print($"Taking damage from bullet: {bullet.Name} | Damage: {bullet.Damage}");
-			_healthComponent.Damage(bullet.Damage);
+			GD.Print($"Taking damage from bullet: {bullet.Name} | Damage: {bullet.damage}");
+			_healthComponent.Damage(bullet.damage);
 		}
 	}
 }

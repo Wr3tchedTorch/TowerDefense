@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Game.Enums;
 using Godot;
 
 namespace Game.Tower;
@@ -6,8 +9,8 @@ namespace Game.Tower;
 [Tool]
 public partial class BaseTower : Node2D
 {
-
 	[Export] public float Radius { get => _radius; set { _radius = value; UpdateTowerRadius(); } }
+	[Export] public TowerTargetMode TowerTargetMode { get; set; }
 
 	private float _radius;
 	private CollisionShape2D _radiusCollisionShape;
@@ -15,33 +18,7 @@ public partial class BaseTower : Node2D
 
 	public override void _Ready()
 	{
-
 		_centerMarker = GetNode<Marker2D>("CenterMarker2D");
-	}
-
-	public Node2D GetClosestEnemyInRadius()
-	{
-
-		var enemies = GetTree().GetNodesInGroup(nameof(Enemy)).Cast<Node2D>();
-
-		if (!enemies.Any())
-			return null;
-
-		Node2D closestEnemy = enemies.First();
-		foreach (var enemy in enemies)
-		{
-
-			var enemyDistance = GetDistanceToNode(enemy);
-			if (IsOutOfRange(enemyDistance))
-				continue;
-
-			if (enemyDistance < GetDistanceToNode(closestEnemy))
-				closestEnemy = enemy;
-		}
-		if (IsOutOfRange(GetDistanceToNode(closestEnemy)))
-			return null;
-
-		return closestEnemy;
 	}
 
 	public bool IsOutOfRange(float distance)
@@ -54,12 +31,86 @@ public partial class BaseTower : Node2D
 		return (target.GlobalPosition - _centerMarker.GlobalPosition).Length();
 	}
 
+	public Node2D GetTargetEnemy()
+	{
+		switch (TowerTargetMode)
+		{
+			case TowerTargetMode.First:
+				return GetFirstEnemyInLine();
+			case TowerTargetMode.Last:
+				return GetLastEnemyInLine();
+			case TowerTargetMode.Closest:
+				return GetClosestEnemyInRadius();
+			default:
+				GD.PrintErr("BaseTower (ln 30): No target mode selected, returning null.");
+				throw new InvalidOperationException("No target mode selected.");
+		}
+	}
+
+	private Node2D GetClosestEnemyInRadius()
+	{
+		return GetEnemyThroughCondition(
+			(firstEnemy, enemy) => GetDistanceToNode(firstEnemy) <= GetDistanceToNode(enemy)
+		);
+	}
+
+	private Node2D GetFirstEnemyInLine()
+	{
+		return GetEnemyThroughCondition(
+			(firstEnemy, enemy) => firstEnemy.ProgressRatio >= enemy.ProgressRatio
+		);
+	}
+
+	private Node2D GetLastEnemyInLine()
+	{
+		return GetEnemyThroughCondition(
+			(firstEnemy, enemy) => firstEnemy.ProgressRatio <= enemy.ProgressRatio
+		);
+	}
+
+	private Node2D GetEnemyThroughCondition(Func<PathFollow2D, PathFollow2D, bool> isFirstEnemyBetter)
+	{
+		var enemies = GetAllEnemies();
+
+		if (!enemies.Any())
+		{
+			return null;
+		}
+
+		var firstEnemy = enemies.First();
+		foreach (var enemy in enemies)
+		{
+			if (IsOutOfRange(GetDistanceToNode(enemy)))
+			{
+				continue;
+			}
+
+			if (!isFirstEnemyBetter(firstEnemy, enemy))
+			{
+				firstEnemy = enemy;
+			}
+		}
+
+		if (IsOutOfRange(GetDistanceToNode(firstEnemy)))
+		{
+			return null;
+		}
+
+		return firstEnemy;
+	}
+
+	private IEnumerable<PathFollow2D> GetAllEnemies()
+	{
+		return GetTree().GetNodesInGroup(nameof(Enemy)).Cast<PathFollow2D>();
+	}
+
 	private void UpdateTowerRadius()
 	{
-
 		_radiusCollisionShape ??= GetNodeOrNull<CollisionShape2D>("RadiusArea2D/CollisionShape2D");
 		if (!IsInstanceValid(_radiusCollisionShape))
+		{
 			return;
+		}
 		_radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
 	}
 }

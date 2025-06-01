@@ -9,43 +9,63 @@ public partial class RangedAttackComponent : Node
 
 	[Export] private Marker2D _bulletSpawnPoint;
 
-	// Make these attributes into a bullet resource
-	[Export(PropertyHint.Range, "0,100")] private float _fireRatePercentage;
-	[Export] private PackedScene _bulletScene;
-	[Export] private float _bulletDamage;
+	[Export(PropertyHint.File, "*.tres")] private string _bulletResourceFilePath;
 
-	private RangedUnit _parent;
-	private bool _canSpawnBullet = true;
+	private RangedUnit parent;
+	private BulletResource bulletResource = null;
+	private bool canShoot = true;
 
-	private float FireRateDelay => 1.8f - (1.5f * (_fireRatePercentage / 100));
-	private Node2D Target => _parent.Target;
+	private float FireRateDelay
+	{
+		get
+		{
+			float percentage = Mathf.Clamp(bulletResource.FireRatePercentage, 0f, 100f);
+			float minDelay = 0.3f;
+			float maxDelay = 1.8f;
+			
+			float t = 1f - Mathf.Pow(percentage / 100f, 2f);
+			return Mathf.Lerp(minDelay, maxDelay, t);
+		}
+	}
 
 	public override void _Ready()
 	{
+		bulletResource = GD.Load<BulletResource>(_bulletResourceFilePath);
 
-		_parent = GetParent<RangedUnit>();
+		parent = GetParent<RangedUnit>();
 	}
 
-	public override void _Process(double delta)
+	public void Shoot(Node2D target)
 	{
-
-		if (!_canSpawnBullet || !IsInstanceValid(Target) || Target == null)
+		if (!canShoot || !IsInstanceValid(target) || target == null || bulletResource == null)
+		{
 			return;
+		}
 
-		SpawnBullet();
-		_canSpawnBullet = false;
+		SpawnBullet(target);
+		canShoot = false;
 	}
 
-	private async void SpawnBullet()
+	private async void SpawnBullet(Node2D target)
 	{
+		var bullet = InstantiateBullet();
 
-		var bullet = _bulletScene.Instantiate<BaseBullet>();
-		GetTree().GetFirstNodeInGroup(nameof(Main)).AddChild(bullet);		
-		bullet.Target = Target;
+		bullet.damage = bulletResource.Damage;
+		bullet.speed = bulletResource.Speed;
+		
+		bullet.Target = target;
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 
 		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
-		_canSpawnBullet = true;
+		canShoot = true;
+	}
+
+	private BaseBullet InstantiateBullet()
+	{		
+		var bullet = bulletResource.Scene.Instantiate<BaseBullet>();
+		GetTree().GetFirstNodeInGroup(nameof(Main)).AddChild(bullet);
+
+		return bullet;
 	}
 }
 
