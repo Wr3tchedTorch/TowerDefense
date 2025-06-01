@@ -6,7 +6,6 @@ namespace Game.Component;
 
 public partial class RangedAttackComponent : Node
 {
-
 	[Export] private Marker2D _bulletSpawnPoint;
 
 	[Export(PropertyHint.File, "*.tres")] private string _bulletResourceFilePath;
@@ -20,8 +19,8 @@ public partial class RangedAttackComponent : Node
 		get
 		{
 			float percentage = Mathf.Clamp(bulletResource.FireRatePercentage, 0f, 100f);
-			float minDelay = 0.3f;
-			float maxDelay = 1.8f;
+			float minDelay = bulletResource.MinFireRateDelay;
+			float maxDelay = bulletResource.MaxFireRateDelay;
 			
 			float t = 1f - Mathf.Pow(percentage / 100f, 2f);
 			return Mathf.Lerp(minDelay, maxDelay, t);
