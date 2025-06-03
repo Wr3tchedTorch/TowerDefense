@@ -2,8 +2,9 @@ using Godot;
 using TowerDefense.enums;
 
 [GlobalClass]
-public partial class UpgradeResource : Node
+public partial class UpgradeResource : Resource
 {
-	public UpgradeType Type { get; set; }
-	public int Amount { get; set; }
+	[Export] public UpgradeType Type { get; set; }
+	[Export] public int Power { get; set; }
+	[Export] public int Cost { get; set; }	
 }

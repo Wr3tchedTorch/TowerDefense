@@ -1,17 +1,43 @@
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TowerDefense.enums;
 
 public partial class UpgradeComponent : Node
 {
-	public BulletResource BulletResource {get; private set;}	
+	[Signal] public delegate void IncreaseUnitCountEventHandler(int amount);
 
-	[Export(PropertyHint.File, "*.tres")] private string _bulletResourceFilePath;
+	[Export] public BulletResource BulletResource { get; private set; }
 
-	// Upgrade type and amount
-	[Export] private Godot.Collections.Dictionary<UpgradeType, int> upgrades;
+	[Export] private UpgradePathResource upgradePaths;
 
-    public override void _Ready()
-    {
-		BulletResource = GD.Load<BulletResource>(_bulletResourceFilePath);
+	private readonly Dictionary<UpgradePath, int> upgradeStateIndex = new(3)
+	{
+		{ UpgradePath.Top, 0    },
+		{ UpgradePath.Middle, 0 },
+		{ UpgradePath.Bottom, 0 }
+	};
+
+	private Dictionary<UpgradePath, Godot.Collections.Array<UpgradeResource>> upgradePathIndex;
+
+	public override void _Ready()
+	{
+		upgradePathIndex = new(3)
+		{
+			{ UpgradePath.Top, upgradePaths.TopPath },
+			{ UpgradePath.Middle, upgradePaths.MiddlePath },
+			{ UpgradePath.Bottom, upgradePaths.BottomPath }
+		};
+	}
+
+	public void Upgrade(UpgradePath path)
+	{
+		if (upgradeStateIndex[path] >= upgradePathIndex[path].Count)
+		{
+			GD.PrintErr($"No more upgrades available for path: {path}");
+			return;
+		}
+
+
 	}
 }

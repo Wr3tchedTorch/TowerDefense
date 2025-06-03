@@ -1,9 +1,70 @@
-[gd_scene load_steps=9 format=3 uid="uid://c075insix0hkd"]
+[gd_scene load_steps=22 format=3 uid="uid://c075insix0hkd"]
 
 [ext_resource type="Script" path="res://scenes/tower/BaseTower.cs" id="1_e3fr7"]
 [ext_resource type="PackedScene" uid="uid://b3flmifkeub6p" path="res://scenes/component/BuildingComponent.tscn" id="1_mhbfi"]
+[ext_resource type="PackedScene" uid="uid://b3cpdqnt3cowh" path="res://scenes/component/UpgradeComponent.tscn" id="2_8lvg2"]
 [ext_resource type="Texture2D" uid="uid://dnmesut5e3ae5" path="res://assets/tower/2.png" id="2_117lp"]
 [ext_resource type="PackedScene" uid="uid://dext42rivcdy3" path="res://scenes/unit/ArcherUnit.tscn" id="3_160gv"]
+[ext_resource type="PackedScene" uid="uid://dlcinfa5qo0a3" path="res://scenes/bullet/Arrow.tscn" id="3_cum4l"]
+[ext_resource type="Script" path="res://resources/BulletResource.cs" id="4_b58vt"]
+[ext_resource type="Script" path="res://resources/UpgradeResource.cs" id="5_opuue"]
+
+[sub_resource type="Resource" id="Resource_vj5u6"]
+script = ExtResource("4_b58vt")
+FireRatePercentage = 60.0
+MinFireRateDelay = 0.2
+MaxFireRateDelay = 3.0
+Damage = 30.0
+Speed = 1200.0
+Scene = ExtResource("3_cum4l")
+
+[sub_resource type="Resource" id="Resource_jj8jx"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_3vcru"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_6rd0x"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_ri0bc"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_vtawy"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_pahqh"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_1qri1"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_hpfpf"]
+script = ExtResource("5_opuue")
+Type = 0
+Power = 0
+Cost = 0
 
 [sub_resource type="Animation" id="Animation_cp4kr"]
 length = 0.001
@@ -43,13 +104,19 @@ _data = {
 "tower_idle": SubResource("Animation_ih0fm")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_27w8d"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_lkrvo"]
 radius = 120.0
 
 [node name="ArcherTower" type="Node2D"]
 script = ExtResource("1_e3fr7")
 Radius = 120.0
 TowerTargetMode = 1
+
+[node name="UpgradeComponent" parent="." instance=ExtResource("2_8lvg2")]
+BulletResource = SubResource("Resource_vj5u6")
+TopPath = Array[Object]([SubResource("Resource_jj8jx"), SubResource("Resource_3vcru")])
+MiddlePath = Array[Object]([SubResource("Resource_6rd0x"), SubResource("Resource_ri0bc"), SubResource("Resource_vtawy"), SubResource("Resource_pahqh"), SubResource("Resource_1qri1")])
+BottomPath = Array[Object]([SubResource("Resource_hpfpf")])
 
 [node name="BuildingComponent" parent="." instance=ExtResource("1_mhbfi")]
 TowerResourceFilePath = "res://resources/tower/Archer.tres"
@@ -75,7 +142,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 position = Vector2(32, 32)
-shape = SubResource("CircleShape2D_27w8d")
+shape = SubResource("CircleShape2D_lkrvo")
 
 [node name="CenterMarker2D" type="Marker2D" parent="."]
 position = Vector2(32, 32)

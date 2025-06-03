@@ -12,7 +12,6 @@ RangedAttackComponent = NodePath("RangedAttackComponent")
 
 [node name="RangedAttackComponent" parent="." node_paths=PackedStringArray("_bulletSpawnPoint") instance=ExtResource("1_kbaph")]
 _bulletSpawnPoint = NodePath("../Marker2D")
-_bulletResourceFilePath = "res://resources/bullet/Arrow.tres"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0.781195, 0.88276, 1)
