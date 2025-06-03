@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using TowerDefense.enums;
 
@@ -13,7 +12,7 @@ public partial class UpgradeComponent : Node
 
 	private readonly Dictionary<UpgradePath, int> upgradeStateIndex = new(3)
 	{
-		{ UpgradePath.Top, 0    },
+		{ UpgradePath.Top,    0 },
 		{ UpgradePath.Middle, 0 },
 		{ UpgradePath.Bottom, 0 }
 	};
@@ -24,7 +23,7 @@ public partial class UpgradeComponent : Node
 	{
 		upgradePathIndex = new(3)
 		{
-			{ UpgradePath.Top, upgradePaths.TopPath },
+			{ UpgradePath.Top, 	  upgradePaths.TopPath },
 			{ UpgradePath.Middle, upgradePaths.MiddlePath },
 			{ UpgradePath.Bottom, upgradePaths.BottomPath }
 		};

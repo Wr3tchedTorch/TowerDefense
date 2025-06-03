@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=9 format=4 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://c075insix0hkd" path="res://scenes/tower/ArcherTower.tscn" id="2_ijrac"]
 [ext_resource type="PackedScene" uid="uid://buysiwijxdiuf" path="res://scenes/manager/GridManager.tscn" id="2_yibdt"]
+[ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/UI/TowerUpgradeMenu.tscn" id="3_1r1qb"]
 [ext_resource type="PackedScene" uid="uid://cwbpil0duhhx0" path="res://scenes/enemy/BaseEnemy.tscn" id="4_7ldog"]
 [ext_resource type="TileSet" uid="uid://bk2x1bk671toy" path="res://resources/tiles.tres" id="4_uy7m7"]
 
@@ -21,6 +22,10 @@ script = ExtResource("1_7a2j1")
 [node name="GridManager" parent="." node_paths=PackedStringArray("_cursor", "_terrainTileMapLayer") instance=ExtResource("2_yibdt")]
 _cursor = NodePath("../Cursor")
 _terrainTileMapLayer = NodePath("../TerrainTileMapLayer")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="Tower Upgrade Menu" parent="CanvasLayer2" instance=ExtResource("3_1r1qb")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

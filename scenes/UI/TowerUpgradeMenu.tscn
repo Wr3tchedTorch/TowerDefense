@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://b86eyu1kxwifp"]
+
+[node name="Tower Upgrade Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 200
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TitleVBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Archer Tower"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Long ranged tower with a powerfull but slow attack."
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Damage"
+
+[node name="DamageHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/DamageHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+step = 10.0
+value = 50.0
+show_percentage = false
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/DamageHBoxContainer"]
+layout_mode = 2
+text = "Upgrade"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Bullet Speed"
+
+[node name="BulletSpeedHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/BulletSpeedHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+step = 10.0
+value = 50.0
+show_percentage = false
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/BulletSpeedHBoxContainer"]
+layout_mode = 2
+text = "Upgrade"
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Fire Rate"
+
+[node name="FireRateHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/FireRateHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+step = 10.0
+value = 50.0
+show_percentage = false
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/FireRateHBoxContainer"]
+layout_mode = 2
+text = "Upgrade"
