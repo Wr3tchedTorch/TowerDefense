@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3cpdqnt3cowh"]
+[gd_scene load_steps=8 format=3 uid="uid://b3cpdqnt3cowh"]
 
 [ext_resource type="Script" path="res://scenes/component/UpgradeComponent.cs" id="1_m32ln"]
 [ext_resource type="Script" path="res://resources/BulletResource.cs" id="2_sivq7"]
+[ext_resource type="Script" path="res://resources/UpgradeResource.cs" id="3_s8gwk"]
+[ext_resource type="Script" path="res://resources/UpgradePathResource.cs" id="4_m134t"]
 
 [sub_resource type="Resource" id="Resource_u5h7l"]
 script = ExtResource("2_sivq7")
@@ -11,6 +13,19 @@ MaxFireRateDelay = 3.0
 Damage = 0.0
 Speed = 0.0
 
+[sub_resource type="Resource" id="Resource_m4q8f"]
+script = ExtResource("3_s8gwk")
+Type = 0
+Power = 0
+Cost = 0
+
+[sub_resource type="Resource" id="Resource_ww3df"]
+script = ExtResource("4_m134t")
+TopPath = Array[Object]([SubResource("Resource_m4q8f")])
+MiddlePath = null
+BottomPath = null
+
 [node name="UpgradeComponent" type="Node"]
 script = ExtResource("1_m32ln")
 BulletResource = SubResource("Resource_u5h7l")
+upgradePaths = SubResource("Resource_ww3df")

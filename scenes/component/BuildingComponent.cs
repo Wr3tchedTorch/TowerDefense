@@ -6,7 +6,7 @@ namespace Game.Component;
 
 public partial class BuildingComponent : Node
 {
-	[Export(PropertyHint.File, "*.tres")] public string TowerResourceFilePath { get; private set; }
+	[Export] public TowerResource TowerResource {get; private set; }
 
 	private Node2D _parent;
 

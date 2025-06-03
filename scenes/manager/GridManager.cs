@@ -56,7 +56,7 @@ public partial class GridManager : Node
 
 	private void OnTowerPlaced(BuildingComponent buildingComponent)
 	{
-		TowerResource towerResource = GD.Load<TowerResource>(buildingComponent.TowerResourceFilePath);
+		TowerResource towerResource = buildingComponent.TowerResource;
 
 		Vector2I towerPos = buildingComponent.GetGridCellPosition();
 		for (int xPos = towerPos.X; xPos < towerPos.X + towerResource.TowerCellWidth; xPos++)

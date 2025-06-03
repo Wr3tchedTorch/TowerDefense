@@ -12,6 +12,8 @@ public partial class BaseTower : Node2D
 	[Export] public float Radius { get => _radius; set { _radius = value; UpdateTowerRadius(); } }
 	[Export] public TowerTargetMode TowerTargetMode { get; set; }
 
+	public int CurrentTier { get; private set; }
+
 	private float _radius;
 	private CollisionShape2D _radiusCollisionShape;
 	private Marker2D _centerMarker;
@@ -112,5 +114,10 @@ public partial class BaseTower : Node2D
 			return;
 		}
 		_radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
+	}
+
+	private void OnMouseClick(Vector2 position)
+	{
+		GD.Print("{Tower. ln 121}: clicked! opening upgrade menu.");
 	}
 }

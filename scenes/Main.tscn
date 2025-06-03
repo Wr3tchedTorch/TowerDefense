@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=4 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=8 format=4 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://c075insix0hkd" path="res://scenes/tower/ArcherTower.tscn" id="2_ijrac"]
 [ext_resource type="PackedScene" uid="uid://buysiwijxdiuf" path="res://scenes/manager/GridManager.tscn" id="2_yibdt"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/UI/TowerUpgradeMenu.tscn" id="3_1r1qb"]
-[ext_resource type="PackedScene" uid="uid://cwbpil0duhhx0" path="res://scenes/enemy/BaseEnemy.tscn" id="4_7ldog"]
 [ext_resource type="TileSet" uid="uid://bk2x1bk671toy" path="res://resources/tiles.tres" id="4_uy7m7"]
 
 [sub_resource type="Curve2D" id="Curve2D_a0e7a"]
@@ -23,9 +22,10 @@ script = ExtResource("1_7a2j1")
 _cursor = NodePath("../Cursor")
 _terrainTileMapLayer = NodePath("../TerrainTileMapLayer")
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="UpgradeMenu" type="CanvasLayer" parent="."]
+visible = false
 
-[node name="Tower Upgrade Menu" parent="CanvasLayer2" instance=ExtResource("3_1r1qb")]
+[node name="Tower Upgrade Menu" parent="UpgradeMenu" instance=ExtResource("3_1r1qb")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -54,29 +54,6 @@ tile_set = ExtResource("4_uy7m7")
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_a0e7a")
 
-[node name="Enemy" parent="Path2D" instance=ExtResource("4_7ldog")]
-position = Vector2(96, -224)
-rotation = 1.5708
-_movementSpeed = 225.0
-
-[node name="Enemy2" parent="Path2D" instance=ExtResource("4_7ldog")]
-position = Vector2(96, -202.596)
-rotation = 1.5708
-progress = 21.44
-_movementSpeed = 225.0
-
-[node name="Enemy3" parent="Path2D" instance=ExtResource("4_7ldog")]
-position = Vector2(96, -181.131)
-rotation = 1.5708
-progress = 42.88
-_movementSpeed = 225.0
-
-[node name="Enemy4" parent="Path2D" instance=ExtResource("4_7ldog")]
-position = Vector2(96, -159.686)
-rotation = 1.5708
-progress = 64.32
-_movementSpeed = 225.0
-
 [node name="Cursor" type="Sprite2D" parent="."]
 position = Vector2(192, 288)
 texture = SubResource("PlaceholderTexture2D_05wa5")
@@ -87,6 +64,6 @@ position = Vector2(384, 320)
 zoom = Vector2(2.25, 2.25)
 
 [node name="ArcherTower" parent="." instance=ExtResource("2_ijrac")]
-position = Vector2(512, 288)
-Radius = 250.0
+position = Vector2(640, 224)
+Radius = 100.0
 TowerTargetMode = 3

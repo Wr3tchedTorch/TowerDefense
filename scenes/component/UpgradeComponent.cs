@@ -2,13 +2,15 @@ using System.Collections.Generic;
 using Godot;
 using TowerDefense.enums;
 
-public partial class UpgradeComponent : Node
+public partial class UpgradeComponent : Control
 {
 	[Signal] public delegate void IncreaseUnitCountEventHandler(int amount);
 
 	[Export] public BulletResource BulletResource { get; private set; }
 
 	[Export] private UpgradePathResource upgradePaths;
+
+	private bool isOpen = false;
 
 	private readonly Dictionary<UpgradePath, int> upgradeStateIndex = new(3)
 	{
@@ -23,7 +25,7 @@ public partial class UpgradeComponent : Node
 	{
 		upgradePathIndex = new(3)
 		{
-			{ UpgradePath.Top, 	  upgradePaths.TopPath },
+			{ UpgradePath.Top,    upgradePaths.TopPath },
 			{ UpgradePath.Middle, upgradePaths.MiddlePath },
 			{ UpgradePath.Bottom, upgradePaths.BottomPath }
 		};
@@ -36,7 +38,23 @@ public partial class UpgradeComponent : Node
 			GD.PrintErr($"No more upgrades available for path: {path}");
 			return;
 		}
+	}
 
+	public void Open(TowerResource towerResource)
+	{
+		if (isOpen)
+		{
+			GD.PrintErr("UpgradeComponent is already open.");
+			return;
+		}
 
+		Visible = true;
+		isOpen = true;
+	}
+
+	public void Close()
+	{
+		Visible = false;
+		isOpen = false;
 	}
 }
