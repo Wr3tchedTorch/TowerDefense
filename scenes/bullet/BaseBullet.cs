@@ -20,8 +20,6 @@ public partial class BaseBullet : Area2D
 		{
 			return;
 		}
-
-		GD.Print("BaseBullet (ln 25): chasing my target");
 		GlobalPosition += speed * GetDirectionToPosition(Target.GlobalPosition) * (float)delta;
 	}
 
@@ -32,7 +30,6 @@ public partial class BaseBullet : Area2D
 
 	private void OnAreaEntered(Node2D area)
 	{
-		GD.Print("BaseBullet (ln 35): exiting the scene");
 		QueueFree();
 	}
 }

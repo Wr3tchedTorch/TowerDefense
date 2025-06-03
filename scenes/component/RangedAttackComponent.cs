@@ -8,19 +8,18 @@ public partial class RangedAttackComponent : Node
 {
 	[Export] private Marker2D _bulletSpawnPoint;
 
-	[Export(PropertyHint.File, "*.tres")] private string _bulletResourceFilePath;
+	[Export] private UpgradeComponent _upgradeComponent;
 
 	private RangedUnit parent;
-	private BulletResource bulletResource = null;
 	private bool canShoot = true;
 
 	private float FireRateDelay
 	{
 		get
 		{
-			float percentage = Mathf.Clamp(bulletResource.FireRatePercentage, 0f, 100f);
-			float minDelay = bulletResource.MinFireRateDelay;
-			float maxDelay = bulletResource.MaxFireRateDelay;
+			float percentage = Mathf.Clamp(_upgradeComponent.BulletResource.FireRatePercentage, 0f, 100f);
+			float minDelay = _upgradeComponent.BulletResource.MinFireRateDelay;
+			float maxDelay = _upgradeComponent.BulletResource.MaxFireRateDelay;
 			
 			float t = 1f - Mathf.Pow(percentage / 100f, 2f);
 			return Mathf.Lerp(minDelay, maxDelay, t);
@@ -28,15 +27,13 @@ public partial class RangedAttackComponent : Node
 	}
 
 	public override void _Ready()
-	{
-		bulletResource = GD.Load<BulletResource>(_bulletResourceFilePath);
-
+	{		
 		parent = GetParent<RangedUnit>();
 	}
 
 	public void Shoot(Node2D target)
 	{
-		if (!canShoot || !IsInstanceValid(target) || target == null || bulletResource == null)
+		if (!canShoot || !IsInstanceValid(target) || target == null || _upgradeComponent.BulletResource == null)
 		{
 			return;
 		}
@@ -49,19 +46,23 @@ public partial class RangedAttackComponent : Node
 	{
 		var bullet = InstantiateBullet();
 
-		bullet.damage = bulletResource.Damage;
-		bullet.speed = bulletResource.Speed;
+		bullet.damage = _upgradeComponent.BulletResource.Damage;
+		bullet.speed = _upgradeComponent.BulletResource.Speed;
 		
 		bullet.Target = target;
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 
+		GD.Print($"Bullet fired with delay: {FireRateDelay} seconds");
+
 		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
+		
+		GD.Print("Ready to shoot again");
 		canShoot = true;
 	}
 
 	private BaseBullet InstantiateBullet()
 	{		
-		var bullet = bulletResource.Scene.Instantiate<BaseBullet>();
+		var bullet = _upgradeComponent.BulletResource.Scene.Instantiate<BaseBullet>();
 		GetTree().GetFirstNodeInGroup(nameof(Main)).AddChild(bullet);
 
 		return bullet;

@@ -29,8 +29,6 @@ public partial class RangedUnit : Node2D
 		{
 			return;
 		}
-
-		GD.Print("RangedUnit (ln 28): shooting at my target");
 		RangedAttackComponent.Shoot(Target);
 	}
 }

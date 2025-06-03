@@ -8,7 +8,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_a0e7a"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 96, 192, 0, 0, 0, 0, 736, 192, 0, 0, 0, 0, 736, 448, 0, 0, 0, 0, 96, 448, 0, 0, 0, 0, 96, 640)
+"points": PackedVector2Array(0, 0, 0, 0, 96, -224, 0, 0, 0, 0, 96, 192, 0, 0, 0, 0, 736, 192, 0, 0, 0, 0, 736, 448, 0, 0, 0, 0, 96, 448, 0, 0, 0, 0, 96, 640)
 }
 point_count = 6
 
@@ -50,8 +50,26 @@ tile_set = ExtResource("4_uy7m7")
 curve = SubResource("Curve2D_a0e7a")
 
 [node name="Enemy" parent="Path2D" instance=ExtResource("4_7ldog")]
-position = Vector2(96, 0)
+position = Vector2(96, -224)
 rotation = 1.5708
+_movementSpeed = 225.0
+
+[node name="Enemy2" parent="Path2D" instance=ExtResource("4_7ldog")]
+position = Vector2(96, -202.596)
+rotation = 1.5708
+progress = 21.44
+_movementSpeed = 225.0
+
+[node name="Enemy3" parent="Path2D" instance=ExtResource("4_7ldog")]
+position = Vector2(96, -181.131)
+rotation = 1.5708
+progress = 42.88
+_movementSpeed = 225.0
+
+[node name="Enemy4" parent="Path2D" instance=ExtResource("4_7ldog")]
+position = Vector2(96, -159.686)
+rotation = 1.5708
+progress = 64.32
 _movementSpeed = 225.0
 
 [node name="Cursor" type="Sprite2D" parent="."]
@@ -64,4 +82,6 @@ position = Vector2(384, 320)
 zoom = Vector2(2.25, 2.25)
 
 [node name="ArcherTower" parent="." instance=ExtResource("2_ijrac")]
-position = Vector2(64, 224)
+position = Vector2(512, 288)
+Radius = 250.0
+TowerTargetMode = 3
