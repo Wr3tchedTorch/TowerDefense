@@ -38,6 +38,11 @@ public partial class BaseTower : Node2D
 		UpdateTierSprites();
 	}
 
+	public override void _Process(double delta)
+	{
+		GD.Print(_towerAttributes.ToString());
+    }
+
 	public bool IsOutOfRange(float distance)
 	{
 		return distance > TowerAttributesResource.Radius;

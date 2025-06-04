@@ -136,7 +136,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 step = 20.0
-value = 50.0
+value = 60.0
 show_percentage = false
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer/BulletSpeedVBoxContainer/HBoxContainer"]
@@ -169,7 +169,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 step = 20.0
-value = 50.0
+value = 60.0
 show_percentage = false
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer2/FireRateVBoxContainer/HBoxContainer"]
@@ -196,7 +196,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 step = 20.0
-value = 50.0
+value = 60.0
 show_percentage = false
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer2/RangeVBoxContainer/HBoxContainer"]
@@ -238,11 +238,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 selected = 0
-item_count = 3
-popup/item_0/text = "First"
-popup/item_1/text = "Closest"
-popup/item_1/id = 1
-popup/item_2/text = "Last"
-popup/item_2/id = 2
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CloseButton" to="." method="OnCloseButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer/DamageVBoxContainer/HBoxContainer/Button" to="." method="OnDamageUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer/BulletSpeedVBoxContainer/HBoxContainer/Button" to="." method="OnBulletSpeedUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer2/FireRateVBoxContainer/HBoxContainer/Button" to="." method="OnFireRateUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer2/RangeVBoxContainer/HBoxContainer/Button" to="." method="OnRangeUpgradeButtonPressed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer/TargetModeOptionButton" to="." method="OnTargetModeOptionButtonItemSelected"]

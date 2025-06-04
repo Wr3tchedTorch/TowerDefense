@@ -13,10 +13,16 @@
 [sub_resource type="Resource" id="Resource_7pclt"]
 script = ExtResource("3_sy7gu")
 Name = "Archer"
+Description = ""
 Damage = 120
 FireRate = 30
 BulletSpeed = 1200
 Radius = 100
+CurrentDamageUpgradePercentage = 0
+CurrentFireRateUpgradePercentage = 0
+CurrentBulletSpeedUpgradePercentage = 0
+CurrentRadiusUpgradePercentage = 0
+TowerTargetMode = 0
 CurrentTier = 0
 TierSprites = [ExtResource("2_117lp"), null, null]
 
@@ -66,7 +72,7 @@ _data = {
 "tower_idle": SubResource("Animation_ih0fm")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gm8v1"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_yrws6"]
 radius = 100.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66o8y"]
@@ -105,7 +111,7 @@ collision_mask = 2
 [node name="RadiusCollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 unique_name_in_owner = true
 position = Vector2(32, 32)
-shape = SubResource("CircleShape2D_gm8v1")
+shape = SubResource("CircleShape2D_yrws6")
 
 [node name="CenterMarker2D" type="Marker2D" parent="."]
 position = Vector2(32, 32)

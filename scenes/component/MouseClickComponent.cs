@@ -19,7 +19,7 @@ public partial class MouseClickComponent : Area2D
 	{
 		if (@event is InputEventMouseButton mb)
 		{
-			if (mb.ButtonIndex == MouseButton.Left)
+			if (mb.ButtonIndex == MouseButton.Left && isMouseHovering)
 			{				
 				EmitSignal(SignalName.MouseClick, mb.GlobalPosition);
 			}
@@ -28,7 +28,6 @@ public partial class MouseClickComponent : Area2D
 
 	public void OnMouseEntered()
 	{
-		GD.Print("{MouseClickComponent} Mouse entered");
 		isMouseHovering = true;
 
 		Input.SetDefaultCursorShape(Input.CursorShape.PointingHand);
@@ -36,7 +35,6 @@ public partial class MouseClickComponent : Area2D
 
 	public void OnMouseExited()
 	{
-		GD.Print("{MouseClickComponent} Mouse exited");
 		isMouseHovering = false;
 
 		Input.SetDefaultCursorShape(Input.CursorShape.Arrow);
