@@ -4,13 +4,16 @@ public partial class MouseClickComponent : Area2D
 {
 	[Signal] public delegate void MouseClickEventHandler(Vector2 position);
 
+	public int TotalAmountOfClicks { get; private set; } = 0;
+	public int ClicksPerSecond 	   { get; private set; } = 0;
+
 	private bool isMouseHovering = false;
 
 	public override void _Ready()
 	{
 		MouseEntered += OnMouseEntered;
 		MouseExited += OnMouseExited;
-    }
+	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{

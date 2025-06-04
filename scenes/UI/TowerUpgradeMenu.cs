@@ -1,15 +1,37 @@
+using Game.Autoload;
 using Godot;
 using System;
 
 public partial class TowerUpgradeMenu : Control
 {
-	// Called when the node enters the scene tree for the first time.
+	private bool isOpen = false;
+
 	public override void _Ready()
 	{
+		GameEvents.Instance.OpenUpgradeMenu += OnOpenUpgradeMenu;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	private void OnOpenUpgradeMenu(TowerAttributesResource towerAttributesResource)
 	{
+		GD.Print($"Opening upgrade menu for tower: {towerAttributesResource.Name}");
+		GD.Print($"Current Tier: {towerAttributesResource.CurrentTier}");
+		GD.Print($"Damage: {towerAttributesResource.Damage}");
+		GD.Print($"Fire Rate: {towerAttributesResource.FireRate}");
+		GD.Print($"Bullet Speed: {towerAttributesResource.BulletSpeed}");
+		GD.Print($"Radius: {towerAttributesResource.Radius}");
+
+		if (isOpen)
+		{
+			GD.PrintErr("UpgradeComponent is already open.");
+			return;
+		}
+		Visible = true;
+		isOpen = true;
+	}
+
+	public void Close()
+	{		
+		Visible = false;
+		isOpen = false;
 	}
 }

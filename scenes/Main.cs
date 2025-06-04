@@ -1,5 +1,6 @@
 using Godot;
 using Game.Manager;
+using Game.Tower;
 
 namespace Game;
 
@@ -39,8 +40,7 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
-
-		_towerResource = GD.Load<TowerResource>("res://resources/tower/Archer.tres");
+		_towerResource = GD.Load<TowerResource>("res://resources/tower/Archer.tres");	
 		_gridManager = GetNode<GridManager>("GridManager");
 
 		_cursor = GetNode<Sprite2D>("Cursor");
@@ -52,8 +52,8 @@ public partial class Main : Node
 
 	private void PlaceNewTower(Vector2 globalPos)
 	{
-
-		Node2D tower = _towerResource.TowerScene.Instantiate<Node2D>();
+		var towerScene = GD.Load<PackedScene>(_towerResource.TowerScenePath);
+		Node2D tower = towerScene.Instantiate<Node2D>();
 		AddChild(tower);
 		tower.GlobalPosition = globalPos;
 	}

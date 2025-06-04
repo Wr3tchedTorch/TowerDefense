@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Autoload;
+using Game.Component;
 using Game.Enums;
 using Godot;
 
@@ -9,23 +11,36 @@ namespace Game.Tower;
 [Tool]
 public partial class BaseTower : Node2D
 {
-	[Export] public float Radius { get => _radius; set { _radius = value; UpdateTowerRadius(); } }
 	[Export] public TowerTargetMode TowerTargetMode { get; set; }
+	[Export]
+	public TowerAttributesResource TowerAttributesResource
+	{
+		get => _towerAttributes;
+		private set
+		{
+			_towerAttributes = value;
+			UpdateTowerRadius();
+			UpdateTierSprites();
+		}
+	}
 
 	public int CurrentTier { get; private set; }
 
-	private float _radius;
+	private TowerAttributesResource _towerAttributes;
 	private CollisionShape2D _radiusCollisionShape;
 	private Marker2D _centerMarker;
 
 	public override void _Ready()
 	{
 		_centerMarker = GetNode<Marker2D>("CenterMarker2D");
+
+		UpdateTowerRadius();
+		UpdateTierSprites();
 	}
 
 	public bool IsOutOfRange(float distance)
 	{
-		return distance > _radius;
+		return distance > TowerAttributesResource.Radius;
 	}
 
 	public float GetDistanceToNode(Node2D target)
@@ -108,16 +123,23 @@ public partial class BaseTower : Node2D
 
 	private void UpdateTowerRadius()
 	{
-		_radiusCollisionShape ??= GetNodeOrNull<CollisionShape2D>("RadiusArea2D/CollisionShape2D");
-		if (!IsInstanceValid(_radiusCollisionShape))
+		_radiusCollisionShape = GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
+		if (_radiusCollisionShape == null)
 		{
+			GD.PrintErr("BaseTower (ln 60): No radius collision shape found.");
 			return;
 		}
-		_radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
+		_radiusCollisionShape.Shape = new CircleShape2D() { Radius = TowerAttributesResource.Radius };
+	}
+
+	private void UpdateTierSprites()
+	{
+
 	}
 
 	private void OnMouseClick(Vector2 position)
 	{
+		GameEvents.Instance.EmitSignalOpenUpgradeMenu(TowerAttributesResource);
 		GD.Print("{Tower. ln 121}: clicked! opening upgrade menu.");
 	}
 }

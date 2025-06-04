@@ -65,5 +65,3 @@ zoom = Vector2(2.25, 2.25)
 
 [node name="ArcherTower" parent="." instance=ExtResource("2_ijrac")]
 position = Vector2(640, 224)
-Radius = 100.0
-TowerTargetMode = 3

@@ -27,7 +27,6 @@ public partial class GridManager : Node
 
 	public Vector2I GetGridCellPosition(Vector2 globalPosition)
 	{
-
 		Vector2 gridPosition = globalPosition / GridCellSize;
 		gridPosition = gridPosition.Floor();
 		return new Vector2I((int)gridPosition.X, (int)gridPosition.Y);
