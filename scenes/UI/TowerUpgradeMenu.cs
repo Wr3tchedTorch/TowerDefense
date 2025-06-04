@@ -1,6 +1,5 @@
 using Game.Autoload;
 using Godot;
-using System;
 
 public partial class TowerUpgradeMenu : Control
 {
@@ -29,8 +28,8 @@ public partial class TowerUpgradeMenu : Control
 		isOpen = true;
 	}
 
-	public void Close()
-	{		
+	private void OnCloseButtonPressed()
+	{
 		Visible = false;
 		isOpen = false;
 	}

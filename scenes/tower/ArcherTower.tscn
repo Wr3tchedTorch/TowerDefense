@@ -16,7 +16,7 @@ Name = "Archer"
 Damage = 120
 FireRate = 30
 BulletSpeed = 1200
-Radius = 50
+Radius = 100
 CurrentTier = 0
 TierSprites = [ExtResource("2_117lp"), null, null]
 
@@ -66,8 +66,8 @@ _data = {
 "tower_idle": SubResource("Animation_ih0fm")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_mboub"]
-radius = 50.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_gm8v1"]
+radius = 100.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66o8y"]
 size = Vector2(41, 51)
@@ -105,7 +105,7 @@ collision_mask = 2
 [node name="RadiusCollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 unique_name_in_owner = true
 position = Vector2(32, 32)
-shape = SubResource("CircleShape2D_mboub")
+shape = SubResource("CircleShape2D_gm8v1")
 
 [node name="CenterMarker2D" type="Marker2D" parent="."]
 position = Vector2(32, 32)
