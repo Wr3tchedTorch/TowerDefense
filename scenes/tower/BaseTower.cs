@@ -41,10 +41,12 @@ public partial class BaseTower : Node2D
 
 	private void UpdateTower()
 	{
-		UpdateTowerRadius();
+		UpdateRadius();
+
+		UpdateSprite();
 	}
 
-	private void UpdateTowerRadius()
+	private void UpdateRadius()
 	{
 		radiusCollisionShape = GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
 		if (radiusCollisionShape == null)
@@ -58,6 +60,17 @@ public partial class BaseTower : Node2D
 			return;
 		}
 		radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
+	}
+
+	private void UpdateSprite()
+	{
+		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+		if (sprite == null)
+		{
+			GD.PrintErr("BaseTower (ln 70): No sprite found.");
+			return;
+		}
+		sprite.Frame = (int) CurrentTowerAttributesResource.Tier;
 	}
 
 	private void OnMouseClick(Vector2 _)

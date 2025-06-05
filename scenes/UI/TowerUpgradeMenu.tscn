@@ -206,20 +206,24 @@ text = "Upgrade"
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 10
 theme_override_constants/separation = 100
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 10
 
-[node name="CurrentTierLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+[node name="CurrentTierLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Current Tier: II"
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/VBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Upgrade Tier"

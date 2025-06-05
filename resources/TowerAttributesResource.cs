@@ -13,6 +13,4 @@ public partial class TowerAttributesResource : Resource
     [Export] public float BulletSpeed { get; private set; }
     [Export] public float Radius { get; private set; }
     [Export] public int ClicksRequiredForBuilding { get; private set; } = 50;
-
-    [Export] public Texture[] TierSprites { get; private set; }
 }

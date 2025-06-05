@@ -1,6 +1,7 @@
 
 using Game.Enums;
 using Godot;
+using TowerDefense.enums;
 
 public partial class CurrentTowerAttributesResource : Resource
 {
@@ -21,7 +22,7 @@ public partial class CurrentTowerAttributesResource : Resource
     }    
 
     [Export] public TowerTargetMode TowerTargetMode { get; set; } = TowerTargetMode.First;
-    [Export] public int Tier { get; private set; } = 0;
+    [Export] public TowerTier Tier { get; private set; } = 0;
 
     private int _radiusUpgradePercentage = 0;
 
