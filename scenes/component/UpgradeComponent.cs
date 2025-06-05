@@ -7,7 +7,6 @@ public partial class UpgradeComponent : Node
 	[Signal] public delegate void IncreaseUnitCountEventHandler(int amount);
 
 	[Export] public BulletResource BulletResource { get; private set; }
-
 	[Export] private UpgradePathResource upgradePaths;
 
 	private bool isOpen = false;

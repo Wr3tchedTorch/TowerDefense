@@ -2,6 +2,8 @@ using Game.Autoload;
 using Game.Enums;
 using Godot;
 
+namespace Game.UI;
+
 public partial class TowerUpgradeMenu : Control
 {
 	[Signal] public delegate void UpgradeEventHandler(double cost);
@@ -18,6 +20,7 @@ public partial class TowerUpgradeMenu : Control
 	private OptionButton targetModeOptionButton;
 
 	private TowerAttributesResource towerAttributesResource;
+	private CurrentTowerAttributesResource currentTowerAttributesResource;
 
 	public override void _Ready()
 	{
@@ -37,7 +40,7 @@ public partial class TowerUpgradeMenu : Control
 		targetModeOptionButton.AddItem(TowerTargetMode.Closest.ToString(), (int)TowerTargetMode.Closest);
 	}
 
-	private void OnOpenUpgradeMenu(TowerAttributesResource towerAttributesResource)
+	private void OnOpenUpgradeMenu(TowerAttributesResource towerAttributesResource, CurrentTowerAttributesResource currentTowerAttributesResource)
 	{
 		if (isOpen)
 		{
@@ -45,6 +48,7 @@ public partial class TowerUpgradeMenu : Control
 			return;
 		}
 		this.towerAttributesResource = towerAttributesResource;
+		this.currentTowerAttributesResource = currentTowerAttributesResource;
 		UpdateInfo();
 		Visible = true;
 		isOpen = true;
@@ -60,62 +64,62 @@ public partial class TowerUpgradeMenu : Control
 	{
 		NameLabel.Text = towerAttributesResource.Name;
 		DescriptionLabel.Text = towerAttributesResource.Description;
-		CurrentTierLabel.Text = $"Current Tier: {towerAttributesResource.CurrentTier}";
+		CurrentTierLabel.Text = $"Current Tier: {currentTowerAttributesResource.Tier}";
 
-		damageProgressBar.Value = towerAttributesResource.CurrentDamageUpgradePercentage;
-		fireRateProgressBar.Value = towerAttributesResource.CurrentFireRateUpgradePercentage;
-		bulletSpeedProgressBar.Value = towerAttributesResource.CurrentBulletSpeedUpgradePercentage;
-		radiusProgressBar.Value = towerAttributesResource.CurrentRadiusUpgradePercentage;
+		damageProgressBar.Value = currentTowerAttributesResource.DamageUpgradePercentage;
+		fireRateProgressBar.Value = currentTowerAttributesResource.FireRateUpgradePercentage;
+		bulletSpeedProgressBar.Value = currentTowerAttributesResource.BulletSpeedUpgradePercentage;
+		radiusProgressBar.Value = currentTowerAttributesResource.RadiusUpgradePercentage;
 
-		targetModeOptionButton.Select((int)towerAttributesResource.TowerTargetMode);
+		targetModeOptionButton.Select((int)currentTowerAttributesResource.TowerTargetMode);
 	}
 
 	private void OnDamageUpgradeButtonPressed()
 	{
-		if (towerAttributesResource.CurrentDamageUpgradePercentage == 100)
+		if (currentTowerAttributesResource.DamageUpgradePercentage == 100)
 		{
 			GD.Print("Maximum damage upgrade reached.");
 			return;
 		}
-		towerAttributesResource.CurrentDamageUpgradePercentage += 20;
+		currentTowerAttributesResource.DamageUpgradePercentage += 20;
 		UpdateInfo();
 	}
 
 	private void OnFireRateUpgradeButtonPressed()
 	{
-		if (towerAttributesResource.CurrentFireRateUpgradePercentage == 100)
+		if (currentTowerAttributesResource.FireRateUpgradePercentage == 100)
 		{
 			GD.Print("Maximum fire rate upgrade reached.");
 			return;
 		}
-		towerAttributesResource.CurrentFireRateUpgradePercentage += 20;
+		currentTowerAttributesResource.FireRateUpgradePercentage += 20;
 		UpdateInfo();
 	}
 
 	private void OnBulletSpeedUpgradeButtonPressed()
 	{
-		if (towerAttributesResource.CurrentBulletSpeedUpgradePercentage == 100)
+		if (currentTowerAttributesResource.BulletSpeedUpgradePercentage == 100)
 		{
 			GD.Print("Maximum bullet speed upgrade reached.");
 			return;
 		}
-		towerAttributesResource.CurrentBulletSpeedUpgradePercentage += 20;
+		currentTowerAttributesResource.BulletSpeedUpgradePercentage += 20;
 		UpdateInfo();
 	}
 
 	private void OnRangeUpgradeButtonPressed()
 	{
-		if (towerAttributesResource.CurrentRadiusUpgradePercentage == 100)
+		if (currentTowerAttributesResource.RadiusUpgradePercentage == 100)
 		{
 			GD.Print("Maximum range upgrade reached.");
 			return;
 		}
-		towerAttributesResource.CurrentRadiusUpgradePercentage += 20;
+		currentTowerAttributesResource.RadiusUpgradePercentage += 20;
 		UpdateInfo();
 	}
 
 	private void OnTargetModeOptionButtonItemSelected(int index)
 	{
-		towerAttributesResource.TowerTargetMode = (TowerTargetMode)index;
+		currentTowerAttributesResource.TowerTargetMode = (TowerTargetMode)index;
 	}
 }

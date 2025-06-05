@@ -20,10 +20,10 @@ public partial class RangedUnit : Node2D
 
 	public override void _Process(double delta)
 	{
-		if (!IsInstanceValid(Target) || Parent.IsOutOfRange(Parent.GetDistanceToNode(Target)))
-		{
-			Target = Parent.GetTargetEnemy();
-		}
+		// if (!IsInstanceValid(Target) || Parent.IsOutOfRange(Parent.GetDistanceToNode(Target)))
+		// {
+		// 	Target = Parent.GetTargetEnemy();
+		// }
 
 		if (Target == null)
 		{

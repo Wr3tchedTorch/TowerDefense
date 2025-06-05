@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=9 format=4 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://c075insix0hkd" path="res://scenes/tower/ArcherTower.tscn" id="2_ijrac"]
 [ext_resource type="PackedScene" uid="uid://buysiwijxdiuf" path="res://scenes/manager/GridManager.tscn" id="2_yibdt"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/UI/TowerUpgradeMenu.tscn" id="3_1r1qb"]
 [ext_resource type="TileSet" uid="uid://bk2x1bk671toy" path="res://resources/tiles.tres" id="4_uy7m7"]
+[ext_resource type="PackedScene" uid="uid://cwbpil0duhhx0" path="res://scenes/enemy/BaseEnemy.tscn" id="5_t54l0"]
 
 [sub_resource type="Curve2D" id="Curve2D_a0e7a"]
 _data = {
@@ -54,6 +55,15 @@ tile_set = ExtResource("4_uy7m7")
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_a0e7a")
+
+[node name="BaseEnemy" parent="Path2D" instance=ExtResource("5_t54l0")]
+position = Vector2(96, -224)
+rotation = 1.5708
+
+[node name="BaseEnemy2" parent="Path2D" instance=ExtResource("5_t54l0")]
+position = Vector2(96, -184.012)
+rotation = 1.5708
+progress = 40.0
 
 [node name="Cursor" type="Sprite2D" parent="."]
 position = Vector2(192, 288)

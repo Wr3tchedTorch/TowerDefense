@@ -1,38 +1,23 @@
-[gd_scene load_steps=17 format=3 uid="uid://c075insix0hkd"]
+[gd_scene load_steps=14 format=3 uid="uid://c075insix0hkd"]
 
 [ext_resource type="Script" path="res://scenes/tower/BaseTower.cs" id="1_e3fr7"]
 [ext_resource type="PackedScene" uid="uid://b3flmifkeub6p" path="res://scenes/component/BuildingComponent.tscn" id="1_mhbfi"]
-[ext_resource type="PackedScene" uid="uid://b3cpdqnt3cowh" path="res://scenes/component/UpgradeComponent.tscn" id="2_8lvg2"]
 [ext_resource type="Texture2D" uid="uid://dnmesut5e3ae5" path="res://assets/tower/2.png" id="2_117lp"]
-[ext_resource type="PackedScene" uid="uid://dext42rivcdy3" path="res://scenes/unit/ArcherUnit.tscn" id="3_160gv"]
 [ext_resource type="Script" path="res://resources/TowerAttributesResource.cs" id="3_sy7gu"]
-[ext_resource type="Script" path="res://resources/BulletResource.cs" id="4_b58vt"]
+[ext_resource type="PackedScene" uid="uid://ce5t514nifkc6" path="res://scenes/component/TargetComponent.tscn" id="4_uylej"]
 [ext_resource type="Resource" uid="uid://cga28ebmpb8ti" path="res://resources/tower/archer.tres" id="7_dav0g"]
 [ext_resource type="PackedScene" uid="uid://b4eyvggapt157" path="res://scenes/component/MouseClickComponent.tscn" id="8_lv2ja"]
 
 [sub_resource type="Resource" id="Resource_7pclt"]
 script = ExtResource("3_sy7gu")
 Name = "Archer"
-Description = ""
-Damage = 120
-FireRate = 30
-BulletSpeed = 1200
-Radius = 100
-CurrentDamageUpgradePercentage = 0
-CurrentFireRateUpgradePercentage = 0
-CurrentBulletSpeedUpgradePercentage = 0
-CurrentRadiusUpgradePercentage = 0
-TowerTargetMode = 0
-CurrentTier = 0
+Description = "Minha descrição legal!!"
+Damage = 150.0
+FireRate = 30.0
+BulletSpeed = 1200.0
+Radius = 150.0
+ClicksRequiredForBuilding = 50
 TierSprites = [ExtResource("2_117lp"), null, null]
-
-[sub_resource type="Resource" id="Resource_1i7b3"]
-script = ExtResource("4_b58vt")
-FireRatePercentage = 0.0
-MinFireRateDelay = 0.2
-MaxFireRateDelay = 3.0
-Damage = 0.0
-Speed = 0.0
 
 [sub_resource type="Animation" id="Animation_cp4kr"]
 length = 0.001
@@ -72,19 +57,17 @@ _data = {
 "tower_idle": SubResource("Animation_ih0fm")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_yrws6"]
-radius = 100.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_iqbe5"]
+radius = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66o8y"]
-size = Vector2(41, 51)
+size = Vector2(38, 53)
 
 [node name="ArcherTower" type="Node2D"]
 script = ExtResource("1_e3fr7")
-TowerTargetMode = 1
 TowerAttributesResource = SubResource("Resource_7pclt")
 
-[node name="UpgradeComponent" parent="." instance=ExtResource("2_8lvg2")]
-BulletResource = SubResource("Resource_1i7b3")
+[node name="TargetComponent" parent="." instance=ExtResource("4_uylej")]
 
 [node name="BuildingComponent" parent="." instance=ExtResource("1_mhbfi")]
 TowerResource = ExtResource("7_dav0g")
@@ -102,16 +85,13 @@ hframes = 4
 region_enabled = true
 region_rect = Rect2(0, 62, 280, 68)
 
-[node name="ArcherUnit" parent="." instance=ExtResource("3_160gv")]
-position = Vector2(32, 19)
-
 [node name="RadiusArea2D" type="Area2D" parent="."]
 collision_mask = 2
 
 [node name="RadiusCollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 unique_name_in_owner = true
 position = Vector2(32, 32)
-shape = SubResource("CircleShape2D_yrws6")
+shape = SubResource("CircleShape2D_iqbe5")
 
 [node name="CenterMarker2D" type="Marker2D" parent="."]
 position = Vector2(32, 32)
@@ -119,7 +99,7 @@ position = Vector2(32, 32)
 [node name="MouseClickComponent" parent="." instance=ExtResource("8_lv2ja")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseClickComponent"]
-position = Vector2(29.5, 28.5)
+position = Vector2(31, 27.5)
 shape = SubResource("RectangleShape2D_66o8y")
 
 [connection signal="MouseClick" from="MouseClickComponent" to="." method="OnMouseClick"]
