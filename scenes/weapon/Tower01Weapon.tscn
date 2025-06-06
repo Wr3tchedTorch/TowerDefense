@@ -161,6 +161,6 @@ hframes = 6
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3g7gx")
-animation = &"level_03_shoot"
-frame = 5
-frame_progress = 0.55907
+animation = &"level_01_shoot"
+frame = 1
+frame_progress = 0.858768
