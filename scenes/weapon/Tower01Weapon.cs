@@ -39,7 +39,7 @@ public partial class Tower01Weapon : Node2D
 		animatedSprite2D.Frame = 0;
 	}
 	
-	private void OnTargetChanged(Node2D _, Node2D newTarget)
+	private void OnTargetChanged(Node2D newTarget)
 	{
 		target = newTarget;
 	}

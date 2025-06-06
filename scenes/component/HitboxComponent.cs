@@ -16,11 +16,10 @@ public partial class HitboxComponent : Area2D
 
 	private void OnAreaEntered(Node2D area)
 	{
-
 		if (area is BaseBullet bullet)
 		{
-			GD.Print($"Taking damage from bullet: {bullet.Name} | Damage: {bullet.damage}");
-			_healthComponent.Damage(bullet.damage);
+			GD.Print($"Taking damage from bullet: {bullet.Name} | Damage: {bullet.Damage}");
+			_healthComponent.Damage(bullet.Damage);
 		}
 	}
 }

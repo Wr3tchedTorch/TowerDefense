@@ -1,5 +1,4 @@
 using Game.Autoload;
-using Game.Enums;
 using Godot;
 
 namespace Game.Tower;
@@ -19,7 +18,7 @@ public partial class BaseTower : Node2D
 		}
 	}
 
-	public CurrentTowerAttributesResource CurrentTowerAttributesResource { get;  private set; } = null;
+	public CurrentTowerAttributesResource CurrentTowerAttributesResource { get; private set; } = null;
 	public Marker2D CenterMarker { get; private set; }
 
 	public float Damage => _towerAttributes.Damage * (1 + CurrentTowerAttributesResource.DamageUpgradePercentage / 100f);
@@ -29,6 +28,7 @@ public partial class BaseTower : Node2D
 
 	private TowerAttributesResource _towerAttributes;
 	private CollisionShape2D radiusCollisionShape;
+	private AnimationPlayer animationPlayer;
 
 	public override void _Ready()
 	{
@@ -37,6 +37,9 @@ public partial class BaseTower : Node2D
 
 		CurrentTowerAttributesResource.AttributesChanged += UpdateTower;
 		UpdateTower();
+
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		animationPlayer.Play("idle");
 	}
 
 	private void UpdateTower()
@@ -70,11 +73,25 @@ public partial class BaseTower : Node2D
 			GD.PrintErr("BaseTower (ln 70): No sprite found.");
 			return;
 		}
-		sprite.Frame = (int) CurrentTowerAttributesResource.Tier;
+		sprite.Frame = (int)CurrentTowerAttributesResource.Tier;
 	}
 
 	private void OnMouseClick(Vector2 _)
 	{
 		GameEvents.Instance.EmitSignalOpenUpgradeMenu(TowerAttributesResource, CurrentTowerAttributesResource);
+	}
+
+	private void OnShooting()
+	{
+		if (animationPlayer.IsPlaying())
+		{
+			animationPlayer.Stop();			
+		}
+		animationPlayer.Play("shoot");
+	}
+
+	private void OnAnimationFinished(string name)
+	{
+		animationPlayer.Play("idle");
 	}
 }

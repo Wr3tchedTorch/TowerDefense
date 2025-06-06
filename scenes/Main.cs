@@ -34,13 +34,24 @@ public partial class Main : Node
 
 	public override void _Process(double delta)
 	{
-
 		_hoveredGridCellPosition = _gridManager.GetGridCellPosition(_cursor.GetGlobalMousePosition());
 	}
 
+    public override void _UnhandledKeyInput(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+		{
+			if (keyEvent.Keycode == Key.R)
+			{
+				GetTree().ReloadCurrentScene();
+			}
+		}
+    }
+
+
 	public override void _Ready()
 	{
-		_towerResource = GD.Load<TowerResource>("res://resources/tower/Archer.tres");	
+		_towerResource = GD.Load<TowerResource>("res://resources/tower/Archer.tres");
 		_gridManager = GetNode<GridManager>("GridManager");
 
 		_cursor = GetNode<Sprite2D>("Cursor");

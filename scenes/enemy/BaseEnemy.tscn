@@ -30,7 +30,7 @@ radius = 9.0
 script = ExtResource("1_g1nm3")
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("_progressBar") instance=ExtResource("2_rsf3w")]
-_maxHealth = 100.0
+_maxHealth = 600.0
 _progressBar = NodePath("../ProgressBar")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

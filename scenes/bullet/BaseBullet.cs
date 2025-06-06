@@ -7,8 +7,8 @@ public partial class BaseBullet : Area2D
 {
 	public float Damage { get; set; }
 	public float Speed  { get; set; }
-	public TowerTier Tier  { get; set; }
 	public Node2D Target { get; set; }
+	public TowerTier Tier  { get; set; }
 
 	private string TierAnimationName => $"level_0{(int)Tier + 1}";
 
@@ -16,7 +16,7 @@ public partial class BaseBullet : Area2D
 	{
 		AreaEntered += OnAreaEntered;
 
-		UpdateSprite();
+		// UpdateSprite();
 	}
 
 	public override void _Process(double delta)
@@ -26,6 +26,7 @@ public partial class BaseBullet : Area2D
 			QueueFree();
 			return;
 		}
+		LookAt(Target.GlobalPosition);
 		GlobalPosition += Speed * GetDirectionToPosition(Target.GlobalPosition) * (float)delta;
 	}
 
@@ -37,9 +38,9 @@ public partial class BaseBullet : Area2D
 		animatedSprite2D.Play();
 	}
 
-	private Vector2 GetDirectionToPosition(Vector2 position)
+	private Vector2 GetDirectionToPosition(Vector2 targetGlobalPosition)
 	{
-		return (position - GlobalPosition).Normalized();
+		return (targetGlobalPosition - GlobalPosition).Normalized();
 	}
 
 	private void OnAreaEntered(Node2D area)

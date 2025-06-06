@@ -8,7 +8,7 @@ using System.Linq;
 
 public partial class TargetComponent : Node
 {
-	[Signal] public delegate void TargetChangedEventHandler(Node2D previousTarget, Node2D newTarget);
+	[Signal] public delegate void TargetChangedEventHandler(Node2D newTarget);
 
 	public Node2D Target { get; private set; }
 
@@ -27,8 +27,7 @@ public partial class TargetComponent : Node
 
 		if (Target != previousTarget)
 		{
-			EmitSignal(SignalName.TargetChanged, previousTarget, Target);
-			GD.Print($"Target changed from {previousTarget?.Name} to {Target?.Name}");
+			EmitSignal(SignalName.TargetChanged, Target);
 		}
 	}
 

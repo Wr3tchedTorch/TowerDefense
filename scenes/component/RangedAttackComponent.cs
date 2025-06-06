@@ -46,8 +46,8 @@ public partial class RangedAttackComponent : Node
 	{
 		var bullet = InstantiateBullet();
 
-		bullet.damage = _upgradeComponent.BulletResource.Damage;
-		bullet.speed = _upgradeComponent.BulletResource.Speed;
+		bullet.Damage = _upgradeComponent.BulletResource.Damage;
+		bullet.Speed = _upgradeComponent.BulletResource.Speed;
 		
 		bullet.Target = target;
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;

@@ -57,13 +57,14 @@ tile_set = ExtResource("4_uy7m7")
 curve = SubResource("Curve2D_a0e7a")
 
 [node name="BaseEnemy" parent="Path2D" instance=ExtResource("5_t54l0")]
-position = Vector2(96, -224)
+position = Vector2(96, -138.248)
 rotation = 1.5708
+progress = 85.76
 
 [node name="BaseEnemy2" parent="Path2D" instance=ExtResource("5_t54l0")]
-position = Vector2(96, -184.012)
+position = Vector2(96, -73.9203)
 rotation = 1.5708
-progress = 40.0
+progress = 150.08
 
 [node name="Cursor" type="Sprite2D" parent="."]
 position = Vector2(192, 288)
@@ -76,3 +77,8 @@ zoom = Vector2(2.25, 2.25)
 
 [node name="ArcherTower" parent="." instance=ExtResource("2_ijrac")]
 position = Vector2(640, 224)
+
+[node name="ArcherTower2" parent="." instance=ExtResource("2_ijrac")]
+position = Vector2(0, 192)
+
+[node name="Bullets" type="Node" parent="." groups=["Bullet"]]
