@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://c075insix0hkd"]
+[gd_scene load_steps=15 format=3 uid="uid://c075insix0hkd"]
 
 [ext_resource type="Script" path="res://scenes/tower/BaseTower.cs" id="1_e3fr7"]
 [ext_resource type="PackedScene" uid="uid://b3flmifkeub6p" path="res://scenes/component/BuildingComponent.tscn" id="1_mhbfi"]
 [ext_resource type="PackedScene" uid="uid://fyw55xgcoqnm" path="res://scenes/component/ShootComponent.tscn" id="3_a3hgt"]
 [ext_resource type="Script" path="res://resources/TowerAttributesResource.cs" id="3_sy7gu"]
 [ext_resource type="PackedScene" uid="uid://ce5t514nifkc6" path="res://scenes/component/TargetComponent.tscn" id="4_uylej"]
-[ext_resource type="Texture2D" uid="uid://bvdnuap0w75e4" path="res://assets/tower/tower_bomber_sheet.png" id="6_7exnu"]
 [ext_resource type="Resource" uid="uid://cga28ebmpb8ti" path="res://resources/tower/archer.tres" id="7_dav0g"]
 [ext_resource type="PackedScene" uid="uid://b4eyvggapt157" path="res://scenes/component/MouseClickComponent.tscn" id="8_lv2ja"]
 
@@ -24,149 +23,17 @@ BulletScenePath = "res://scenes/bullet/CannonBall.tscn"
 
 [sub_resource type="Animation" id="Animation_cp4kr"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HeadSprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HeadSprite2D:offset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-4, -5)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("BodySprite2D:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("HeadSprite2D:scale")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_rm2ti"]
-resource_name = "shoot"
-length = 0.7
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HeadSprite2D:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.7),
-"transitions": PackedFloat32Array(0.277392, 0.101532, 1),
-"update": 0,
-"values": [Vector2(0.9, 0.9), Vector2(1.1, 1.1), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HeadSprite2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HeadSprite2D:offset")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-4, -5)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("BodySprite2D:scale")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.7),
-"transitions": PackedFloat32Array(0.277392, 0.101532, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.06, 1.06), Vector2(1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_ih0fm"]
 resource_name = "idle"
 length = 1.2
 loop_mode = 1
 step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HeadSprite2D:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0523599, -0.0523599]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HeadSprite2D:offset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-4, -5), Vector2(-4, -7)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("BodySprite2D:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.019, 1.1)]
-}
+
+[sub_resource type="Animation" id="Animation_rm2ti"]
+resource_name = "shoot"
+length = 0.7
+step = 0.1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q3u4y"]
 _data = {
@@ -175,13 +42,13 @@ _data = {
 "shoot": SubResource("Animation_rm2ti")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_81kjh"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_6x3og"]
 radius = 200.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66o8y"]
 size = Vector2(70, 95)
 
-[node name="ArcherTower" type="Node2D"]
+[node name="Gunner" type="Node2D"]
 script = ExtResource("1_e3fr7")
 TowerAttributesResource = SubResource("Resource_7pclt")
 
@@ -197,33 +64,21 @@ libraries = {
 "": SubResource("AnimationLibrary_q3u4y")
 }
 
-[node name="BodySprite2D" type="Sprite2D" parent="."]
-position = Vector2(33, 91)
-texture = ExtResource("6_7exnu")
-centered = false
-offset = Vector2(-31, -48)
-region_enabled = true
-region_rect = Rect2(100, 80, 63, 48)
-
-[node name="HeadSprite2D" type="Sprite2D" parent="."]
-position = Vector2(36, 27)
-texture = ExtResource("6_7exnu")
-offset = Vector2(-4, -5)
-region_enabled = true
-region_rect = Rect2(92, 15, 72, 56)
-
 [node name="CenterMarker2D" type="Marker2D" parent="."]
 position = Vector2(32, 39)
 
 [node name="RadiusArea2D" type="Area2D" parent="."]
+visible = false
 collision_mask = 2
 
 [node name="RadiusCollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 unique_name_in_owner = true
+visible = false
 position = Vector2(32, 16)
-shape = SubResource("CircleShape2D_81kjh")
+shape = SubResource("CircleShape2D_6x3og")
 
 [node name="MouseClickComponent" parent="." instance=ExtResource("8_lv2ja")]
+visible = false
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseClickComponent"]

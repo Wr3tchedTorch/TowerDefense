@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://0dlhcux0ax0v"]
+
+[ext_resource type="Script" path="res://scenes/turret/barrel/GunBarrel.cs" id="1_8i6sv"]
+
+[node name="GunBarrel" type="Node2D"]
+script = ExtResource("1_8i6sv")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+modulate = Color(0.7614, 0.78327, 0.81, 1)
+scale = Vector2(1, 0.888889)
+polygon = PackedVector2Array(29, -8.99999, 74, -8.99999, 74, 7.87501, 29, 7.87501)
+
+[node name="DetailsPolygon2D" type="Polygon2D" parent="Polygon2D"]
+scale = Vector2(1, 1.125)
+polygon = PackedVector2Array(69, -8, 69, -12, 74, -12, 74, 11, 69, 11)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxcf33hthqo0e"]
+
+[ext_resource type="PackedScene" uid="uid://0dlhcux0ax0v" path="res://scenes/turret/barrel/GunBarrel.tscn" id="1_iglw2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_8i17y"]
+radius = 32.0
+height = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nr8p3"]
+radius = 32.0
+
+[node name="TurretBase" type="StaticBody2D"]
+
+[node name="GunBarrel" parent="." instance=ExtResource("1_iglw2")]
+position = Vector2(32, 32)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(32, 32)
+mesh = SubResource("SphereMesh_8i17y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(32, 32)
+shape = SubResource("CircleShape2D_nr8p3")
