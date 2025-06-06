@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkiko76ftkx7g"]
+
+[ext_resource type="Script" path="res://scenes/polygon/TrianglePolygon2D.cs" id="1_mmktw"]
+
+[node name="TrianglePolygon2D" type="Polygon2D"]
+polygon = PackedVector2Array(0, -36.9504, 32, 18.4752, -32, 18.4752)
+script = ExtResource("1_mmktw")
+Size = 64.0

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7psrfxyjm3tw"]
+
+[ext_resource type="Script" path="res://scenes/polygon/HexagonPolygon2D.cs" id="1_claqx"]
+
+[node name="HexagonPolygon2D" type="Polygon2D"]
+polygon = PackedVector2Array(55.4256, -32, 55.4256, 32, -2.79753e-06, 64, -55.4256, 32, -55.4256, -32, 7.63192e-07, -64)
+script = ExtResource("1_claqx")
+Size = 64.0
