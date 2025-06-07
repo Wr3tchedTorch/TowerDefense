@@ -16,7 +16,6 @@ public partial class BorderLine2D : Line2D
 			{
 				AddPoint(point);
 			}
-			GD.Print(_polygon2D.Name);
 		}
 	}
 

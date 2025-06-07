@@ -87,15 +87,18 @@ curve = SubResource("Curve2D_7xq2v")
 
 [node name="PathFollow2D" parent="Path2D" instance=ExtResource("5_fopc0")]
 position = Vector2(276, 19.9968)
+rotation = 1.5708
 progress = 20.0
 v_offset = -20.0
 
 [node name="PathFollow2D2" parent="Path2D" instance=ExtResource("5_fopc0")]
 position = Vector2(256, 40)
+rotation = 1.5708
 progress = 40.0
 
 [node name="PathFollow2D3" parent="Path2D" instance=ExtResource("5_fopc0")]
 position = Vector2(236, 0)
+rotation = 1.5708
 v_offset = 20.0
 _movementSpeed = 250.0
 
@@ -112,12 +115,7 @@ centered = false
 position = Vector2(384, 320)
 zoom = Vector2(2.25, 2.25)
 
-[node name="TurretBase" parent="." instance=ExtResource("6_qm8be")]
-position = Vector2(1216, 448)
-collision_mask = 2
-
-[node name="TurretBase2" parent="." instance=ExtResource("6_qm8be")]
-position = Vector2(704, 384)
-collision_mask = 2
-
 [node name="Bullets" type="Node" parent="." groups=["Bullet"]]
+
+[node name="TurretBase" parent="." instance=ExtResource("6_qm8be")]
+position = Vector2(352, 384)

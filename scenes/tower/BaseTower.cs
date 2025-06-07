@@ -1,5 +1,4 @@
 using Game.Autoload;
-using Game.Extensions;
 using Godot;
 
 namespace Game.Tower;

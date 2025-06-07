@@ -51,7 +51,6 @@ public partial class ShootComponent : Node
 		{
 			return;
 		}
-		GD.Print($"shooting at {target.Name}");
 		EmitSignal(SignalName.Shooting);
 		canShoot = false;
 
@@ -84,8 +83,6 @@ public partial class ShootComponent : Node
 
 	private void OnTargetChanged(Node2D target)
 	{
-		GD.Print(target == null);
-
 		this.target = target;
 	}
 }

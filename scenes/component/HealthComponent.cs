@@ -35,7 +35,6 @@ public partial class HealthComponent : Node
 		}
 
 		CurrentHealth = Mathf.Max(CurrentHealth - damageCount, 0);
-		GD.Print(CurrentHealth);
 
 		if (CurrentHealth == 0)
 			EmitSignal(SignalName.Death);

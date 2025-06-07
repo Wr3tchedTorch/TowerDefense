@@ -25,8 +25,8 @@ BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 [sub_resource type="CircleShape2D" id="CircleShape2D_nr8p3"]
 radius = 42.0476
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_y58m0"]
-radius = 200.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ento"]
+radius = 0.0
 
 [node name="TurretBase" type="StaticBody2D"]
 script = ExtResource("1_d8gd0")
@@ -44,47 +44,49 @@ collision_mask = 2
 
 [node name="RadiusCollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 unique_name_in_owner = true
-shape = SubResource("CircleShape2D_y58m0")
+shape = SubResource("CircleShape2D_8ento")
 
-[node name="CirclePolygon2D" parent="." instance=ExtResource("2_tfl8m")]
+[node name="BodyPolygon2D" parent="." instance=ExtResource("2_tfl8m")]
 color = Color(0.00218118, 0.0369593, 0.0520091, 1)
 polygon = PackedVector2Array(-1.39877e-06, -32.0001, 6.24291, -31.3852, 12.2459, -29.5642, 17.7783, -26.6071, 22.6275, -22.6275, 26.6071, -17.7783, 29.5642, -12.2459, 31.3852, -6.24291, 32.0001, 0, 31.3852, 6.24291, 29.5642, 12.2459, 26.6071, 17.7783, 22.6275, 22.6275, 17.7783, 26.6071, 12.2459, 29.5642, 6.24291, 31.3852, -1.39877e-06, 32.0001, -6.24291, 31.3852, -12.2459, 29.5642, -17.7783, 26.6071, -22.6275, 22.6275, -26.6071, 17.7783, -29.5642, 12.2459, -31.3852, 6.24291, -32.0001, -2.79754e-06, -31.3852, -6.24291, -29.5642, -12.2459, -26.6071, -17.7783, -22.6275, -22.6275, -17.7783, -26.6071, -12.2459, -29.5642, -6.24291, -31.3852, 3.81597e-07, -32.0001)
 Radius = 32.0
 
-[node name="GunBarrel" parent="CirclePolygon2D" instance=ExtResource("1_iglw2")]
+[node name="GunBarrel" parent="BodyPolygon2D" instance=ExtResource("1_iglw2")]
 show_behind_parent = true
+recoilDistance = 15.0
+returnBackVelocity = 0.3
 
-[node name="SquarePolygon2D" parent="CirclePolygon2D/GunBarrel" index="0"]
+[node name="SquarePolygon2D" parent="BodyPolygon2D/GunBarrel" index="0"]
 color = Color(0.207843, 0.207843, 0.207843, 1)
 offset = Vector2(40, 0)
 polygon = PackedVector2Array(-25, -10, 25, -10, 25, 10, -25, 10)
 Width = 50.0
 
-[node name="SquarePolygon2D" parent="CirclePolygon2D/GunBarrel/SquarePolygon2D" index="0"]
+[node name="SquarePolygon2D" parent="BodyPolygon2D/GunBarrel/SquarePolygon2D" index="0"]
 z_index = 1
 color = Color(0.207843, 0.207843, 0.207843, 1)
 offset = Vector2(63, 0)
 
-[node name="BorderLine2D" parent="CirclePolygon2D/GunBarrel/SquarePolygon2D" index="1" node_paths=PackedStringArray("Polygon2D") instance=ExtResource("7_e3x1e")]
+[node name="BorderLine2D" parent="BodyPolygon2D/GunBarrel/SquarePolygon2D" index="1" node_paths=PackedStringArray("Polygon2D") instance=ExtResource("7_e3x1e")]
 position = Vector2(63, 0)
 points = PackedVector2Array(-3, -15, 3, -15, 3, 15, -3, 15)
 closed = true
 Polygon2D = NodePath("../SquarePolygon2D")
 
-[node name="BorderLine2D" parent="CirclePolygon2D/GunBarrel" node_paths=PackedStringArray("Polygon2D") instance=ExtResource("7_e3x1e")]
+[node name="BorderLine2D" parent="BodyPolygon2D/GunBarrel" node_paths=PackedStringArray("Polygon2D") instance=ExtResource("7_e3x1e")]
 position = Vector2(43, 0)
 points = PackedVector2Array(-25, -10, 25, -10, 25, 10, -25, 10)
 width = 5.0
 Polygon2D = NodePath("../SquarePolygon2D")
 
-[node name="CenterMarker2D" type="Marker2D" parent="CirclePolygon2D/GunBarrel"]
+[node name="CenterMarker2D" type="Marker2D" parent="BodyPolygon2D/GunBarrel"]
 unique_name_in_owner = true
 position = Vector2(70, 0)
 
 [node name="BorderLine2D" parent="." node_paths=PackedStringArray("Polygon2D") instance=ExtResource("7_e3x1e")]
 points = PackedVector2Array(-1.39877e-06, -32.0001, 6.24291, -31.3852, 12.2459, -29.5642, 17.7783, -26.6071, 22.6275, -22.6275, 26.6071, -17.7783, 29.5642, -12.2459, 31.3852, -6.24291, 32.0001, 0, 31.3852, 6.24291, 29.5642, 12.2459, 26.6071, 17.7783, 22.6275, 22.6275, 17.7783, 26.6071, 12.2459, 29.5642, 6.24291, 31.3852, -1.39877e-06, 32.0001, -6.24291, 31.3852, -12.2459, 29.5642, -17.7783, 26.6071, -22.6275, 22.6275, -26.6071, 17.7783, -29.5642, 12.2459, -31.3852, 6.24291, -32.0001, -2.79754e-06, -31.3852, -6.24291, -29.5642, -12.2459, -26.6071, -17.7783, -22.6275, -22.6275, -17.7783, -26.6071, -12.2459, -29.5642, -6.24291, -31.3852, 3.81597e-07, -32.0001)
 width = 6.0
-Polygon2D = NodePath("../CirclePolygon2D")
+Polygon2D = NodePath("../BodyPolygon2D")
 
 [node name="MouseClickComponent" parent="." instance=ExtResource("8_uurre")]
 collision_mask = 0
@@ -95,7 +97,8 @@ shape = SubResource("CircleShape2D_nr8p3")
 [connection signal="TargetChanged" from="TargetComponent" to="." method="OnTargetChanged"]
 [connection signal="TargetChanged" from="TargetComponent" to="ShootComponent" method="OnTargetChanged"]
 [connection signal="Shooting" from="ShootComponent" to="." method="OnShooting"]
+[connection signal="Shooting" from="ShootComponent" to="BodyPolygon2D/GunBarrel" method="OnShooting"]
 [connection signal="area_entered" from="RadiusArea2D" to="TargetComponent" method="OnAreaEntered"]
 [connection signal="area_exited" from="RadiusArea2D" to="TargetComponent" method="OnAreaExited"]
 
-[editable path="CirclePolygon2D/GunBarrel"]
+[editable path="BodyPolygon2D/GunBarrel"]
