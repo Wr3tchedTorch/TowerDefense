@@ -1,9 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=11 format=3 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://buysiwijxdiuf" path="res://scenes/manager/GridManager.tscn" id="2_yibdt"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/UI/TowerUpgradeMenu.tscn" id="3_1r1qb"]
+[ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="4_puss3"]
+[ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="5_2x6n3"]
+[ext_resource type="PackedScene" uid="uid://bof4f0ryo2i3q" path="res://scenes/enemy/TriangleEnemy.tscn" id="5_fopc0"]
+[ext_resource type="Texture2D" uid="uid://064d1ay8u22c" path="res://assets/tiles/tile_tilted.png" id="6_ialtu"]
 [ext_resource type="PackedScene" uid="uid://cxcf33hthqo0e" path="res://scenes/turret/TurretBase.tscn" id="6_qm8be"]
+
+[sub_resource type="Curve2D" id="Curve2D_7xq2v"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 1344, 256, 0, 0, 0, 0, 1344, 640, 0, 0, 0, 0, 160, 640, 0, 0, 0, 0, 160, 992)
+}
+point_count = 6
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_05wa5"]
 size = Vector2(32, 32)
@@ -11,9 +21,8 @@ size = Vector2(32, 32)
 [node name="Main" type="Node" groups=["Main"]]
 script = ExtResource("1_7a2j1")
 
-[node name="GridManager" parent="." node_paths=PackedStringArray("_cursor", "_terrainTileMapLayer") instance=ExtResource("2_yibdt")]
+[node name="GridManager" parent="." node_paths=PackedStringArray("_cursor") instance=ExtResource("2_yibdt")]
 _cursor = NodePath("../Cursor")
-_terrainTileMapLayer = NodePath("")
 
 [node name="UpgradeMenu" type="CanvasLayer" parent="."]
 
@@ -41,6 +50,55 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "Place Tower Button"
 
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.0244414, 0.120967, 0.2035, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_puss3")
+stretch_mode = 1
+
+[node name="Map" type="Node" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Map"]
+texture_repeat = 2
+color = Color(0.920995, 0.920995, 0.920995, 1)
+texture = ExtResource("4_puss3")
+texture_scale = Vector2(2.2, 2.2)
+invert_enabled = true
+invert_border = 150.0
+polygon = PackedVector2Array(192, -32, 192, 320, 1280, 320, 1280, 576, 96, 576, 96, 1024, 224, 1024, 224, 704, 1408, 704, 1408, 192, 320, 192, 320, -32)
+
+[node name="BorderLine2D" parent="Map" node_paths=PackedStringArray("Polygon2D") instance=ExtResource("5_2x6n3")]
+texture_repeat = 2
+points = PackedVector2Array(192, -32, 192, 320, 1280, 320, 1280, 576, 96, 576, 96, 1024, 224, 1024, 224, 704, 1408, 704, 1408, 192, 320, 192, 320, -32)
+closed = true
+width = 15.0
+texture = ExtResource("6_ialtu")
+texture_mode = 1
+joint_mode = 2
+Polygon2D = NodePath("../Polygon2D")
+
+[node name="Path2D" type="Path2D" parent="."]
+y_sort_enabled = true
+curve = SubResource("Curve2D_7xq2v")
+
+[node name="PathFollow2D" parent="Path2D" instance=ExtResource("5_fopc0")]
+position = Vector2(276, 19.9968)
+progress = 20.0
+v_offset = -20.0
+
+[node name="PathFollow2D2" parent="Path2D" instance=ExtResource("5_fopc0")]
+position = Vector2(256, 40)
+progress = 40.0
+
+[node name="PathFollow2D3" parent="Path2D" instance=ExtResource("5_fopc0")]
+position = Vector2(236, 0)
+v_offset = 20.0
+_movementSpeed = 250.0
+
 [node name="Camera2D2" type="Camera2D" parent="."]
 anchor_mode = 0
 zoom = Vector2(1.25, 1.25)
@@ -56,6 +114,10 @@ zoom = Vector2(2.25, 2.25)
 
 [node name="TurretBase" parent="." instance=ExtResource("6_qm8be")]
 position = Vector2(1216, 448)
+collision_mask = 2
+
+[node name="TurretBase2" parent="." instance=ExtResource("6_qm8be")]
+position = Vector2(704, 384)
 collision_mask = 2
 
 [node name="Bullets" type="Node" parent="." groups=["Bullet"]]

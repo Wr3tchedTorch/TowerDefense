@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxcf33hthqo0e"]
+[gd_scene load_steps=12 format=3 uid="uid://cxcf33hthqo0e"]
 
 [ext_resource type="Script" path="res://scenes/tower/BaseTower.cs" id="1_d8gd0"]
 [ext_resource type="PackedScene" uid="uid://0dlhcux0ax0v" path="res://scenes/turret/barrel/GunBarrel.tscn" id="1_iglw2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://hgxt52etp6cc" path="res://scenes/polygon/CirclePolygon2D.tscn" id="2_tfl8m"]
 [ext_resource type="PackedScene" uid="uid://fyw55xgcoqnm" path="res://scenes/component/ShootComponent.tscn" id="3_yyerj"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="7_e3x1e"]
+[ext_resource type="PackedScene" uid="uid://b4eyvggapt157" path="res://scenes/component/MouseClickComponent.tscn" id="8_uurre"]
 
 [sub_resource type="Resource" id="Resource_eikq3"]
 script = ExtResource("2_kq47e")
@@ -24,7 +25,7 @@ BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 [sub_resource type="CircleShape2D" id="CircleShape2D_nr8p3"]
 radius = 42.0476
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_pnrx6"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_y58m0"]
 radius = 200.0
 
 [node name="TurretBase" type="StaticBody2D"]
@@ -43,7 +44,7 @@ collision_mask = 2
 
 [node name="RadiusCollisionShape2D" type="CollisionShape2D" parent="RadiusArea2D"]
 unique_name_in_owner = true
-shape = SubResource("CircleShape2D_pnrx6")
+shape = SubResource("CircleShape2D_y58m0")
 
 [node name="CirclePolygon2D" parent="." instance=ExtResource("2_tfl8m")]
 color = Color(0.00218118, 0.0369593, 0.0520091, 1)
@@ -84,6 +85,12 @@ position = Vector2(70, 0)
 points = PackedVector2Array(-1.39877e-06, -32.0001, 6.24291, -31.3852, 12.2459, -29.5642, 17.7783, -26.6071, 22.6275, -22.6275, 26.6071, -17.7783, 29.5642, -12.2459, 31.3852, -6.24291, 32.0001, 0, 31.3852, 6.24291, 29.5642, 12.2459, 26.6071, 17.7783, 22.6275, 22.6275, 17.7783, 26.6071, 12.2459, 29.5642, 6.24291, 31.3852, -1.39877e-06, 32.0001, -6.24291, 31.3852, -12.2459, 29.5642, -17.7783, 26.6071, -22.6275, 22.6275, -26.6071, 17.7783, -29.5642, 12.2459, -31.3852, 6.24291, -32.0001, -2.79754e-06, -31.3852, -6.24291, -29.5642, -12.2459, -26.6071, -17.7783, -22.6275, -22.6275, -17.7783, -26.6071, -12.2459, -29.5642, -6.24291, -31.3852, 3.81597e-07, -32.0001)
 width = 6.0
 Polygon2D = NodePath("../CirclePolygon2D")
+
+[node name="MouseClickComponent" parent="." instance=ExtResource("8_uurre")]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseClickComponent"]
+shape = SubResource("CircleShape2D_nr8p3")
 
 [connection signal="TargetChanged" from="TargetComponent" to="." method="OnTargetChanged"]
 [connection signal="TargetChanged" from="TargetComponent" to="ShootComponent" method="OnTargetChanged"]
