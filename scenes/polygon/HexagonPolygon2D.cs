@@ -11,7 +11,6 @@ public partial class HexagonPolygon2D : Polygon2D
         {
             _size = value;
             Polygon = Polygon2DHelper.GetHexagonPolygonPoints(Size);
-            GetNode<CollisionPolygon2D>("CollisionPolygon2D").Polygon = Polygon;
         }
     }
 

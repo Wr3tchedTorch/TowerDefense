@@ -1,7 +1,8 @@
+using System.Linq;
 using Godot;
 
 [Tool]
-public partial class PolygonBorder2D : Line2D
+public partial class BorderLine2D : Line2D
 {
 	[Export]
 	public Polygon2D Polygon2D

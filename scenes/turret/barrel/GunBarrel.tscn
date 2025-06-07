@@ -1,15 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://0dlhcux0ax0v"]
+[gd_scene load_steps=3 format=3 uid="uid://0dlhcux0ax0v"]
 
 [ext_resource type="Script" path="res://scenes/turret/barrel/GunBarrel.cs" id="1_8i6sv"]
+[ext_resource type="PackedScene" uid="uid://d2cusobx24c73" path="res://scenes/polygon/SquarePolygon2D.tscn" id="2_iceyv"]
 
 [node name="GunBarrel" type="Node2D"]
 script = ExtResource("1_8i6sv")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-modulate = Color(0.7614, 0.78327, 0.81, 1)
-scale = Vector2(1, 0.888889)
-polygon = PackedVector2Array(29, -8.99999, 74, -8.99999, 74, 7.87501, 29, 7.87501)
+[node name="SquarePolygon2D" parent="." instance=ExtResource("2_iceyv")]
+offset = Vector2(50, 0)
+polygon = PackedVector2Array(-32, -10, 32, -10, 32, 10, -32, 10)
+Height = 20.0
 
-[node name="DetailsPolygon2D" type="Polygon2D" parent="Polygon2D"]
-scale = Vector2(1, 1.125)
-polygon = PackedVector2Array(69, -8, 69, -12, 74, -12, 74, 11, 69, 11)
+[node name="SquarePolygon2D" parent="SquarePolygon2D" instance=ExtResource("2_iceyv")]
+offset = Vector2(79, 0)
+polygon = PackedVector2Array(-3, -15, 3, -15, 3, 15, -3, 15)
+Width = 6.0
+Height = 30.0

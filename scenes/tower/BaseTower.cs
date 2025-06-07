@@ -1,4 +1,5 @@
 using Game.Autoload;
+using Game.Extensions;
 using Godot;
 
 namespace Game.Tower;
@@ -28,18 +29,26 @@ public partial class BaseTower : Node2D
 
 	private TowerAttributesResource _towerAttributes;
 	private CollisionShape2D radiusCollisionShape;
-	private AnimationPlayer animationPlayer;
+
+	private Node2D target;
 
 	public override void _Ready()
 	{
-		CenterMarker = GetNode<Marker2D>("CenterMarker2D");
+		CenterMarker = GetNode<Marker2D>("%CenterMarker2D");
 		CurrentTowerAttributesResource = new CurrentTowerAttributesResource();
 
 		CurrentTowerAttributesResource.AttributesChanged += UpdateTower;
 		UpdateTower();
+	}
 
-		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-		animationPlayer.Play("idle");
+	public override void _Process(double delta)
+	{
+		if (!IsInstanceValid(target))
+		{
+			target = null;
+			return;
+		}
+		LookAt(target.GlobalPosition);
 	}
 
 	private void UpdateTower()
@@ -81,17 +90,8 @@ public partial class BaseTower : Node2D
 		GameEvents.Instance.EmitSignalOpenUpgradeMenu(TowerAttributesResource, CurrentTowerAttributesResource);
 	}
 
-	private void OnShooting()
+	private void OnTargetChanged(Node2D newTarget)
 	{
-		if (animationPlayer.IsPlaying())
-		{
-			animationPlayer.Stop();			
-		}
-		animationPlayer.Play("shoot");
-	}
-
-	private void OnAnimationFinished(string name)
-	{
-		animationPlayer.Play("idle");
+		target = newTarget;
 	}
 }

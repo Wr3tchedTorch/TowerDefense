@@ -21,14 +21,15 @@ namespace Game.scripts.helper
             return points;
         }
 
-        public static Vector2[] GetSquarePolygonPoints(float size)
+        public static Vector2[] GetRectanglePolygonPoints(float width, float height)
         {
             var points = new Vector2[4];
-            float halfSize = size / 2;
-            points[0] = new Vector2(-halfSize, -halfSize); // Top left
-            points[1] = new Vector2(halfSize, -halfSize);  // Top right
-            points[2] = new Vector2(halfSize, halfSize);   // Bottom right
-            points[3] = new Vector2(-halfSize, halfSize);  // Bottom left
+            float halfWidth = width / 2;
+            float halfHeight = height / 2;
+            points[0] = new Vector2(-halfWidth, -halfHeight); // Top left
+            points[1] = new Vector2(halfWidth, -halfHeight);  // Top right 
+            points[2] = new Vector2(halfWidth, halfHeight);   // Bottom right
+            points[3] = new Vector2(-halfWidth, halfHeight);  // Bottom left
             return points;
         }
 

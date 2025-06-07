@@ -5,17 +5,26 @@ using Game.scripts.helper;
 [Tool]
 public partial class SquarePolygon2D : Polygon2D
 {
-    [Export] public float Size
+    [Export] public float Width
     {
-        get => _size;
+        get => _width;
         set
         {
-            _size = value;
-            GD.Print(Size);
-            Polygon = Polygon2DHelper.GetSquarePolygonPoints(Size);
-            GetNode<CollisionShape2D>("CollisionShape2D").Shape.Set("extents", new Vector2(Size, Size));
+            _width = value;
+            Polygon = Polygon2DHelper.GetRectanglePolygonPoints(Width, Height);
         }
     }
 
-    private float _size = 20.0f;
+    [Export] public float Height
+    {
+        get => _height;
+        set
+        {
+            _height = value;
+            Polygon = Polygon2DHelper.GetRectanglePolygonPoints(Width, Height);
+        }
+    }
+
+    private float _width = 20.0f;
+    private float _height = 20.0f;
 }

@@ -9,7 +9,7 @@ public partial class ShootComponent : Node
 
 	private BaseTower parent;
 	private bool canShoot = true;
-	private Node2D target;
+	private Node2D target = null;
 
 	private float FireRateDelay
 	{
@@ -31,7 +31,7 @@ public partial class ShootComponent : Node
 
     public override void _Process(double delta)
     {
-		if (!IsInstanceValid(target) || parent.IsOutOfRange(parent.GetDistanceToNode(target)))
+		if (!IsInstanceValid(target))
 		{
 			target = null;
 			return;
@@ -51,6 +51,7 @@ public partial class ShootComponent : Node
 		{
 			return;
 		}
+		GD.Print($"shooting at {target.Name}");
 		EmitSignal(SignalName.Shooting);
 		canShoot = false;
 
@@ -83,6 +84,8 @@ public partial class ShootComponent : Node
 
 	private void OnTargetChanged(Node2D target)
 	{
+		GD.Print(target == null);
+
 		this.target = target;
 	}
 }

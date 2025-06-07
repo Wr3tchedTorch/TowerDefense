@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://bof4f0ryo2i3q"]
+
+[ext_resource type="Script" path="res://scenes/enemy/BaseEnemy.cs" id="1_4j6nw"]
+[ext_resource type="PackedScene" uid="uid://bv2qai24n454x" path="res://scenes/component/HealthComponent.tscn" id="2_tb1i7"]
+[ext_resource type="PackedScene" uid="uid://cejoh5muyuf1y" path="res://scenes/component/HitboxComponent.tscn" id="3_afhbi"]
+[ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="4_h0w64"]
+[ext_resource type="PackedScene" uid="uid://bkiko76ftkx7g" path="res://scenes/polygon/TrianglePolygon2D.tscn" id="4_sfb70"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brin8"]
+bg_color = Color(0.00612309, 0.0399702, 0.0209002, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hkm4t"]
+bg_color = Color(0.220489, 0.71733, 0.299559, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+anti_aliasing = false
+
+[node name="PathFollow2D" type="PathFollow2D"]
+script = ExtResource("1_4j6nw")
+_movementSpeed = 220.0
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("_progressBar") instance=ExtResource("2_tb1i7")]
+_maxHealth = 100.0
+_progressBar = NodePath("../ProgressBar")
+
+[node name="BorderLine2D" parent="." node_paths=PackedStringArray("Polygon2D") instance=ExtResource("4_h0w64")]
+points = PackedVector2Array(0, -30.0222, 26, 15.0111, -26, 15.0111)
+closed = true
+joint_mode = 2
+Polygon2D = NodePath("../TrianglePolygon2D")
+
+[node name="TrianglePolygon2D" parent="." instance=ExtResource("4_sfb70")]
+modulate = Color(0.982224, 0.576535, 0.625555, 1)
+color = Color(0.205631, 0.0694867, 0.116378, 1)
+polygon = PackedVector2Array(0, -30.0222, 26, 15.0111, -26, 15.0111)
+Size = 52.0
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("3_afhbi")]
+visible = false
+collision_layer = 2
+collision_mask = 8
+_healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
+position = Vector2(0, -15)
+polygon = PackedVector2Array(0, -30.0222, 26, 15.0111, -26, 15.0111)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -53.0
+offset_right = 16.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_brin8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hkm4t")
+value = 75.0
+show_percentage = false

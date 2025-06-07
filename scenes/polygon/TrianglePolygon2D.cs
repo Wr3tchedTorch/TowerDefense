@@ -11,7 +11,6 @@ public partial class TrianglePolygon2D : Polygon2D
         {
             _size = value;
             Polygon = Polygon2DHelper.GetTrianglePolygonPoints(Size);
-            GetNode<CollisionPolygon2D>("CollisionPolygon2D").Polygon = Polygon;
         }
     }
 

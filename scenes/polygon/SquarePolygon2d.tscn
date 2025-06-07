@@ -5,4 +5,5 @@
 [node name="SquarePolygon2D" type="Polygon2D"]
 polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 script = ExtResource("1_8yhwk")
-Size = 64.0
+Width = 64.0
+Height = 64.0

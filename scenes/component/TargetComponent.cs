@@ -10,25 +10,15 @@ public partial class TargetComponent : Node
 {
 	[Signal] public delegate void TargetChangedEventHandler(Node2D newTarget);
 
-	public Node2D Target { get; private set; }
+	public Node2D Target { get; private set; } = null;
 
 	private BaseTower parent;
+
+	private readonly List<PathFollow2D> enemies = new();
 
 	public override void _Ready()
 	{
 		parent = GetOwner<BaseTower>();
-	}
-
-	public override void _Process(double delta)
-	{
-		var previousTarget = Target;
-
-		Target = GetTargetEnemy();
-
-		if (Target != previousTarget)
-		{
-			EmitSignal(SignalName.TargetChanged, Target);
-		}
 	}
 
 	public Node2D GetTargetEnemy()
@@ -70,37 +60,47 @@ public partial class TargetComponent : Node
 
 	private Node2D GetEnemyThroughCondition(Func<PathFollow2D, PathFollow2D, bool> isFirstEnemyBetter)
 	{
-		var enemies = GetAllEnemies();
-
 		if (!enemies.Any())
 		{
 			return null;
 		}
-
 		var firstEnemy = enemies.First();
 		foreach (var enemy in enemies)
 		{
-			if (parent.IsOutOfRange(parent.GetDistanceToNode(enemy)))
-			{
-				continue;
-			}
-
-			if (!isFirstEnemyBetter(firstEnemy, enemy))
+			if (isFirstEnemyBetter(firstEnemy, enemy))
 			{
 				firstEnemy = enemy;
 			}
 		}
-
-		if (parent.IsOutOfRange(parent.GetDistanceToNode(firstEnemy)))
-		{
-			return null;
-		}
-
 		return firstEnemy;
 	}
 
-	private IEnumerable<PathFollow2D> GetAllEnemies()
+	private void OnAreaEntered(Area2D area)
 	{
-		return GetTree().GetNodesInGroup("Enemy").Cast<PathFollow2D>();
+		var enemy = area.GetOwner<PathFollow2D>();
+		if (enemies.Contains(enemy))
+		{
+			GD.PrintErr($"TargetComponent (ln 40): Enemy already tracked: {enemy.Name}");
+			return;
+		}
+		enemies.Add(enemy);
+		var previousTarget = Target;
+
+		Target = GetTargetEnemy();
+		if (Target == null || Target != previousTarget)
+		{
+			EmitSignal(SignalName.TargetChanged, Target);
+		}
+	}
+
+	private void OnAreaExited(Area2D area)
+	{
+		var enemy = area.GetOwner<PathFollow2D>();
+		if (Target == enemy)
+		{
+			Target = null;
+			EmitSignal(SignalName.TargetChanged, Target);
+		}
+		enemies.Remove(enemy);
 	}
 }
