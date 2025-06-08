@@ -1,13 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=10 format=3 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://buysiwijxdiuf" path="res://scenes/manager/GridManager.tscn" id="2_yibdt"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/UI/TowerUpgradeMenu.tscn" id="3_1r1qb"]
 [ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="4_puss3"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="5_2x6n3"]
-[ext_resource type="PackedScene" uid="uid://bof4f0ryo2i3q" path="res://scenes/enemy/TriangleEnemy.tscn" id="5_fopc0"]
 [ext_resource type="Texture2D" uid="uid://064d1ay8u22c" path="res://assets/tiles/tile_tilted.png" id="6_ialtu"]
-[ext_resource type="PackedScene" uid="uid://cxcf33hthqo0e" path="res://scenes/turret/TurretBase.tscn" id="6_qm8be"]
+[ext_resource type="PackedScene" uid="uid://cn1xu2fefdt3m" path="res://scenes/turret/GunnerTurretManager.tscn" id="8_xj027"]
 
 [sub_resource type="Curve2D" id="Curve2D_7xq2v"]
 _data = {
@@ -85,23 +84,6 @@ Polygon2D = NodePath("../Polygon2D")
 y_sort_enabled = true
 curve = SubResource("Curve2D_7xq2v")
 
-[node name="PathFollow2D" parent="Path2D" instance=ExtResource("5_fopc0")]
-position = Vector2(276, 19.9968)
-rotation = 1.5708
-progress = 20.0
-v_offset = -20.0
-
-[node name="PathFollow2D2" parent="Path2D" instance=ExtResource("5_fopc0")]
-position = Vector2(256, 40)
-rotation = 1.5708
-progress = 40.0
-
-[node name="PathFollow2D3" parent="Path2D" instance=ExtResource("5_fopc0")]
-position = Vector2(236, 0)
-rotation = 1.5708
-v_offset = 20.0
-_movementSpeed = 250.0
-
 [node name="Camera2D2" type="Camera2D" parent="."]
 anchor_mode = 0
 zoom = Vector2(1.25, 1.25)
@@ -111,11 +93,7 @@ position = Vector2(192, 288)
 texture = SubResource("PlaceholderTexture2D_05wa5")
 centered = false
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(384, 320)
-zoom = Vector2(2.25, 2.25)
-
 [node name="Bullets" type="Node" parent="." groups=["Bullet"]]
 
-[node name="TurretBase" parent="." instance=ExtResource("6_qm8be")]
-position = Vector2(352, 384)
+[node name="TurretManager" parent="." instance=ExtResource("8_xj027")]
+position = Vector2(1184, 448)

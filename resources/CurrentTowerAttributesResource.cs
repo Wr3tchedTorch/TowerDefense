@@ -22,8 +22,17 @@ public partial class CurrentTowerAttributesResource : Resource
     }    
 
     [Export] public TowerTargetMode TowerTargetMode { get; set; } = TowerTargetMode.First;
-    [Export] public TowerTier Tier { get; private set; } = 0;
+    [Export]
+    public TowerTier Tier
+    {
+        get => _tier;
+        set {
+            _tier = value;
+            EmitSignal(SignalName.AttributesChanged);
+        }
+    }
 
+    private TowerTier _tier = 0;
     private int _radiusUpgradePercentage = 0;
 
     public override string ToString()

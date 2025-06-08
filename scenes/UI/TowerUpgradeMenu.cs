@@ -1,6 +1,7 @@
 using Game.Autoload;
 using Game.Enums;
 using Godot;
+using TowerDefense.enums;
 
 namespace Game.UI;
 
@@ -64,7 +65,9 @@ public partial class TowerUpgradeMenu : Control
 	{
 		NameLabel.Text = towerAttributesResource.Name;
 		DescriptionLabel.Text = towerAttributesResource.Description;
-		CurrentTierLabel.Text = $"Current Tier: {currentTowerAttributesResource.Tier}";
+
+		var tierLabelContent = currentTowerAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
+		CurrentTierLabel.Text = $"Current Tier: {tierLabelContent}";
 
 		damageProgressBar.Value = currentTowerAttributesResource.DamageUpgradePercentage;
 		fireRateProgressBar.Value = currentTowerAttributesResource.FireRateUpgradePercentage;
@@ -75,51 +78,65 @@ public partial class TowerUpgradeMenu : Control
 	}
 
 	private void OnDamageUpgradeButtonPressed()
-	{
-		if (currentTowerAttributesResource.DamageUpgradePercentage == 100)
-		{
-			GD.Print("Maximum damage upgrade reached.");
-			return;
-		}
+	{		
 		currentTowerAttributesResource.DamageUpgradePercentage += 20;
 		UpdateInfo();
+
+		if (currentTowerAttributesResource.DamageUpgradePercentage == 100)
+		{
+			GetNode<Button>("%DamageButton").Disabled = true;
+		}
 	}
 
 	private void OnFireRateUpgradeButtonPressed()
 	{
-		if (currentTowerAttributesResource.FireRateUpgradePercentage == 100)
-		{
-			GD.Print("Maximum fire rate upgrade reached.");
-			return;
-		}
 		currentTowerAttributesResource.FireRateUpgradePercentage += 20;
 		UpdateInfo();
+
+		if (currentTowerAttributesResource.FireRateUpgradePercentage == 100)
+		{
+			GetNode<Button>("%FireRateButton").Disabled = true;
+		}
 	}
 
 	private void OnBulletSpeedUpgradeButtonPressed()
 	{
-		if (currentTowerAttributesResource.BulletSpeedUpgradePercentage == 100)
-		{
-			GD.Print("Maximum bullet speed upgrade reached.");
-			return;
-		}
 		currentTowerAttributesResource.BulletSpeedUpgradePercentage += 20;
 		UpdateInfo();
+
+		if (currentTowerAttributesResource.BulletSpeedUpgradePercentage == 100)
+		{
+			GetNode<Button>("%BulletSpeedButton").Disabled = true;
+		}
 	}
 
 	private void OnRangeUpgradeButtonPressed()
 	{
-		if (currentTowerAttributesResource.RadiusUpgradePercentage == 100)
-		{
-			GD.Print("Maximum range upgrade reached.");
-			return;
-		}
 		currentTowerAttributesResource.RadiusUpgradePercentage += 20;
 		UpdateInfo();
+
+		if (currentTowerAttributesResource.RadiusUpgradePercentage == 100)
+		{
+			GetNode<Button>("%RangeButton").Disabled = true;
+		}
 	}
 
 	private void OnTargetModeOptionButtonItemSelected(int index)
 	{
 		currentTowerAttributesResource.TowerTargetMode = (TowerTargetMode)index;
+	}
+
+	private void OnUpgradeTierButtonPressed()
+	{
+		var nextTier = (int)currentTowerAttributesResource.Tier + 1;
+		currentTowerAttributesResource.Tier = (TowerTier)nextTier;
+
+		var tierLabelContent = currentTowerAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
+		CurrentTierLabel.Text = $"Current Tier: {tierLabelContent}";
+
+		if (nextTier == 2)
+		{
+			GetNode<Button>("%UpgradeTierButton").Disabled = true;
+		}
 	}
 }

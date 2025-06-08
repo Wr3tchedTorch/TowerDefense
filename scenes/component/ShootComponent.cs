@@ -8,8 +8,8 @@ public partial class ShootComponent : Node
 	[Signal] public delegate void ShootingEventHandler();
 
 	private BaseTower parent;
-	private bool canShoot = true;
 	private Node2D target = null;
+	private bool canShoot = true;
 
 	private float FireRateDelay
 	{

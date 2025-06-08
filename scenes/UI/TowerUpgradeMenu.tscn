@@ -113,7 +113,8 @@ step = 20.0
 value = 80.0
 show_percentage = false
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer/DamageVBoxContainer/HBoxContainer"]
+[node name="DamageButton" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer/DamageVBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Upgrade"
 
@@ -139,7 +140,8 @@ step = 20.0
 value = 60.0
 show_percentage = false
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer/BulletSpeedVBoxContainer/HBoxContainer"]
+[node name="BulletSpeedButton" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer/BulletSpeedVBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Upgrade"
 
@@ -172,7 +174,8 @@ step = 20.0
 value = 60.0
 show_percentage = false
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer2/FireRateVBoxContainer/HBoxContainer"]
+[node name="FireRateButton" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer2/FireRateVBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Upgrade"
 
@@ -199,7 +202,8 @@ step = 20.0
 value = 60.0
 show_percentage = false
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer2/RangeVBoxContainer/HBoxContainer"]
+[node name="RangeButton" type="Button" parent="MarginContainer/VBoxContainer/Control/HBoxContainer2/RangeVBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Upgrade"
 
@@ -223,7 +227,8 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Current Tier: II"
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/VBoxContainer"]
+[node name="UpgradeTierButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Upgrade Tier"
@@ -243,8 +248,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CloseButton" to="." method="OnCloseButtonPressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer/DamageVBoxContainer/HBoxContainer/Button" to="." method="OnDamageUpgradeButtonPressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer/BulletSpeedVBoxContainer/HBoxContainer/Button" to="." method="OnBulletSpeedUpgradeButtonPressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer2/FireRateVBoxContainer/HBoxContainer/Button" to="." method="OnFireRateUpgradeButtonPressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer2/RangeVBoxContainer/HBoxContainer/Button" to="." method="OnRangeUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer/DamageVBoxContainer/HBoxContainer/DamageButton" to="." method="OnDamageUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer/BulletSpeedVBoxContainer/HBoxContainer/BulletSpeedButton" to="." method="OnBulletSpeedUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer2/FireRateVBoxContainer/HBoxContainer/FireRateButton" to="." method="OnFireRateUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/HBoxContainer2/RangeVBoxContainer/HBoxContainer/RangeButton" to="." method="OnRangeUpgradeButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/VBoxContainer/UpgradeTierButton" to="." method="OnUpgradeTierButtonPressed"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/HBoxContainer3/HBoxContainer/TargetModeOptionButton" to="." method="OnTargetModeOptionButtonItemSelected"]

@@ -23,5 +23,6 @@ public partial class BorderLine2D : Line2D
 
 	public override void _Ready()
 	{
+		RotationDegrees = 0;
 	}
 }
