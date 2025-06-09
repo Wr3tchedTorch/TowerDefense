@@ -18,14 +18,14 @@ TurretTierScenes = Array[String](["res://scenes/turret/GunnerTierOne.tscn", "res
 ClicksRequiredForBuilding = 50
 BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_atav8"]
-radius = 0.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_of77h"]
+radius = 220.0
 
 [node name="TurretManager" instance=ExtResource("1_gg1br")]
 TowerAttributesResource = SubResource("Resource_j5wy2")
 
 [node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
-shape = SubResource("CircleShape2D_atav8")
+shape = SubResource("CircleShape2D_of77h")
 
 [node name="GunnerTierOne" parent="." index="4" instance=ExtResource("3_3sj5s")]
 

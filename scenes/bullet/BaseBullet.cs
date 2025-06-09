@@ -1,22 +1,25 @@
+using System.Linq;
+using Game.scripts;
 using Godot;
-using TowerDefense.enums;
 
 namespace Game.Bullet;
 
 public partial class BaseBullet : Area2D
 {
+	public int Penetration { get; set; }
 	public float Damage { get; set; }
-	public float Speed  { get; set; }
+	public float Speed { get; set; }
 	public Node2D Target { get; set; }
-	public TowerTier Tier  { get; set; }
 
-	private string TierAnimationName => $"level_0{(int)Tier + 1}";
+	private int currentPenetration = 0;
+	private IMovementComponent movementComponent;
 
 	public override void _Ready()
 	{
 		AreaEntered += OnAreaEntered;
 
-		// UpdateSprite();
+		currentPenetration = Penetration;
+		movementComponent = GetChildren().OfType<IMovementComponent>().FirstOrDefault();
 	}
 
 	public override void _Process(double delta)
@@ -27,23 +30,19 @@ public partial class BaseBullet : Area2D
 			return;
 		}
 		LookAt(Target.GlobalPosition);
-		GlobalPosition += Speed * GetDirectionToPosition(Target.GlobalPosition) * (float)delta;
-	}
-
-	private void UpdateSprite()
-	{
-		var animatedSprite2D = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-		animatedSprite2D.Animation = TierAnimationName;
-		animatedSprite2D.Frame = 0;
-		animatedSprite2D.Play();
-	}
-
-	private Vector2 GetDirectionToPosition(Vector2 targetGlobalPosition)
-	{
-		return (targetGlobalPosition - GlobalPosition).Normalized();
+		movementComponent.Move();
 	}
 
 	private void OnAreaEntered(Node2D area)
+	{
+		currentPenetration--;
+		if (currentPenetration == 0)
+		{
+			QueueFree();
+		}
+	}
+
+	private void OnDestinationReached()
 	{
 		QueueFree();
 	}

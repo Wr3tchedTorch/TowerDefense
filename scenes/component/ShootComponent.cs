@@ -1,3 +1,4 @@
+using System;
 using Game.Bullet;
 using Game.Extensions;
 using Game.Tower;
@@ -54,10 +55,14 @@ public partial class ShootComponent : Node
 		EmitSignal(SignalName.Shooting);
 		canShoot = false;
 
-		bullet.GlobalPosition = parent.CenterMarker.GlobalPosition;
+		var rand = new Random();
+		var randomIndex = rand.Next(0, parent.CurrentTurret.BarrelMarkers.Length-1);
+		bullet.GlobalPosition = parent.CurrentTurret.BarrelMarkers[randomIndex].GlobalPosition;
+		
 		bullet.Target = target;
 		bullet.Damage = parent.Damage;
 		bullet.Speed = parent.BulletSpeed;
+		bullet.Penetration = parent.TowerAttributesResource.Penetration;
 		GetTree().GetFirstNodeInGroup("Bullet").AddChild(bullet);
 
 		ShootingCountdown();

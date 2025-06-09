@@ -27,13 +27,13 @@ public partial class BaseTower : Node2D
 	public float BulletSpeed => _towerAttributes.BulletSpeed * (1 + CurrentTowerAttributesResource.BulletSpeedUpgradePercentage / 100f);
 	public float Radius => _towerAttributes.Radius * (1 + CurrentTowerAttributesResource.RadiusUpgradePercentage / 100f);
 
+	public BaseTurret CurrentTurret { get; private set; }
+
 	private TowerAttributesResource _towerAttributes;
 	private CollisionShape2D radiusCollisionShape;
 
 	private Node2D target;
-	private int currentTierIndex = 0;
-
-	public BaseTurret CurrentTurret { get; private set; }
+	private int currentTierIndex = 0;	
 
 	public override void _Ready()
 	{
