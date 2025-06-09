@@ -1,9 +1,9 @@
-using Game.Tower;
+using Game.Turret;
 using Godot;
 
 namespace Game.Extensions;
 
-public static class BaseTowerExtensions
+public static class BaseTurretExtensions
 {
     public static bool IsOutOfRange(this TurretManager me, float distance)
     {

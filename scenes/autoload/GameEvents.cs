@@ -5,8 +5,8 @@ namespace Game.Autoload;
 
 public partial class GameEvents : Node
 {
-	[Signal] public delegate void TowerPlacedEventHandler(BuildingComponent buildingComponent);
-	[Signal] public delegate void OpenUpgradeMenuEventHandler(TurretAttributesResource towerAttributesResource, CurrentTowerAttributesResource currentTowerAttributesResource);
+	[Signal] public delegate void TurretPlacedEventHandler(BuildingComponent buildingComponent);
+	[Signal] public delegate void OpenUpgradeMenuEventHandler(TurretAttributesResource turretAttributesResource, CurrentTurretAttributesResource currentTurretAttributesResource);
 
 	public static GameEvents Instance { get; private set; }
 
@@ -16,13 +16,13 @@ public partial class GameEvents : Node
 			Instance = this;
 	}
 
-	public void EmitSignalTowerPlaced(BuildingComponent buildingComponent)
+	public void EmitSignalTurretPlaced(BuildingComponent buildingComponent)
 	{
-		Instance.EmitSignal(SignalName.TowerPlaced, buildingComponent);
+		Instance.EmitSignal(SignalName.TurretPlaced, buildingComponent);
 	}
 
-	public void EmitSignalOpenUpgradeMenu(TurretAttributesResource towerAttributesResource, CurrentTowerAttributesResource currentTowerAttributesResource)
+	public void EmitSignalOpenUpgradeMenu(TurretAttributesResource turretAttributesResource, CurrentTurretAttributesResource currentTurretAttributesResource)
 	{
-		Instance.EmitSignal(SignalName.OpenUpgradeMenu, towerAttributesResource, currentTowerAttributesResource);
+		Instance.EmitSignal(SignalName.OpenUpgradeMenu, turretAttributesResource, currentTurretAttributesResource);
 	}
 }

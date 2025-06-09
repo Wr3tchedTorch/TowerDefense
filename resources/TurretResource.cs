@@ -1,9 +1,9 @@
 using Godot;
 
 [GlobalClass]
-public partial class TowerResource : Resource
+public partial class TurretResource : Resource
 {
 	[Export(PropertyHint.File, "*.tscn,")]
-	public string TowerScenePath { get; private set; }
-	[Export] public int TowerCellWidth { get; private set; }
+	public string TurretScenePath { get; private set; }
+	[Export] public int TurretCellWidth { get; private set; }
 }

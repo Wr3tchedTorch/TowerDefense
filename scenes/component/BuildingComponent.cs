@@ -6,14 +6,14 @@ namespace Game.Component;
 
 public partial class BuildingComponent : Node
 {
-	[Export] public TowerResource TowerResource {get; private set; }
+	[Export] public TurretResource TurretResource { get; private set; }
 
 	private Node2D _parent;
 
 	public override void _Ready()
 	{
 		_parent = GetParent<Node2D>();
-		Callable.From(() => GameEvents.Instance.EmitSignalTowerPlaced(this)).CallDeferred();
+		Callable.From(() => GameEvents.Instance.EmitSignalTurretPlaced(this)).CallDeferred();
 	}
 
 	public Vector2I GetGridCellPosition()

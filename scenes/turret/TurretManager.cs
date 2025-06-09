@@ -2,34 +2,34 @@ using System.Linq;
 using Game.Autoload;
 using Godot;
 
-namespace Game.Tower;
+namespace Game.Turret;
 
 [Tool]
 public partial class TurretManager : Node2D
 {
 	[ExportGroup("Attributes")]
 	[Export]
-	public TurretAttributesResource TowerAttributesResource
+	public TurretAttributesResource TurretAttributesResource
 	{
-		get => _towerAttributes;
+		get => _turretAttributes;
 		private set
 		{
-			_towerAttributes = value;
-			UpdateTower();
+			_turretAttributes = value;
+			UpdateTurret();
 		}
 	}
 
-	public CurrentTowerAttributesResource CurrentTowerAttributesResource { get; private set; } = null;
+	public CurrentTurretAttributesResource CurrentTurretAttributesResource { get; private set; } = null;
 	public Marker2D CenterMarker { get; private set; }
 
-	public float Damage => _towerAttributes.Damage * (1 + CurrentTowerAttributesResource.DamageUpgradePercentage / 100f);
-	public float FireRate => _towerAttributes.FireRate * (1 + CurrentTowerAttributesResource.FireRateUpgradePercentage / 100f);
-	public float BulletSpeed => _towerAttributes.BulletSpeed * (1 + CurrentTowerAttributesResource.BulletSpeedUpgradePercentage / 100f);
-	public float Radius => _towerAttributes.Radius * (1 + CurrentTowerAttributesResource.RadiusUpgradePercentage / 100f);
+	public float Damage => _turretAttributes.Damage * (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f);
+	public float FireRate => _turretAttributes.FireRate * (1 + CurrentTurretAttributesResource.FireRateUpgradePercentage / 100f);
+	public float BulletSpeed => _turretAttributes.BulletSpeed * (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f);
+	public float Radius => _turretAttributes.Radius * (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f);
 
 	public BaseTurret CurrentTurret { get; private set; }
 
-	private TurretAttributesResource _towerAttributes;
+	private TurretAttributesResource _turretAttributes;
 	private CollisionShape2D radiusCollisionShape;
 
 	private Node2D target;
@@ -37,10 +37,10 @@ public partial class TurretManager : Node2D
 
 	public override void _Ready()
 	{
-		CurrentTowerAttributesResource = new CurrentTowerAttributesResource();
+		CurrentTurretAttributesResource = new CurrentTurretAttributesResource();
 
-		CurrentTowerAttributesResource.AttributesChanged += UpdateTower;
-		UpdateTower();
+		CurrentTurretAttributesResource.AttributesChanged += UpdateTurret;
+		UpdateTurret();
 
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
 		CurrentTurret.MouseClick += OnMouseClick;
@@ -56,11 +56,11 @@ public partial class TurretManager : Node2D
 		LookAt(target.GlobalPosition);
 	}
 
-	private void UpdateTower()
+	private void UpdateTurret()
 	{
 		UpdateRadius();
 
-		if (CurrentTowerAttributesResource != null && (int)CurrentTowerAttributesResource.Tier != currentTierIndex)
+		if (CurrentTurretAttributesResource != null && (int)CurrentTurretAttributesResource.Tier != currentTierIndex)
 		{
 			UpdateTurretScene();
 		}
@@ -71,12 +71,12 @@ public partial class TurretManager : Node2D
 		radiusCollisionShape = GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
 		if (radiusCollisionShape == null)
 		{
-			GD.PrintErr("BaseTower (ln 60): No radius collision shape found.");
+			GD.PrintErr("BaseTurret (ln 60): No radius collision shape found.");
 			return;
 		}
-		if (CurrentTowerAttributesResource == null)
+		if (CurrentTurretAttributesResource == null)
 		{
-			radiusCollisionShape.Shape = new CircleShape2D() { Radius = TowerAttributesResource.Radius };
+			radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesResource.Radius };
 			return;
 		}
 		radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
@@ -87,12 +87,12 @@ public partial class TurretManager : Node2D
 		CurrentTurret.QueueFree();
 		CurrentTurret = null;
 
-		currentTierIndex = (int)CurrentTowerAttributesResource.Tier;
+		currentTierIndex = (int)CurrentTurretAttributesResource.Tier;
 
-		var scene = GD.Load<PackedScene>(TowerAttributesResource.TurretTierScenes[currentTierIndex]);
+		var scene = GD.Load<PackedScene>(TurretAttributesResource.TurretTierScenes[currentTierIndex]);
 		if (scene == null)
 		{
-			GD.PrintErr($"BaseTower (ln 70): No turret scene found for tier {currentTierIndex}.");
+			GD.PrintErr($"BaseTurret (ln 70): No turret scene found for tier {currentTierIndex}.");
 			return;
 		}
 		CurrentTurret = scene.Instantiate<BaseTurret>();
@@ -102,7 +102,7 @@ public partial class TurretManager : Node2D
 
 	private void OnMouseClick()
 	{
-		GameEvents.Instance.EmitSignalOpenUpgradeMenu(TowerAttributesResource, CurrentTowerAttributesResource);
+		GameEvents.Instance.EmitSignalOpenUpgradeMenu(TurretAttributesResource, CurrentTurretAttributesResource);
 	}
 
 	private void OnTargetChanged(Node2D newTarget)

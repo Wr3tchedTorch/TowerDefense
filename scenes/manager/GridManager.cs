@@ -17,7 +17,7 @@ public partial class GridManager : Node
 
 	public override void _Ready()
 	{
-		GameEvents.Instance.TowerPlaced += OnTowerPlaced;
+		GameEvents.Instance.TurretPlaced += OnTurretPlaced;
 	}
 
 	public override void _Process(double delta)
@@ -32,11 +32,11 @@ public partial class GridManager : Node
 		return new Vector2I((int)gridPosition.X, (int)gridPosition.Y);
 	}
 
-	public bool IsValidBuildingTile(Vector2I cellPos, int towerCellWidth)
+	public bool IsValidBuildingTile(Vector2I cellPos, int turretCellWidth)
 	{
-		for (int xPos = cellPos.X; xPos < cellPos.X + towerCellWidth; xPos++)
+		for (int xPos = cellPos.X; xPos < cellPos.X + turretCellWidth; xPos++)
 		{
-			for (int yPos = cellPos.Y; yPos < cellPos.Y + towerCellWidth; yPos++)
+			for (int yPos = cellPos.Y; yPos < cellPos.Y + turretCellWidth; yPos++)
 			{
 				var customData = _terrainTileMapLayer.GetCellTileData(new Vector2I(xPos, yPos));
 				var isBuildable = (bool)customData.GetCustomData("IsBuildable");
@@ -53,14 +53,14 @@ public partial class GridManager : Node
 	public Vector2 GridCellToGlobalPosition(Vector2I cellPos)
 		=> cellPos * GridCellSize;
 
-	private void OnTowerPlaced(BuildingComponent buildingComponent)
+	private void OnTurretPlaced(BuildingComponent buildingComponent)
 	{
-		TowerResource towerResource = buildingComponent.TowerResource;
+		TurretResource turretResource = buildingComponent.TurretResource;
 
-		Vector2I towerPos = buildingComponent.GetGridCellPosition();
-		for (int xPos = towerPos.X; xPos < towerPos.X + towerResource.TowerCellWidth; xPos++)
+		Vector2I turretPos = buildingComponent.GetGridCellPosition();
+		for (int xPos = turretPos.X; xPos < turretPos.X + turretResource.TurretCellWidth; xPos++)
 		{
-			for (int yPos = towerPos.Y; yPos < towerPos.Y + towerResource.TowerCellWidth; yPos++)
+			for (int yPos = turretPos.Y; yPos < turretPos.Y + turretResource.TurretCellWidth; yPos++)
 			{
 				_occupiedGridCells.Add(new Vector2I(xPos, yPos));
 			}

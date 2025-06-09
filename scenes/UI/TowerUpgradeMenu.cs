@@ -1,11 +1,11 @@
 using Game.Autoload;
 using Game.Enums;
 using Godot;
-using TowerDefense.enums;
+using TurretDefense.enums;
 
 namespace Game.UI;
 
-public partial class TowerUpgradeMenu : Control
+public partial class TurretUpgradeMenu : Control
 {
 	[Signal] public delegate void UpgradeEventHandler(double cost);
 
@@ -20,8 +20,8 @@ public partial class TowerUpgradeMenu : Control
 	private ProgressBar radiusProgressBar;
 	private OptionButton targetModeOptionButton;
 
-	private TurretAttributesResource towerAttributesResource;
-	private CurrentTowerAttributesResource currentTowerAttributesResource;
+	private TurretAttributesResource turretAttributesResource;
+	private CurrentTurretAttributesResource currentTurretAttributesResource;
 
 	public override void _Ready()
 	{
@@ -36,20 +36,20 @@ public partial class TowerUpgradeMenu : Control
 		radiusProgressBar = GetNode<ProgressBar>("%RangeProgressBar");
 		targetModeOptionButton = GetNode<OptionButton>("%TargetModeOptionButton");
 
-		targetModeOptionButton.AddItem(TowerTargetMode.First.ToString(), (int)TowerTargetMode.First);
-		targetModeOptionButton.AddItem(TowerTargetMode.Last.ToString(), (int)TowerTargetMode.Last);
-		targetModeOptionButton.AddItem(TowerTargetMode.Closest.ToString(), (int)TowerTargetMode.Closest);
+		targetModeOptionButton.AddItem(TurretTargetMode.First.ToString(), (int)TurretTargetMode.First);
+		targetModeOptionButton.AddItem(TurretTargetMode.Last.ToString(), (int)TurretTargetMode.Last);
+		targetModeOptionButton.AddItem(TurretTargetMode.Closest.ToString(), (int)TurretTargetMode.Closest);
 	}
 
-	private void OnOpenUpgradeMenu(TurretAttributesResource towerAttributesResource, CurrentTowerAttributesResource currentTowerAttributesResource)
+	private void OnOpenUpgradeMenu(TurretAttributesResource turretAttributesResource, CurrentTurretAttributesResource currentTurretAttributesResource)
 	{
 		if (isOpen)
 		{
 			GD.PrintErr("UpgradeComponent is already open.");
 			return;
 		}
-		this.towerAttributesResource = towerAttributesResource;
-		this.currentTowerAttributesResource = currentTowerAttributesResource;
+		this.turretAttributesResource = turretAttributesResource;
+		this.currentTurretAttributesResource = currentTurretAttributesResource;
 		UpdateInfo();
 		Visible = true;
 		isOpen = true;
@@ -63,26 +63,26 @@ public partial class TowerUpgradeMenu : Control
 
 	private void UpdateInfo()
 	{
-		NameLabel.Text = towerAttributesResource.Name;
-		DescriptionLabel.Text = towerAttributesResource.Description;
+		NameLabel.Text = turretAttributesResource.Name;
+		DescriptionLabel.Text = turretAttributesResource.Description;
 
-		var tierLabelContent = currentTowerAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
+		var tierLabelContent = currentTurretAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
 		CurrentTierLabel.Text = $"Current Tier: {tierLabelContent}";
 
-		damageProgressBar.Value = currentTowerAttributesResource.DamageUpgradePercentage;
-		fireRateProgressBar.Value = currentTowerAttributesResource.FireRateUpgradePercentage;
-		bulletSpeedProgressBar.Value = currentTowerAttributesResource.BulletSpeedUpgradePercentage;
-		radiusProgressBar.Value = currentTowerAttributesResource.RadiusUpgradePercentage;
+		damageProgressBar.Value = currentTurretAttributesResource.DamageUpgradePercentage;
+		fireRateProgressBar.Value = currentTurretAttributesResource.FireRateUpgradePercentage;
+		bulletSpeedProgressBar.Value = currentTurretAttributesResource.BulletSpeedUpgradePercentage;
+		radiusProgressBar.Value = currentTurretAttributesResource.RadiusUpgradePercentage;
 
-		targetModeOptionButton.Select((int)currentTowerAttributesResource.TowerTargetMode);
+		targetModeOptionButton.Select((int)currentTurretAttributesResource.TurretTargetMode);
 	}
 
 	private void OnDamageUpgradeButtonPressed()
 	{		
-		currentTowerAttributesResource.DamageUpgradePercentage += 20;
+		currentTurretAttributesResource.DamageUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTowerAttributesResource.DamageUpgradePercentage == 100)
+		if (currentTurretAttributesResource.DamageUpgradePercentage == 100)
 		{
 			GetNode<Button>("%DamageButton").Disabled = true;
 		}
@@ -90,10 +90,10 @@ public partial class TowerUpgradeMenu : Control
 
 	private void OnFireRateUpgradeButtonPressed()
 	{
-		currentTowerAttributesResource.FireRateUpgradePercentage += 20;
+		currentTurretAttributesResource.FireRateUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTowerAttributesResource.FireRateUpgradePercentage == 100)
+		if (currentTurretAttributesResource.FireRateUpgradePercentage == 100)
 		{
 			GetNode<Button>("%FireRateButton").Disabled = true;
 		}
@@ -101,10 +101,10 @@ public partial class TowerUpgradeMenu : Control
 
 	private void OnBulletSpeedUpgradeButtonPressed()
 	{
-		currentTowerAttributesResource.BulletSpeedUpgradePercentage += 20;
+		currentTurretAttributesResource.BulletSpeedUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTowerAttributesResource.BulletSpeedUpgradePercentage == 100)
+		if (currentTurretAttributesResource.BulletSpeedUpgradePercentage == 100)
 		{
 			GetNode<Button>("%BulletSpeedButton").Disabled = true;
 		}
@@ -112,10 +112,10 @@ public partial class TowerUpgradeMenu : Control
 
 	private void OnRangeUpgradeButtonPressed()
 	{
-		currentTowerAttributesResource.RadiusUpgradePercentage += 20;
+		currentTurretAttributesResource.RadiusUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTowerAttributesResource.RadiusUpgradePercentage == 100)
+		if (currentTurretAttributesResource.RadiusUpgradePercentage == 100)
 		{
 			GetNode<Button>("%RangeButton").Disabled = true;
 		}
@@ -123,15 +123,15 @@ public partial class TowerUpgradeMenu : Control
 
 	private void OnTargetModeOptionButtonItemSelected(int index)
 	{
-		currentTowerAttributesResource.TowerTargetMode = (TowerTargetMode)index;
+		currentTurretAttributesResource.TurretTargetMode = (TurretTargetMode)index;
 	}
 
 	private void OnUpgradeTierButtonPressed()
 	{
-		var nextTier = (int)currentTowerAttributesResource.Tier + 1;
-		currentTowerAttributesResource.Tier = (TowerTier)nextTier;
+		var nextTier = (int)currentTurretAttributesResource.Tier + 1;
+		currentTurretAttributesResource.Tier = (TurretTier)nextTier;
 
-		var tierLabelContent = currentTowerAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
+		var tierLabelContent = currentTurretAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
 		CurrentTierLabel.Text = $"Current Tier: {tierLabelContent}";
 
 		if (nextTier == 2)

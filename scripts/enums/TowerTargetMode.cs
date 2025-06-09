@@ -1,6 +1,6 @@
 namespace Game.Enums
 {
-    public enum TowerTargetMode
+    public enum TurretTargetMode
     {
         First = 0,
         Last = 1,

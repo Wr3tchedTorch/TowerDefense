@@ -1,9 +1,8 @@
-
 using Game.Enums;
 using Godot;
-using TowerDefense.enums;
+using TurretDefense.enums;
 
-public partial class CurrentTowerAttributesResource : Resource
+public partial class CurrentTurretAttributesResource : Resource
 {
     [Signal] public delegate void AttributesChangedEventHandler();
     
@@ -21,9 +20,9 @@ public partial class CurrentTowerAttributesResource : Resource
         }
     }    
 
-    [Export] public TowerTargetMode TowerTargetMode { get; set; } = TowerTargetMode.First;
+    [Export] public TurretTargetMode TurretTargetMode { get; set; } = TurretTargetMode.First;
     [Export]
-    public TowerTier Tier
+    public TurretTier Tier
     {
         get => _tier;
         set {
@@ -32,12 +31,12 @@ public partial class CurrentTowerAttributesResource : Resource
         }
     }
 
-    private TowerTier _tier = 0;
+    private TurretTier _tier = 0;
     private int _radiusUpgradePercentage = 0;
 
     public override string ToString()
     {
-        return $"Tier: {Tier}, Mode: {TowerTargetMode}, " +
+        return $"Tier: {Tier}, Mode: {TurretTargetMode}, " +
                $"Dmg%: {DamageUpgradePercentage}%, FR%: {FireRateUpgradePercentage}%, " +
                $"Spd%: {BulletSpeedUpgradePercentage}%, Rad%: {RadiusUpgradePercentage}%";
     }

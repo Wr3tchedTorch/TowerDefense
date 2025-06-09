@@ -1,6 +1,6 @@
-namespace TowerDefense.enums
+namespace TurretDefense.enums
 {
-    public enum TowerTier
+    public enum TurretTier
     {
         TierOne = 0,
         TierTwo = 1,

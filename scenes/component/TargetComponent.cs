@@ -1,6 +1,6 @@
 using Game.Enums;
 using Game.Extensions;
-using Game.Tower;
+using Game.Turret;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -23,16 +23,16 @@ public partial class TargetComponent : Node
 
 	public Node2D GetTargetEnemy()
 	{
-		switch (parent.CurrentTowerAttributesResource.TowerTargetMode)
+		switch (parent.CurrentTurretAttributesResource.TurretTargetMode)
 		{
-			case TowerTargetMode.First:
+			case TurretTargetMode.First:
 				return GetFirstEnemyInLine();
-			case TowerTargetMode.Last:
+			case TurretTargetMode.Last:
 				return GetLastEnemyInLine();
-			case TowerTargetMode.Closest:
+			case TurretTargetMode.Closest:
 				return GetClosestEnemyInRadius();
 			default:
-				GD.PrintErr("BaseTower (ln 30): No target mode selected, returning null.");
+				GD.PrintErr("BaseTurret (ln 30): No target mode selected, returning null.");
 				throw new InvalidOperationException("No target mode selected.");
 		}
 	}
