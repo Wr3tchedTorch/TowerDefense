@@ -8,7 +8,7 @@ public partial class ShootComponent : Node
 {
 	[Signal] public delegate void ShootingEventHandler();
 
-	private BaseTower parent;
+	private TurretManager parent;
 	private Node2D target = null;
 	private bool canShoot = true;
 
@@ -27,7 +27,7 @@ public partial class ShootComponent : Node
 
 	public override void _Ready()
 	{
-		parent = GetOwner<BaseTower>();
+		parent = GetOwner<TurretManager>();
 	}
 
     public override void _Process(double delta)

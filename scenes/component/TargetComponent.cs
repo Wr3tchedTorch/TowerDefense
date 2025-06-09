@@ -12,13 +12,13 @@ public partial class TargetComponent : Node
 
 	public Node2D Target { get; private set; } = null;
 
-	private BaseTower parent;
+	private TurretManager parent;
 
 	private readonly List<PathFollow2D> enemies = new();
 
 	public override void _Ready()
 	{
-		parent = GetOwner<BaseTower>();
+		parent = GetOwner<TurretManager>();
 	}
 
 	public Node2D GetTargetEnemy()

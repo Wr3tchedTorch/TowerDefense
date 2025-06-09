@@ -2,7 +2,7 @@ using Godot;
 
 [GlobalClass]
 [Tool]
-public partial class TowerAttributesResource : Resource
+public partial class TurretAttributesResource : Resource
 {
     [ExportGroup("Info")]
     [Export] public string Name { get; private set; }

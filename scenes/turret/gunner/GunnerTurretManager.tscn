@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://cn1xu2fefdt3m"]
 
 [ext_resource type="PackedScene" uid="uid://cxcf33hthqo0e" path="res://scenes/turret/TurretManager.tscn" id="1_gg1br"]
-[ext_resource type="Script" path="res://resources/TowerAttributesResource.cs" id="2_25kdl"]
-[ext_resource type="PackedScene" uid="uid://0uiqnoqx12ls" path="res://scenes/turret/GunnerTierOne.tscn" id="3_3sj5s"]
+[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="2_25kdl"]
+[ext_resource type="PackedScene" uid="uid://0uiqnoqx12ls" path="res://scenes/turret/gunner/GunnerTierOne.tscn" id="3_3sj5s"]
 
 [sub_resource type="Resource" id="Resource_j5wy2"]
 script = ExtResource("2_25kdl")
@@ -18,14 +18,14 @@ TurretTierScenes = Array[String](["res://scenes/turret/GunnerTierOne.tscn", "res
 ClicksRequiredForBuilding = 50
 BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_of77h"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_hf1qi"]
 radius = 220.0
 
 [node name="TurretManager" instance=ExtResource("1_gg1br")]
 TowerAttributesResource = SubResource("Resource_j5wy2")
 
 [node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
-shape = SubResource("CircleShape2D_of77h")
+shape = SubResource("CircleShape2D_hf1qi")
 
 [node name="GunnerTierOne" parent="." index="4" instance=ExtResource("3_3sj5s")]
 

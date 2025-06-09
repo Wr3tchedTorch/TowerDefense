@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cxcf33hthqo0e"]
 
-[ext_resource type="Script" path="res://scenes/tower/BaseTower.cs" id="1_d8gd0"]
+[ext_resource type="Script" path="res://scenes/turret/TurretManager.cs" id="1_d8gd0"]
 [ext_resource type="PackedScene" uid="uid://ce5t514nifkc6" path="res://scenes/component/TargetComponent.tscn" id="2_r86kj"]
 [ext_resource type="PackedScene" uid="uid://fyw55xgcoqnm" path="res://scenes/component/ShootComponent.tscn" id="3_yyerj"]
 

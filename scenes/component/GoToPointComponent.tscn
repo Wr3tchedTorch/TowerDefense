@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://wtv4gcro2sc6"]
+
+[ext_resource type="Script" path="res://scenes/component/GoToPointComponent.cs" id="1_sek61"]
+
+[node name="GoToPointComponent" type="Node"]
+script = ExtResource("1_sek61")

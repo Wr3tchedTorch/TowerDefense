@@ -20,7 +20,7 @@ public partial class TowerUpgradeMenu : Control
 	private ProgressBar radiusProgressBar;
 	private OptionButton targetModeOptionButton;
 
-	private TowerAttributesResource towerAttributesResource;
+	private TurretAttributesResource towerAttributesResource;
 	private CurrentTowerAttributesResource currentTowerAttributesResource;
 
 	public override void _Ready()
@@ -41,7 +41,7 @@ public partial class TowerUpgradeMenu : Control
 		targetModeOptionButton.AddItem(TowerTargetMode.Closest.ToString(), (int)TowerTargetMode.Closest);
 	}
 
-	private void OnOpenUpgradeMenu(TowerAttributesResource towerAttributesResource, CurrentTowerAttributesResource currentTowerAttributesResource)
+	private void OnOpenUpgradeMenu(TurretAttributesResource towerAttributesResource, CurrentTowerAttributesResource currentTowerAttributesResource)
 	{
 		if (isOpen)
 		{

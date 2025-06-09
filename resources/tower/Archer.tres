@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="TowerResource" load_steps=2 format=3 uid="uid://cga28ebmpb8ti"]
-
-[ext_resource type="Script" path="res://resources/TowerResource.cs" id="1_gb1j8"]
-
-[resource]
-script = ExtResource("1_gb1j8")
-TowerScenePath = "res://scenes/tower/ArcherTower.tscn"
-TowerCellWidth = 2

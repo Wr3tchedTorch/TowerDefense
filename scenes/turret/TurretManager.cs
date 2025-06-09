@@ -5,11 +5,11 @@ using Godot;
 namespace Game.Tower;
 
 [Tool]
-public partial class BaseTower : Node2D
+public partial class TurretManager : Node2D
 {
 	[ExportGroup("Attributes")]
 	[Export]
-	public TowerAttributesResource TowerAttributesResource
+	public TurretAttributesResource TowerAttributesResource
 	{
 		get => _towerAttributes;
 		private set
@@ -29,7 +29,7 @@ public partial class BaseTower : Node2D
 
 	public BaseTurret CurrentTurret { get; private set; }
 
-	private TowerAttributesResource _towerAttributes;
+	private TurretAttributesResource _towerAttributes;
 	private CollisionShape2D radiusCollisionShape;
 
 	private Node2D target;
@@ -37,7 +37,6 @@ public partial class BaseTower : Node2D
 
 	public override void _Ready()
 	{
-		// CenterMarker = GetNode<Marker2D>("%CenterMarker2D");
 		CurrentTowerAttributesResource = new CurrentTowerAttributesResource();
 
 		CurrentTowerAttributesResource.AttributesChanged += UpdateTower;

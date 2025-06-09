@@ -5,12 +5,12 @@ namespace Game.Extensions;
 
 public static class BaseTowerExtensions
 {
-    public static bool IsOutOfRange(this BaseTower me, float distance)
+    public static bool IsOutOfRange(this TurretManager me, float distance)
     {
         return distance > me.Radius;
     }
 
-    public static float GetDistanceToNode(this BaseTower me, Node2D target)
+    public static float GetDistanceToNode(this TurretManager me, Node2D target)
     {
         return (target.GlobalPosition - me.CenterMarker.GlobalPosition).Length();
     }
