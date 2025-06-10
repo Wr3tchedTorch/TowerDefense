@@ -7,7 +7,9 @@ public partial class TurretAttributesResource : Resource
     [ExportGroup("Info")]
     [Export] public string Name { get; private set; }
     [Export] public string Description { get; private set; }
+    [Export] public double Price { get; private set; }
     [Export] public int ClicksRequiredForBuilding { get; private set; } = 50;
+    [Export] public Texture2D DisplayImage { get; private set; }
 
     [ExportGroup("Attributes")]
     [Export] public float Damage { get; private set; }
