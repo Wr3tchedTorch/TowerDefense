@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=9 format=3 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
-[ext_resource type="PackedScene" uid="uid://buysiwijxdiuf" path="res://scenes/manager/GridManager.tscn" id="2_yibdt"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/ui/TurretUpgradeMenu.tscn" id="3_1r1qb"]
 [ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="4_020b2"]
 [ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="4_puss3"]
@@ -15,21 +14,19 @@ _data = {
 }
 point_count = 6
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_05wa5"]
-size = Vector2(32, 32)
-
 [node name="Main" type="Node" groups=["Main"]]
 script = ExtResource("1_7a2j1")
 
-[node name="GridManager" parent="." node_paths=PackedStringArray("_cursor") instance=ExtResource("2_yibdt")]
-_cursor = NodePath("../Cursor")
+[node name="TowerPlacementMenu" type="CanvasLayer" parent="."]
+
+[node name="TurretPlacementMenu" parent="TowerPlacementMenu" instance=ExtResource("4_020b2")]
+anchors_preset = 11
+anchor_left = 1.0
+grow_horizontal = 0
 
 [node name="UpgradeMenu" type="CanvasLayer" parent="."]
 
 [node name="TurretUpgradeMenu" parent="UpgradeMenu" instance=ExtResource("3_1r1qb")]
-visible = false
-
-[node name="TurretPlacementMenu" parent="UpgradeMenu" instance=ExtResource("4_020b2")]
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.0244414, 0.120967, 0.2035, 1)
@@ -69,11 +66,6 @@ curve = SubResource("Curve2D_7xq2v")
 [node name="Camera2D2" type="Camera2D" parent="."]
 anchor_mode = 0
 zoom = Vector2(1.25, 1.25)
-
-[node name="Cursor" type="Sprite2D" parent="."]
-position = Vector2(192, 288)
-texture = SubResource("PlaceholderTexture2D_05wa5")
-centered = false
 
 [node name="Bullets" type="Node" parent="." groups=["Bullet"]]
 

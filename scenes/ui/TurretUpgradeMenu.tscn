@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b86eyu1kxwifp"]
+[gd_scene load_steps=3 format=3 uid="uid://b86eyu1kxwifp"]
 
 [ext_resource type="Script" path="res://scenes/ui/TurretUpgradeMenu.cs" id="1_clm74"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urgtd"]
+bg_color = Color(0, 0, 0, 0.901961)
 
 [node name="TowerUpgradeMenu" type="Control"]
 custom_minimum_size = Vector2(500, 0)
@@ -30,6 +33,7 @@ theme_override_constants/margin_bottom = 200
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_urgtd")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2

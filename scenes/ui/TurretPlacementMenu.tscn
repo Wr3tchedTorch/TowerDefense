@@ -1,15 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://sjjtb5be62mn"]
+[gd_scene load_steps=6 format=3 uid="uid://sjjtb5be62mn"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kkff3"]
+[ext_resource type="Script" path="res://scenes/ui/TurretPlacementMenu.cs" id="1_3psuu"]
+[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="2_o0yga"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5vcw"]
-bg_color = Color(0.169245, 0.169245, 0.169245, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eb16r"]
+bg_color = Color(1, 1, 1, 0)
 
-[node name="TowerPlacementMenu" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lu5wn"]
+bg_color = Color(0, 0, 0, 0.901961)
+border_width_left = 3
+border_width_top = 3
+border_width_bottom = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17xpd"]
+bg_color = Color(0, 0, 0, 0.901961)
+border_width_left = 3
+border_width_top = 3
+border_width_bottom = 3
+
+[node name="TurretPlacementMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +26,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 8
+script = ExtResource("1_3psuu")
+TurretAttributesResources = Array[Object]([ExtResource("2_o0yga")])
+TurretPlacementContainerFilePath = "res://scenes/ui/TurretPlacementContainer.tscn"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -27,81 +39,37 @@ anchor_bottom = 1.0
 offset_left = -12.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eb16r")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ToggleButton" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_lu5wn")
+text = "<<"
+
+[node name="MenuPanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_17xpd")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer/PanelContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer/MenuPanelContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer"]
+[node name="TurretVBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/MenuPanelContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 20
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_kkff3")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/separation = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="GunName" type="Label" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_vertical = 1
-text = "Gunner"
-autowrap_mode = 2
-
-[node name="Description" type="Label" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-text = "A turret with fast shooting and large range, with average damage and penetration."
-autowrap_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 40
-
-[node name="Button" type="Button" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/focus = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/hover = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_a5vcw")
-theme_override_styles/normal = SubResource("StyleBoxFlat_a5vcw")
-text = "Buy"
-
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "$ 200"

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="TurretAttributesResource" load_steps=3 format=3 uid="uid://cjsvbrxuahd30"]
+
+[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="1_m1mk4"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
+
+[resource]
+script = ExtResource("1_m1mk4")
+Name = "Gunner"
+Description = "A fast shooting turret with long range and average damage/penetration."
+Price = 120.0
+ClicksRequiredForBuilding = 50
+DisplayImage = SubResource("PlaceholderTexture2D_dqdw5")
+Damage = 40.0
+BulletSpeed = 900.0
+Radius = 150.0
+FireRate = 90.0
+Penetration = 1
+TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn", "res://scenes/turret/gunner/GunnerTierTwo.tscn", "res://scenes/turret/gunner/GunnerTierThree.tscn"])
+BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
+MinFireRateDelay = 0.2
+MaxFireRateDelay = 3.0
