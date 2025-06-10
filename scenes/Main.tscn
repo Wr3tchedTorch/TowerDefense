@@ -1,12 +1,34 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=14 format=3 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
+[ext_resource type="PackedScene" uid="uid://qrwrorc1whsq" path="res://scenes/manager/ConsoleManager.tscn" id="2_nltrd"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/ui/TurretUpgradeMenu.tscn" id="3_1r1qb"]
+[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="4_7cebm"]
 [ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="4_020b2"]
 [ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="4_puss3"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="5_2x6n3"]
+[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="5_dxsgy"]
 [ext_resource type="Texture2D" uid="uid://064d1ay8u22c" path="res://assets/tiles/tile_tilted.png" id="6_ialtu"]
 [ext_resource type="PackedScene" uid="uid://cn1xu2fefdt3m" path="res://scenes/turret/gunner/GunnerTurretManager.tscn" id="8_xj027"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
+
+[sub_resource type="Resource" id="Resource_vpcvf"]
+script = ExtResource("5_dxsgy")
+Name = "Cachorro Quente"
+Description = "A fast shooting turret with long range and average damage/penetration."
+Price = 350.0
+ClicksRequiredForBuilding = 50
+DisplayImage = SubResource("PlaceholderTexture2D_dqdw5")
+Damage = 40.0
+BulletSpeed = 900.0
+Radius = 150.0
+FireRate = 90.0
+Penetration = 1
+TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn", "res://scenes/turret/gunner/GunnerTierTwo.tscn", "res://scenes/turret/gunner/GunnerTierThree.tscn"])
+BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
+MinFireRateDelay = 0.2
+MaxFireRateDelay = 3.0
 
 [sub_resource type="Curve2D" id="Curve2D_7xq2v"]
 _data = {
@@ -17,16 +39,20 @@ point_count = 6
 [node name="Main" type="Node" groups=["Main"]]
 script = ExtResource("1_7a2j1")
 
+[node name="ConsoleManager" parent="." instance=ExtResource("2_nltrd")]
+
 [node name="TowerPlacementMenu" type="CanvasLayer" parent="."]
 
 [node name="TurretPlacementMenu" parent="TowerPlacementMenu" instance=ExtResource("4_020b2")]
 anchors_preset = 11
 anchor_left = 1.0
 grow_horizontal = 0
+TurretAttributesResources = Array[Object]([ExtResource("4_7cebm"), SubResource("Resource_vpcvf"), ExtResource("4_7cebm")])
 
 [node name="UpgradeMenu" type="CanvasLayer" parent="."]
 
 [node name="TurretUpgradeMenu" parent="UpgradeMenu" instance=ExtResource("3_1r1qb")]
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.0244414, 0.120967, 0.2035, 1)

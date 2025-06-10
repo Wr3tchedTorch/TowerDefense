@@ -7,7 +7,6 @@ namespace Game.Manager;
 
 public partial class EnemySpawnManager : Node
 {
-
 	[Export] private int _delayBeforeStartingWave;
 	[Export] private int _numberOfWaves;
 	[Export] private EnemyResource[] _enemiesResource;
@@ -19,21 +18,18 @@ public partial class EnemySpawnManager : Node
 
 	private bool _isWavePlaying = false;
 	private bool _canStartWave = false;
-	// private bool _i = false;
 
 	private EnemyResource[] EnemiesResourceInCurrentWave => _enemiesResource.Where(enemyResource => enemyResource.EnemyStartingWave == _currentWave).ToArray();
 
 
 	public async override void _Ready()
 	{
-
 		await ToSignal(GetTree().CreateTimer(_delayBeforeStartingWave), "timeout");
 		_canStartWave = true;
 	}
 
 	public override void _Process(double delta)
 	{
-
 		if (_isWavePlaying || !_canStartWave)
 			return;
 
@@ -42,7 +38,6 @@ public partial class EnemySpawnManager : Node
 
 	private async void GoToNextWave()
 	{
-
 		_canStartWave = false;
 		_isWavePlaying = false;
 
@@ -55,7 +50,6 @@ public partial class EnemySpawnManager : Node
 
 	private void StartSpawningEnemies()
 	{
-
 		_isWavePlaying = true;
 
 		foreach (var timer in _enemiesSpawnTimers)
@@ -77,7 +71,6 @@ public partial class EnemySpawnManager : Node
 
 	private List<Timer> CreateEnemiesSpawnTimer()
 	{
-
 		List<Timer> timers = new();
 		foreach (var enemyResource in EnemiesResourceInCurrentWave)
 		{
