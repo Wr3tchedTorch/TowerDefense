@@ -1,3 +1,4 @@
+using Game.Bullet;
 using Game.scripts;
 using Godot;
 
@@ -6,14 +7,16 @@ public partial class GoToPointComponent : Node, IMovementComponent
 	[Signal] public delegate void DestinationReachedEventHandler();
 
 	public Vector2 TargetPosition { get; set; }
-	public float Speed { get; set; } = 100f;
+	public float Speed { get; set; }
 
-	private Node2D parent;
+	private BaseBullet parent;
 	private bool isMoving = false;
 
 	public override void _Ready()
 	{
-		parent = GetOwner<Node2D>();
+		parent = GetOwner<BaseBullet>();
+
+		Speed = parent.Speed;
 	}
 
 	public override void _Process(double delta)
@@ -38,8 +41,14 @@ public partial class GoToPointComponent : Node, IMovementComponent
 		isMoving = false;
 	}
 
-	public void Move()
+	public void Move(Vector2 targetPosition)
 	{
+		if (isMoving)
+		{
+			return;
+		}
+
+		TargetPosition = targetPosition;
 		isMoving = true;
 	}
 }

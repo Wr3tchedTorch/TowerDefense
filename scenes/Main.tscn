@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://c3jayqimbctd5"]
+[gd_scene load_steps=16 format=3 uid="uid://c3jayqimbctd5"]
 
 [ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
+[ext_resource type="PackedScene" uid="uid://clawdiyvi3ihw" path="res://scenes/manager/EnemyManager.tscn" id="2_nheu6"]
 [ext_resource type="PackedScene" uid="uid://qrwrorc1whsq" path="res://scenes/manager/ConsoleManager.tscn" id="2_nltrd"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/ui/TurretUpgradeMenu.tscn" id="3_1r1qb"]
-[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="4_7cebm"]
+[ext_resource type="Resource" uid="uid://d2wx2inpsmcr5" path="res://resources/enemy/TriangleEnemyResource.tres" id="3_d30nx"]
+[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/turret/GunnerAttributesResource.tres" id="4_7cebm"]
 [ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="4_020b2"]
 [ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="4_puss3"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="5_2x6n3"]
@@ -32,12 +34,15 @@ MaxFireRateDelay = 3.0
 
 [sub_resource type="Curve2D" id="Curve2D_7xq2v"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 1344, 256, 0, 0, 0, 0, 1344, 640, 0, 0, 0, 0, 160, 640, 0, 0, 0, 0, 160, 992)
+"points": PackedVector2Array(0, 0, 0, 0, 256, -96, 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 1344, 256, 0, 0, 0, 0, 1344, 640, 0, 0, 0, 0, 160, 640, 0, 0, 0, 0, 160, 992)
 }
 point_count = 6
 
 [node name="Main" type="Node" groups=["Main"]]
 script = ExtResource("1_7a2j1")
+
+[node name="EnemyManager" parent="." instance=ExtResource("2_nheu6")]
+EnemyResources = Array[Object]([ExtResource("3_d30nx")])
 
 [node name="ConsoleManager" parent="." instance=ExtResource("2_nltrd")]
 
@@ -85,7 +90,7 @@ texture_mode = 1
 joint_mode = 2
 Polygon2D = NodePath("../Polygon2D")
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="EnemiesPath2D" type="Path2D" parent="." groups=["Enemies"]]
 y_sort_enabled = true
 curve = SubResource("Curve2D_7xq2v")
 
@@ -93,7 +98,9 @@ curve = SubResource("Curve2D_7xq2v")
 anchor_mode = 0
 zoom = Vector2(1.25, 1.25)
 
+[node name="TurretManager" parent="." instance=ExtResource("8_xj027")]
+position = Vector2(320, 384)
+
 [node name="Bullets" type="Node" parent="." groups=["Bullet"]]
 
-[node name="TurretManager" parent="." instance=ExtResource("8_xj027")]
-position = Vector2(1184, 448)
+[connection signal="spawn_enemy_signal" from="ConsoleManager" to="EnemyManager" method="OnSpawnEnemyConsole"]

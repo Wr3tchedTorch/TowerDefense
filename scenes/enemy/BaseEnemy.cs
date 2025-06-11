@@ -5,13 +5,12 @@ namespace Game.Enemy;
 
 public partial class BaseEnemy : PathFollow2D
 {
-	
-	[Export] private float _damage = 10;
-	[Export] private float _movementSpeed = 180;
+	public float Damage { get; set; }
+	public float MovementSpeed { get; set; }
 
 	private HealthComponent _healthComponent;
 
-	private float PathIterationCountPerFrame => 2.5f * (_movementSpeed / 300);
+	private float PathIterationCountPerFrame => 2.5f * (MovementSpeed / 300);
 
 	public override void _Ready()
 	{

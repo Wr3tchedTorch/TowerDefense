@@ -1,3 +1,4 @@
+using Game.Enemy;
 using Game.Resources;
 using Godot;
 
@@ -5,19 +6,42 @@ public partial class EnemyManager : Node
 {
 	[Export] public EnemyResource[] EnemyResources { get; set; }
 
+	private float spawnDelay = 0.5f; // Delay between enemy spawns
+
 	public override void _Ready()
 	{
 	}
 
-	public void SpawnEnemies(int amount)
+	public async void SpawnEnemies(int amount)
 	{
-		SpawnEnemy(EnemyResources[0].EnemyScene);
+		if (amount <= 0)
+		{
+			return;
+		}
+		var randomIndex = GD.RandRange(0, EnemyResources.Length - 1);
+		SpawnEnemy(randomIndex);
+
+		await ToSignal(GetTree().CreateTimer(spawnDelay), "timeout");
+		SpawnEnemies(--amount);
 	}
 
-	private void SpawnEnemy(PackedScene enemyScene)
+	private void SpawnEnemy(int index)
 	{
-		var enemyInstance = enemyScene.Instantiate();
-		AddChild(enemyInstance);
-		// Initialize enemy instance if needed
+		var enemy = EnemyResources[index].Scene.Instantiate<BaseEnemy>();
+		enemy.Damage = EnemyResources[index].Damage;
+
+		var randomSpeed = GD.RandRange(0.75, 1.5);
+		enemy.MovementSpeed = EnemyResources[index].Speed * (float)randomSpeed;
+		GetTree().GetFirstNodeInGroup("Enemies").AddChild(enemy);
+	}
+
+	private void OnSpawnEnemyConsole(int amount)
+	{
+		if (amount <= 0)
+		{
+			GD.PrintErr("Amount must be greater than 0.");
+			return;
+		}
+		SpawnEnemies(amount);
 	}
 }

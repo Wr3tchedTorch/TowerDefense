@@ -15,7 +15,7 @@ public partial class FollowComponent : Node, IMovementComponent
 		base._Ready();
 	}
 
-    public void Move()
+    public void Move(Vector2 targetPosition)
 	{
 		throw new NotImplementedException();
 	}

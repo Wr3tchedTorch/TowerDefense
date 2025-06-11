@@ -22,9 +22,8 @@ corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 anti_aliasing = false
 
-[node name="PathFollow2D" type="PathFollow2D"]
+[node name="TriangleEnemy" type="PathFollow2D"]
 script = ExtResource("1_4j6nw")
-_movementSpeed = 220.0
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("_progressBar") instance=ExtResource("2_tb1i7")]
 _maxHealth = 100.0

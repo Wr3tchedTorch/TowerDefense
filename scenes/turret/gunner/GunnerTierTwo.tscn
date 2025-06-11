@@ -9,9 +9,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_v3k72"]
 radius = 42.0476
 
-[node name="GunnerTierTwo" type="Node2D" node_paths=PackedStringArray("barrelMarkers")]
+[node name="GunnerTierTwo" type="Node2D" node_paths=PackedStringArray("BarrelMarkers")]
 script = ExtResource("1_kx5c0")
-barrelMarkers = [NodePath("GunBarrel/BarrelMarker2D"), NodePath("GunBarrel2/BarrelMarker2D")]
+BarrelMarkers = [NodePath("GunBarrel/BarrelMarker2D"), NodePath("GunBarrel2/BarrelMarker2D")]
 
 [node name="GunBarrel" parent="." instance=ExtResource("2_parc4")]
 show_behind_parent = true

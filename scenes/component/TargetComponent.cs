@@ -67,8 +67,8 @@ public partial class TargetComponent : Node
 		var firstEnemy = enemies.First();
 		foreach (var enemy in enemies)
 		{
-			if (!isFirstEnemyBetter(firstEnemy, enemy))
-			{
+			if (IsInstanceValid(enemy) && !isFirstEnemyBetter(firstEnemy, enemy))
+			{				
 				firstEnemy = enemy;
 			}
 		}

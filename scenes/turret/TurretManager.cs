@@ -33,7 +33,7 @@ public partial class TurretManager : Node2D
 	private CollisionShape2D radiusCollisionShape;
 
 	private Node2D target;
-	private int currentTierIndex = 0;	
+	private int currentTierIndex = 0;
 
 	public override void _Ready()
 	{
@@ -44,6 +44,8 @@ public partial class TurretManager : Node2D
 
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
 		CurrentTurret.MouseClick += OnMouseClick;
+
+		GD.Print(BulletSpeed);
 	}
 
 	public override void _Process(double delta)

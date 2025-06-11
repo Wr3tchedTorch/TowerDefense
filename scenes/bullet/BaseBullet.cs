@@ -19,7 +19,7 @@ public partial class BaseBullet : Area2D
 		AreaEntered += OnAreaEntered;
 
 		currentPenetration = Penetration;
-		movementComponent = GetChildren().OfType<IMovementComponent>().FirstOrDefault();
+		movementComponent = GetChildren().OfType<IMovementComponent>().FirstOrDefault();		
 	}
 
 	public override void _Process(double delta)
@@ -30,7 +30,7 @@ public partial class BaseBullet : Area2D
 			return;
 		}
 		LookAt(Target.GlobalPosition);
-		movementComponent.Move();
+		movementComponent.Move(Target.GlobalPosition);
 	}
 
 	private void OnAreaEntered(Node2D area)

@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="TurretAttributesResource" load_steps=3 format=3 uid="uid://cjsvbrxuahd30"]
 
-[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="1_m1mk4"]
+[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="1_tdtcp"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
 
 [resource]
-script = ExtResource("1_m1mk4")
+script = ExtResource("1_tdtcp")
 Name = "Gunner"
 Description = "A fast shooting turret with long range and average damage/penetration."
 Price = 120.0

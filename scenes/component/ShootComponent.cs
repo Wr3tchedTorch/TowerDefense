@@ -55,8 +55,10 @@ public partial class ShootComponent : Node
 		EmitSignal(SignalName.Shooting);
 		canShoot = false;
 
-		var rand = new Random();
-		var randomIndex = rand.Next(0, parent.CurrentTurret.BarrelMarkers.Length-1);
+		var barrelCount = parent.CurrentTurret.BarrelMarkers.Length;
+		var randomIndex =
+			barrelCount == 1 ? 0 :
+			GD.RandRange(0, barrelCount - 1);
 		bullet.GlobalPosition = parent.CurrentTurret.BarrelMarkers[randomIndex].GlobalPosition;
 		
 		bullet.Target = target;

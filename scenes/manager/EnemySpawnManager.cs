@@ -19,7 +19,7 @@ public partial class EnemySpawnManager : Node
 	private bool _isWavePlaying = false;
 	private bool _canStartWave = false;
 
-	private EnemyResource[] EnemiesResourceInCurrentWave => _enemiesResource.Where(enemyResource => enemyResource.EnemyStartingWave == _currentWave).ToArray();
+	private EnemyResource[] EnemiesResourceInCurrentWave => _enemiesResource.Where(enemyResource => enemyResource.StartingWave == _currentWave).ToArray();
 
 
 	public async override void _Ready()
@@ -74,15 +74,14 @@ public partial class EnemySpawnManager : Node
 		List<Timer> timers = new();
 		foreach (var enemyResource in EnemiesResourceInCurrentWave)
 		{
-
 			Timer enemyTimer = new()
 			{
-				WaitTime = enemyResource.EnemySpawnDelay,
+				// WaitTime = enemyResource.EnemySpawnDelay,
 				OneShot = false
 			};
 			enemyTimer.Timeout += () =>
 			{
-				var enemy = enemyResource.EnemyScene.Instantiate<PathFollow2D>();
+				var enemy = enemyResource.Scene.Instantiate<PathFollow2D>();
 				_enemiesPath.AddChild(enemy);
 				enemy.Progress = 0;
 			};

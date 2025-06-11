@@ -1,19 +1,18 @@
 [gd_scene load_steps=5 format=3 uid="uid://cn1xu2fefdt3m"]
 
 [ext_resource type="PackedScene" uid="uid://cxcf33hthqo0e" path="res://scenes/turret/TurretManager.tscn" id="1_gg1br"]
-[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="2_4kc6a"]
+[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/turret/GunnerAttributesResource.tres" id="2_4kc6a"]
 [ext_resource type="PackedScene" uid="uid://0uiqnoqx12ls" path="res://scenes/turret/gunner/GunnerTierOne.tscn" id="3_3sj5s"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8whbv"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_o4vtx"]
 radius = 0.0
 
 [node name="TurretManager" instance=ExtResource("1_gg1br")]
 TurretAttributesResource = ExtResource("2_4kc6a")
 
 [node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
-shape = SubResource("CircleShape2D_8whbv")
+shape = SubResource("CircleShape2D_o4vtx")
 
-[node name="GunnerTierOne" parent="." index="4" node_paths=PackedStringArray("BarrelMarkers") instance=ExtResource("3_3sj5s")]
-BarrelMarkers = []
+[node name="GunnerTierOne" parent="." index="4" instance=ExtResource("3_3sj5s")]
 
 [connection signal="MouseClick" from="GunnerTierOne" to="." method="OnMouseClick"]
