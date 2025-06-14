@@ -12,19 +12,6 @@ public partial class ShootComponent : Node
 	private Node2D target = null;
 	private bool canShoot = true;
 
-	private float FireRateDelay
-	{
-		get
-		{
-			float percentage = Mathf.Clamp(parent.TurretAttributesResource.FireRate, 0f, 100f);
-			float minDelay = parent.TurretAttributesResource.MinFireRateDelay;
-			float maxDelay = parent.TurretAttributesResource.MaxFireRateDelay;
-
-			float t = 1f - Mathf.Pow(percentage / 100f, 2f);
-			return Mathf.Lerp(minDelay, maxDelay, t);
-		}
-	}
-
 	public override void _Ready()
 	{
 		parent = GetOwner<TurretManager>();
@@ -72,7 +59,7 @@ public partial class ShootComponent : Node
 
 	private async void ShootingCountdown()
 	{
-		await ToSignal(GetTree().CreateTimer(FireRateDelay), "timeout");
+		await ToSignal(GetTree().CreateTimer(parent.FireRate), "timeout");
 		canShoot = true;
 	}
 
