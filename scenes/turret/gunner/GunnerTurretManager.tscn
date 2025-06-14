@@ -14,5 +14,6 @@ TurretAttributesResource = ExtResource("2_4kc6a")
 shape = SubResource("CircleShape2D_klsbt")
 
 [node name="GunnerTierOne" parent="." index="4" instance=ExtResource("3_3sj5s")]
+position = Vector2(3, 0)
 
 [connection signal="MouseClick" from="GunnerTierOne" to="." method="OnMouseClick"]

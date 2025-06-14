@@ -23,7 +23,7 @@ public partial class TurretManager : Node2D
 	public Marker2D CenterMarker { get; private set; }
 
 	public float Damage => _turretAttributes.Damage * (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f);
-	public float FireRate => _turretAttributes.FireRate * (1 + CurrentTurretAttributesResource.FireRateUpgradePercentage / 100f);
+	public float FireRate => _turretAttributes.FireRate *  (1 + CurrentTurretAttributesResource.FireRateUpgradePercentage / 100f) * ((int) CurrentTurretAttributesResource.Tier + 1.25f);
 	public float BulletSpeed => _turretAttributes.BulletSpeed * (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f);
 	public float Radius => _turretAttributes.Radius * (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f);
 
