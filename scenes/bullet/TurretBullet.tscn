@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d1sfj6jumcylr"]
 
-[ext_resource type="Script" path="res://scenes/bullet/BaseBullet.cs" id="1_5sn2d"]
+[ext_resource type="Script" uid="uid://cg7i018k23kc1" path="res://scenes/bullet/BaseBullet.cs" id="1_5sn2d"]
 [ext_resource type="PackedScene" uid="uid://hgxt52etp6cc" path="res://scenes/polygon/CirclePolygon2D.tscn" id="2_gdfyn"]
 [ext_resource type="PackedScene" uid="uid://wtv4gcro2sc6" path="res://scenes/component/GoToPointComponent.tscn" id="2_umcfi"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="3_k3ddo"]

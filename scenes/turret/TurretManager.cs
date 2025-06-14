@@ -104,7 +104,7 @@ public partial class TurretManager : Node2D
 
 	private void OnMouseClick()
 	{
-		GameEvents.Instance.EmitSignalOpenUpgradeMenu(TurretAttributesResource, CurrentTurretAttributesResource);
+		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesResource, CurrentTurretAttributesResource);
 	}
 
 	private void OnTargetChanged(Node2D newTarget)

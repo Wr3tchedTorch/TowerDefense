@@ -7,7 +7,7 @@ public partial class BaseTurret : Node2D
 	[Export] public Marker2D[] BarrelMarkers { get; private set; }
 
 	private void OnMouseClick(Vector2 _)
-	{
+	{		
 		EmitSignal(SignalName.MouseClick);
 	}
 }

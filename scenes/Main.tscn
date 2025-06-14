@@ -1,15 +1,15 @@
 [gd_scene load_steps=16 format=3 uid="uid://c3jayqimbctd5"]
 
-[ext_resource type="Script" path="res://scenes/Main.cs" id="1_7a2j1"]
+[ext_resource type="Script" uid="uid://cx1053wm14kse" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://clawdiyvi3ihw" path="res://scenes/manager/EnemyManager.tscn" id="2_nheu6"]
 [ext_resource type="PackedScene" uid="uid://qrwrorc1whsq" path="res://scenes/manager/ConsoleManager.tscn" id="2_nltrd"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/ui/TurretUpgradeMenu.tscn" id="3_1r1qb"]
 [ext_resource type="Resource" uid="uid://d2wx2inpsmcr5" path="res://resources/enemy/TriangleEnemyResource.tres" id="3_d30nx"]
-[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/turret/GunnerAttributesResource.tres" id="4_7cebm"]
+[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="4_7cebm"]
 [ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="4_020b2"]
 [ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="4_puss3"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="5_2x6n3"]
-[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="5_dxsgy"]
+[ext_resource type="Script" uid="uid://bkqllypffl1cv" path="res://resources/TurretAttributesResource.cs" id="5_dxsgy"]
 [ext_resource type="Texture2D" uid="uid://064d1ay8u22c" path="res://assets/tiles/tile_tilted.png" id="6_ialtu"]
 [ext_resource type="PackedScene" uid="uid://cn1xu2fefdt3m" path="res://scenes/turret/gunner/GunnerTurretManager.tscn" id="8_xj027"]
 

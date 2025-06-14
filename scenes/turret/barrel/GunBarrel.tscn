@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://0dlhcux0ax0v"]
 
-[ext_resource type="Script" path="res://scenes/turret/barrel/GunBarrel.cs" id="1_8i6sv"]
+[ext_resource type="Script" uid="uid://ds4oxuetbdhoo" path="res://scenes/turret/barrel/GunBarrel.cs" id="1_8i6sv"]
 [ext_resource type="PackedScene" uid="uid://d2cusobx24c73" path="res://scenes/polygon/SquarePolygon2d.tscn" id="2_iceyv"]
 
 [node name="GunBarrel" type="Node2D"]

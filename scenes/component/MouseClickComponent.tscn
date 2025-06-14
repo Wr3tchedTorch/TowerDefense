@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b4eyvggapt157"]
 
-[ext_resource type="Script" path="res://scenes/component/MouseClickComponent.cs" id="1_cx5l8"]
+[ext_resource type="Script" uid="uid://chab14pbv4lbt" path="res://scenes/component/MouseClickComponent.cs" id="1_cx5l8"]
 
 [node name="MouseClickComponent" type="Area2D"]
 script = ExtResource("1_cx5l8")

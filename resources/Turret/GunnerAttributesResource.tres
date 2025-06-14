@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TurretAttributesResource" load_steps=3 format=3 uid="uid://cjsvbrxuahd30"]
 
-[ext_resource type="Script" path="res://resources/TurretAttributesResource.cs" id="1_tdtcp"]
+[ext_resource type="Script" uid="uid://bkqllypffl1cv" path="res://resources/TurretAttributesResource.cs" id="1_tdtcp"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
 

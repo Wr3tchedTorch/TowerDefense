@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bcpcpmqmprrwf"]
 
-[ext_resource type="Script" path="res://scenes/turret/BaseTurret.cs" id="1_kx5c0"]
+[ext_resource type="Script" uid="uid://cmkgsrucygaul" path="res://scenes/turret/BaseTurret.cs" id="1_kx5c0"]
 [ext_resource type="PackedScene" uid="uid://0dlhcux0ax0v" path="res://scenes/turret/barrel/GunBarrel.tscn" id="2_parc4"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="3_epnda"]
 [ext_resource type="PackedScene" uid="uid://b4eyvggapt157" path="res://scenes/component/MouseClickComponent.tscn" id="4_ff35c"]

@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="EnemyResource" load_steps=3 format=3 uid="uid://d2wx2inpsmcr5"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://d2wx2inpsmcr5"]
 
 [ext_resource type="PackedScene" uid="uid://bof4f0ryo2i3q" path="res://scenes/enemy/TriangleEnemy.tscn" id="1_1ck50"]
-[ext_resource type="Script" path="res://resources/EnemyResource.cs" id="1_gac5j"]
+[ext_resource type="Script" uid="uid://bfyamba2av1i5" path="res://resources/EnemyResource.cs" id="1_gac5j"]
 
 [resource]
 script = ExtResource("1_gac5j")

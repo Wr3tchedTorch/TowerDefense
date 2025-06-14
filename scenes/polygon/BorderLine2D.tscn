@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://chdwa26a720ie"]
 
-[ext_resource type="Script" path="res://scenes/polygon/BorderLine2D.cs" id="1_h6q58"]
+[ext_resource type="Script" uid="uid://cynxkcvhl82v8" path="res://scenes/polygon/BorderLine2D.cs" id="1_h6q58"]
 
 [node name="BorderLine2D" type="Line2D"]
 script = ExtResource("1_h6q58")

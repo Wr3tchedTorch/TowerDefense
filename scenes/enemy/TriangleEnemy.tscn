@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bof4f0ryo2i3q"]
 
-[ext_resource type="Script" path="res://scenes/enemy/BaseEnemy.cs" id="1_4j6nw"]
+[ext_resource type="Script" uid="uid://bhd2q3qc4grmh" path="res://scenes/enemy/BaseEnemy.cs" id="1_4j6nw"]
 [ext_resource type="PackedScene" uid="uid://bv2qai24n454x" path="res://scenes/component/HealthComponent.tscn" id="2_tb1i7"]
 [ext_resource type="PackedScene" uid="uid://cejoh5muyuf1y" path="res://scenes/component/HitboxComponent.tscn" id="3_afhbi"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="4_h0w64"]

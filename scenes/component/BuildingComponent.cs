@@ -12,8 +12,8 @@ public partial class BuildingComponent : Node
 
 	public override void _Ready()
 	{
-		_parent = GetParent<Node2D>();
-		Callable.From(() => GameEvents.Instance.EmitSignalTurretPlaced(this)).CallDeferred();
+		_parent = GetParent<Node2D>();		
+		Callable.From(() => GameEvents.Instance.EmitSignal(GameEvents.SignalName.TurretPlaced, this)).CallDeferred();
 	}
 
 	public Vector2I GetGridCellPosition()
