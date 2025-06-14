@@ -18,8 +18,6 @@ public partial class BuildingComponent : Node
 
 	public Vector2I GetGridCellPosition()
 	{
-		Vector2 gridPosition = _parent.GlobalPosition / GridManager.GridCellSize;
-		gridPosition = gridPosition.Floor();
-		return new Vector2I((int)gridPosition.X, (int)gridPosition.Y);
+		return GridManager.GetGridCellPosition(_parent.GlobalPosition);
 	}
 }

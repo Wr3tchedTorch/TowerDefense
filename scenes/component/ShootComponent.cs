@@ -33,27 +33,25 @@ public partial class ShootComponent : Node
 		{
 			return;
 		}
-
-		var bullet = InstantiateBullet();
-		if (bullet == null)
-		{
-			return;
-		}
-		EmitSignal(SignalName.Shooting);
 		canShoot = false;
+		EmitSignal(SignalName.Shooting);
 
-		var barrelCount = parent.CurrentTurret.BarrelMarkers.Length;
-		var randomIndex =
-			barrelCount == 1 ? 0 :
-			GD.RandRange(0, barrelCount - 1);
-		bullet.GlobalPosition = parent.CurrentTurret.BarrelMarkers[randomIndex].GlobalPosition;
-		
-		bullet.Target = target;
-		bullet.Damage = parent.Damage;
-		bullet.Speed = parent.BulletSpeed;
-		bullet.Penetration = parent.TurretAttributesResource.Penetration;
-		GetTree().GetFirstNodeInGroup("Bullet").AddChild(bullet);
+		var barrels = parent.CurrentTurret.BarrelMarkers;		
+		foreach (var barrel in barrels)
+		{
+			var bullet = InstantiateBullet();
+			if (bullet == null)
+			{
+				return;
+			}
 
+			bullet.GlobalPosition = barrel.GlobalPosition;
+			bullet.Target = target;
+			bullet.Damage = parent.Damage;
+			bullet.Speed = parent.BulletSpeed;
+			bullet.Penetration = parent.TurretAttributesResource.Penetration;
+			GetTree().GetFirstNodeInGroup("Bullet").AddChild(bullet);
+		}
 		ShootingCountdown();
 	}
 

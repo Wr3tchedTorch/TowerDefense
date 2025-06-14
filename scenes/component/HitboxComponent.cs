@@ -18,6 +18,10 @@ public partial class HitboxComponent : Area2D
 	{
 		if (area is BaseBullet bullet)
 		{
+			if (bullet.Penetration <= 0)
+			{
+				return;
+			}
 			_healthComponent.Damage(bullet.Damage);
 		}
 	}

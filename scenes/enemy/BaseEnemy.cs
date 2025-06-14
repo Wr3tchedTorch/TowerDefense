@@ -22,7 +22,6 @@ public partial class BaseEnemy : PathFollow2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-
 		Progress += PathIterationCountPerFrame;
 		Rotation = 0;
 	}

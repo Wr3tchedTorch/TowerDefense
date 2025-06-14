@@ -11,9 +11,9 @@ public partial class GridManager : Node
 	[Export] private Sprite2D _cursor;
 	[Export] private TileMapLayer _terrainTileMapLayer;
 
-	private readonly HashSet<Vector2I> _occupiedGridCells = new();
-
 	public static readonly int GridCellSize = 32;
+
+	private readonly HashSet<Vector2I> _occupiedGridCells = [];
 
 	public override void _Ready()
 	{
@@ -25,32 +25,34 @@ public partial class GridManager : Node
 		_cursor.GlobalPosition = GetGlobalPositionSnappedToGrid(_cursor.GetGlobalMousePosition());
 	}
 
-	public Vector2I GetGridCellPosition(Vector2 globalPosition)
+	public bool IsValidBuildingTile(Vector2I cellPos, int turretCellSize)
 	{
-		Vector2 gridPosition = globalPosition / GridCellSize;
-		gridPosition = gridPosition.Floor();
-		return new Vector2I((int)gridPosition.X, (int)gridPosition.Y);
-	}
-
-	public bool IsValidBuildingTile(Vector2I cellPos, int turretCellWidth)
-	{
-		for (int xPos = cellPos.X; xPos < cellPos.X + turretCellWidth; xPos++)
+		for (int xPos = cellPos.X; xPos < cellPos.X + turretCellSize; xPos++)
 		{
-			for (int yPos = cellPos.Y; yPos < cellPos.Y + turretCellWidth; yPos++)
+			for (int yPos = cellPos.Y; yPos < cellPos.Y + turretCellSize; yPos++)
 			{
 				var customData = _terrainTileMapLayer.GetCellTileData(new Vector2I(xPos, yPos));
 				var isBuildable = (bool)customData.GetCustomData("IsBuildable");
-				if (customData == null || _occupiedGridCells.Contains(new Vector2I(xPos, yPos)) || !isBuildable)
+				if (customData == null ||
+					_occupiedGridCells.Contains(new Vector2I(xPos, yPos)) ||
+					!isBuildable)
 					return false;
 			}
 		}
 		return true;
 	}
 
-	public Vector2 GetGlobalPositionSnappedToGrid(Vector2 globalPosition)
+	public static Vector2I GetGridCellPosition(Vector2 globalPosition)
+	{
+		Vector2 gridPosition = globalPosition / GridCellSize;
+		gridPosition = gridPosition.Floor();
+		return new Vector2I((int)gridPosition.X, (int)gridPosition.Y);
+	}
+
+	public static Vector2 GetGlobalPositionSnappedToGrid(Vector2 globalPosition)
 		=> GetGridCellPosition(globalPosition) * GridCellSize;
 
-	public Vector2 GridCellToGlobalPosition(Vector2I cellPos)
+	public static Vector2 GridCellToGlobalPosition(Vector2I cellPos)
 		=> cellPos * GridCellSize;
 
 	private void OnTurretPlaced(BuildingComponent buildingComponent)
