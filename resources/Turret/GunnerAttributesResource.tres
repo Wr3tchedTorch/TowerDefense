@@ -16,6 +16,7 @@ BulletSpeed = 900.0
 Radius = 150.0
 FireRate = 90.0
 Penetration = 1
+TurretManagerScenePath = "uid://cn1xu2fefdt3m"
 TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn", "res://scenes/turret/gunner/GunnerTierTwo.tscn", "res://scenes/turret/gunner/GunnerTierThree.tscn"])
 BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 MinFireRateDelay = 0.2

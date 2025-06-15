@@ -53,8 +53,9 @@ folder_colors={
 
 Enemy=""
 Main=""
-Bullet=""
 Enemies=""
+Bullets=""
+Turrets=""
 
 [input]
 

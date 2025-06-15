@@ -75,17 +75,19 @@ public partial class TurretUpgradeMenu : Control
 		radiusProgressBar.Value = currentTurretAttributesResource.RadiusUpgradePercentage;
 
 		targetModeOptionButton.Select((int)currentTurretAttributesResource.TurretTargetMode);
+
+		UpdateDamageButton();
+		UpdateFireRateButton();
+		UpdateBulletSpeedButton();
+		UpdateRangeButton();
 	}
 
 	private void OnDamageUpgradeButtonPressed()
-	{		
+	{
 		currentTurretAttributesResource.DamageUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTurretAttributesResource.DamageUpgradePercentage == 100)
-		{
-			GetNode<Button>("%DamageButton").Disabled = true;
-		}
+		UpdateDamageButton();
 	}
 
 	private void OnFireRateUpgradeButtonPressed()
@@ -93,10 +95,7 @@ public partial class TurretUpgradeMenu : Control
 		currentTurretAttributesResource.FireRateUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTurretAttributesResource.FireRateUpgradePercentage == 100)
-		{
-			GetNode<Button>("%FireRateButton").Disabled = true;
-		}
+		UpdateFireRateButton();
 	}
 
 	private void OnBulletSpeedUpgradeButtonPressed()
@@ -104,10 +103,7 @@ public partial class TurretUpgradeMenu : Control
 		currentTurretAttributesResource.BulletSpeedUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTurretAttributesResource.BulletSpeedUpgradePercentage == 100)
-		{
-			GetNode<Button>("%BulletSpeedButton").Disabled = true;
-		}
+		UpdateBulletSpeedButton();
 	}
 
 	private void OnRangeUpgradeButtonPressed()
@@ -115,10 +111,7 @@ public partial class TurretUpgradeMenu : Control
 		currentTurretAttributesResource.RadiusUpgradePercentage += 20;
 		UpdateInfo();
 
-		if (currentTurretAttributesResource.RadiusUpgradePercentage == 100)
-		{
-			GetNode<Button>("%RangeButton").Disabled = true;
-		}
+		UpdateRangeButton();
 	}
 
 	private void OnTargetModeOptionButtonItemSelected(int index)
@@ -138,5 +131,49 @@ public partial class TurretUpgradeMenu : Control
 		{
 			GetNode<Button>("%UpgradeTierButton").Disabled = true;
 		}
+	}
+
+	private void UpdateDamageButton()
+	{
+		var button = GetNode<Button>("%DamageButton");
+		if (currentTurretAttributesResource.DamageUpgradePercentage == 100)
+		{
+			button.Disabled = true;
+			return;
+		}
+		button.Disabled = false;
+	}
+	
+	private void UpdateFireRateButton()
+	{
+		var button = GetNode<Button>("%FireRateButton");
+		if (currentTurretAttributesResource.FireRateUpgradePercentage == 100)
+		{
+			button.Disabled = true;
+			return;
+		}
+		button.Disabled = false;
+	}
+	
+	private void UpdateBulletSpeedButton()
+	{
+		var button = GetNode<Button>("%BulletSpeedButton");
+		if (currentTurretAttributesResource.BulletSpeedUpgradePercentage == 100)
+		{
+			button.Disabled = true;
+			return;
+		}
+		button.Disabled = false;
+	}
+
+	private void UpdateRangeButton()
+	{
+		var button = GetNode<Button>("%RangeButton");
+		if (currentTurretAttributesResource.RadiusUpgradePercentage == 100)
+		{
+			button.Disabled = true;
+			return;
+		}
+		button.Disabled = false;
 	}
 }

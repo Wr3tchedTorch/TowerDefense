@@ -11,22 +11,21 @@ public partial class MouseClickComponent : Area2D
 
 	private bool isMouseHovering = false;
 
+	private readonly StringName LeftMbClick = "left_mb_click";
+
 	public override void _Ready()
 	{
 		MouseEntered += OnMouseEntered;
 		MouseExited += OnMouseExited;
 	}
 
-	public override void _UnhandledInput(InputEvent @event)
+	public override void _Process(double delta)
 	{
-		if (@event is InputEventMouseButton mb)
+		if (Input.IsActionPressed(LeftMbClick) && isMouseHovering)
 		{
-			if (mb.ButtonIndex == MouseButton.Left && isMouseHovering)
-			{
-				EmitSignal(SignalName.MouseClick, mb.GlobalPosition);
-			}
+			EmitSignal(SignalName.MouseClick, GetGlobalMousePosition());
 		}
-	}
+    }
 
 	public void OnMouseEntered()
 	{

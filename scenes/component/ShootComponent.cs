@@ -50,7 +50,7 @@ public partial class ShootComponent : Node
 			bullet.Damage = parent.Damage;
 			bullet.Speed = parent.BulletSpeed;
 			bullet.Penetration = parent.TurretAttributesResource.Penetration;
-			GetTree().GetFirstNodeInGroup("Bullet").AddChild(bullet);
+			GetTree().GetFirstNodeInGroup("Bullets").AddChild(bullet);
 		}
 		ShootingCountdown();
 	}

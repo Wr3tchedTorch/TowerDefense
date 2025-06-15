@@ -19,8 +19,8 @@ public partial class TurretAttributesResource : Resource
     [Export] public int Penetration { get; private set; } = 1;
 
     [ExportGroup("Scenes")]
-    [Export]
-    public Godot.Collections.Array<string> TurretTierScenes { get; private set; }
+    [Export(PropertyHint.File, ".tscn")] public string TurretManagerScenePath { get; private set; }
+    [Export] public Godot.Collections.Array<string> TurretTierScenes { get; private set; }
     [Export(PropertyHint.File, ".tscn")] public string BulletScenePath { get; private set; }
 
     [ExportGroup("Tecnical Details")]

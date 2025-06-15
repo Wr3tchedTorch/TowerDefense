@@ -1,3 +1,4 @@
+using Game.Autoload;
 using Godot;
 
 namespace Game.UI;
@@ -48,7 +49,6 @@ public partial class TurretPlacementContainer : MarginContainer
 
 	private void OnTowerBought()
 	{
-		// Emit Signal to GameEvents;
-		GD.Print("tower bought");
+		GameEvents.Instance.EmitSignal(GameEvents.SignalName.TurretBought, TowerAttributesResource);
 	}
 }

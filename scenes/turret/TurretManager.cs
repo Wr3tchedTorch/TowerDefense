@@ -46,7 +46,7 @@ public partial class TurretManager : Node2D
 	private int currentTierIndex = 0;
 
 	public override void _Ready()
-	{
+	{	
 		CurrentTurretAttributesResource = new CurrentTurretAttributesResource();
 
 		CurrentTurretAttributesResource.AttributesChanged += UpdateTurret;
@@ -54,6 +54,8 @@ public partial class TurretManager : Node2D
 
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
 		CurrentTurret.MouseClick += OnMouseClick;
+
+		CurrentTurret.IsBuilt = true;
 
 		GD.Print(BulletSpeed);
 	}
@@ -74,7 +76,7 @@ public partial class TurretManager : Node2D
 
 		if (CurrentTurretAttributesResource != null && (int)CurrentTurretAttributesResource.Tier != currentTierIndex)
 		{
-			UpdateTurretScene();
+			UpdateTurretScene();			
 		}
 	}
 
@@ -109,6 +111,7 @@ public partial class TurretManager : Node2D
 		}
 		CurrentTurret = scene.Instantiate<BaseTurret>();
 		CurrentTurret.MouseClick += OnMouseClick;
+		CurrentTurret.IsBuilt = true;
 		AddChild(CurrentTurret);
 	}
 
