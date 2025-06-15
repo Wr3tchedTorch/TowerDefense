@@ -68,4 +68,16 @@ public partial class GridManager : Node
 			}
 		}
 	}
+
+	private void OnObjectPlaced(Vector2 globalPosition, int size)
+	{
+		var gridPos = GetGridCellPosition(globalPosition);
+		for (int xPos = gridPos.X; xPos < gridPos.X + size; xPos++)
+		{
+			for (int yPos = gridPos.Y; yPos < gridPos.Y + size; yPos++)
+			{
+				_occupiedGridCells.Add(new Vector2I(xPos, yPos));
+			}
+		}
+	}
 }
