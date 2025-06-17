@@ -1,24 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxcf33hthqo0e"]
+[gd_scene load_steps=5 format=3 uid="uid://cxcf33hthqo0e"]
 
 [ext_resource type="Script" uid="uid://dlq5jy78mqmu0" path="res://scenes/turret/TurretManager.cs" id="1_d8gd0"]
 [ext_resource type="PackedScene" uid="uid://ce5t514nifkc6" path="res://scenes/component/TargetComponent.tscn" id="2_r86kj"]
 [ext_resource type="PackedScene" uid="uid://fyw55xgcoqnm" path="res://scenes/component/ShootComponent.tscn" id="3_yyerj"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nr8p3"]
-radius = 42.0476
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_vk2gu"]
 radius = 0.0
 
-[node name="TurretManager" type="StaticBody2D"]
+[node name="TurretManager" type="Node2D"]
 script = ExtResource("1_d8gd0")
 
 [node name="TargetComponent" parent="." instance=ExtResource("2_r86kj")]
 
 [node name="ShootComponent" parent="." instance=ExtResource("3_yyerj")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_nr8p3")
 
 [node name="RadiusArea2D" type="Area2D" parent="."]
 collision_mask = 2
@@ -27,8 +21,7 @@ collision_mask = 2
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_vk2gu")
 
-[connection signal="TargetChanged" from="TargetComponent" to="." method="OnTargetChanged"]
 [connection signal="TargetChanged" from="TargetComponent" to="ShootComponent" method="OnTargetChanged"]
-[connection signal="Shooting" from="ShootComponent" to="." method="OnShooting"]
+[connection signal="TargetChanged" from="TargetComponent" to="." method="OnTargetChanged"]
 [connection signal="area_entered" from="RadiusArea2D" to="TargetComponent" method="OnAreaEntered"]
 [connection signal="area_exited" from="RadiusArea2D" to="TargetComponent" method="OnAreaExited"]

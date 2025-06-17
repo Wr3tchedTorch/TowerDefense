@@ -77,7 +77,12 @@ stretch_mode = 1
 
 [node name="Map" type="Node" parent="."]
 
-[node name="Polygon2D" type="Polygon2D" parent="Map"]
+[node name="NonBuildableArea2D" type="Area2D" parent="Map" groups=["NonBuildable"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Map/NonBuildableArea2D"]
+polygon = PackedVector2Array(192, -32, 192, 320, 1280, 320, 1280, 576, 96, 576, 96, 1024, 224, 1024, 224, 704, 1408, 704, 1408, 192, 320, 192, 320, -32)
+
+[node name="BuildablePolygon2D" type="Polygon2D" parent="Map"]
 texture_repeat = 2
 color = Color(0.920995, 0.920995, 0.920995, 1)
 texture = ExtResource("4_puss3")
@@ -94,7 +99,7 @@ width = 15.0
 texture = ExtResource("6_ialtu")
 texture_mode = 1
 joint_mode = 2
-Polygon2D = NodePath("../Polygon2D")
+Polygon2D = NodePath("../BuildablePolygon2D")
 
 [node name="EnemiesPath2D" type="Path2D" parent="." groups=["Enemies"]]
 y_sort_enabled = true

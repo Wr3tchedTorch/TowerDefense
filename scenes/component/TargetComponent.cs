@@ -24,6 +24,11 @@ public partial class TargetComponent : Node
 
 	public Node2D GetTargetEnemy()
 	{
+		if (enemies.Count == 0)
+		{
+			return null;
+		}
+
 		switch (parent.CurrentTurretAttributesResource.TurretTargetMode)
 		{
 			case TurretTargetMode.First:
@@ -44,7 +49,8 @@ public partial class TargetComponent : Node
 
 	public override void _Process(double delta)
 	{
-		if (enemies.Count == 0)
+		if (enemies.Count == 0 ||
+			enemies.All(x => x == null))
 		{
 			return;
 		}
@@ -60,7 +66,8 @@ public partial class TargetComponent : Node
 	private Node2D GetWeakestEnemyInRadius()
 	{
 		return GetEnemyThroughCondition(
-			(firstEnemy, enemy) => {
+			(firstEnemy, enemy) =>
+			{
 				if (firstEnemy is BaseEnemy fe && enemy is BaseEnemy e)
 				{
 					return fe.TotalHealth <= e.TotalHealth;
@@ -74,7 +81,8 @@ public partial class TargetComponent : Node
 	private Node2D GetStrongestEnemyInRadius()
 	{
 		return GetEnemyThroughCondition(
-			(firstEnemy, enemy) => {
+			(firstEnemy, enemy) =>
+			{
 				if (firstEnemy is BaseEnemy fe && enemy is BaseEnemy e)
 				{
 					return fe.TotalHealth >= e.TotalHealth;
@@ -108,16 +116,21 @@ public partial class TargetComponent : Node
 
 	private Node2D GetEnemyThroughCondition(Func<PathFollow2D, PathFollow2D, bool> isFirstEnemyBetter)
 	{
-		if (enemies.Count == 0)
+		enemies.RemoveAll(enemy => !IsInstanceValid(enemy));
+
+		var firstEnemy = enemies.FirstOrDefault();
+		if (firstEnemy == null)
 		{
 			return null;
 		}
-
-		enemies.RemoveAll(enemy => !IsInstanceValid(enemy));
-
-		var firstEnemy = enemies.First();
+		
 		foreach (var enemy in enemies)
 		{
+			if (enemy == null)
+			{
+				continue;
+			}
+
 			if (!isFirstEnemyBetter(firstEnemy, enemy))
 			{
 				firstEnemy = enemy;

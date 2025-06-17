@@ -56,6 +56,7 @@ Main=""
 Enemies=""
 Bullets=""
 Turrets=""
+NonBuildable=""
 
 [input]
 

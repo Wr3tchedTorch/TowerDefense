@@ -7,13 +7,13 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_klsbt"]
 radius = 150.0
 
-[node name="TurretManager" instance=ExtResource("1_gg1br")]
+[node name="GunnerTurretManager" instance=ExtResource("1_gg1br")]
 TurretAttributesResource = ExtResource("2_4kc6a")
 
 [node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
 shape = SubResource("CircleShape2D_klsbt")
 
-[node name="GunnerTierOne" parent="." index="4" instance=ExtResource("3_3sj5s")]
+[node name="GunnerTierOne" parent="." index="3" instance=ExtResource("3_3sj5s")]
 position = Vector2(3, 0)
 
 [connection signal="MouseClick" from="GunnerTierOne" to="." method="OnMouseClick"]

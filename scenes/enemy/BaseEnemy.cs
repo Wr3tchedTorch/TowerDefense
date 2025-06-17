@@ -18,8 +18,9 @@ public partial class BaseEnemy : PathFollow2D
 		AddToGroup(nameof(BaseEnemy));
 		
 		_healthComponent = GetNode<HealthComponent>("HealthComponent");
-		_healthComponent.MaxHealth = TotalHealth;
 		_healthComponent.Death += OnDeath;
+		
+		_healthComponent.SetMaxHealth(TotalHealth);
 	}
 
 	public override void _PhysicsProcess(double delta)

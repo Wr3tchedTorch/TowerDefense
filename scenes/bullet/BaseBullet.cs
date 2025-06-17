@@ -9,7 +9,7 @@ public partial class BaseBullet : Area2D
 	public int Penetration { get; set; }
 	public float Damage { get; set; }
 	public float Speed { get; set; }
-	public Node2D Target { get; set; }
+	public Node2D Target { get; set; }	
 
 	private int currentPenetration = 0;
 	private IMovementComponent movementComponent;
@@ -19,7 +19,7 @@ public partial class BaseBullet : Area2D
 		AreaEntered += OnAreaEntered;
 
 		currentPenetration = Penetration;
-		movementComponent = GetChildren().OfType<IMovementComponent>().FirstOrDefault();		
+		movementComponent = GetChildren().OfType<IMovementComponent>().FirstOrDefault();
 	}
 
 	public override void _Process(double delta)
@@ -36,7 +36,7 @@ public partial class BaseBullet : Area2D
 	private void OnAreaEntered(Node2D area)
 	{
 		currentPenetration--;
-		if (currentPenetration == 0)
+		if (currentPenetration <= 0)
 		{
 			QueueFree();
 		}
