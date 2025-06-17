@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Game.Autoload;
 using Game.Enums;
 using Godot;
@@ -36,9 +38,15 @@ public partial class TurretUpgradeMenu : Control
 		radiusProgressBar = GetNode<ProgressBar>("%RangeProgressBar");
 		targetModeOptionButton = GetNode<OptionButton>("%TargetModeOptionButton");
 
-		targetModeOptionButton.AddItem(TurretTargetMode.First.ToString(), (int)TurretTargetMode.First);
-		targetModeOptionButton.AddItem(TurretTargetMode.Last.ToString(), (int)TurretTargetMode.Last);
-		targetModeOptionButton.AddItem(TurretTargetMode.Closest.ToString(), (int)TurretTargetMode.Closest);
+		var turretTargetModeNames = Enum.GetNames(typeof(TurretTargetMode));
+		var turretTargetModeValues = Enum.GetValues(typeof(TurretTargetMode));
+		for (int i = 0; i < turretTargetModeValues.Length; i++)
+		{
+			targetModeOptionButton.AddItem(
+				turretTargetModeNames.GetValue(i).ToString(),
+				(int) turretTargetModeValues.GetValue(i)
+			);	
+		}
 	}
 
 	private void OnOpenUpgradeMenu(TurretAttributesResource turretAttributesResource, CurrentTurretAttributesResource currentTurretAttributesResource)

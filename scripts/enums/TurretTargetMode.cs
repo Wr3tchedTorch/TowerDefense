@@ -4,6 +4,8 @@ namespace Game.Enums
     {
         First = 0,
         Last = 1,
-        Closest = 2       
+        Closest = 2,
+        Strongest = 3,
+        Weakest = 4
     }
 }

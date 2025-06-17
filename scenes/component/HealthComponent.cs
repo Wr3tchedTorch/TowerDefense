@@ -7,8 +7,8 @@ public partial class HealthComponent : Node
 
 	[Signal] public delegate void DeathEventHandler();
 
-	[Export] private float _maxHealth;
 	[Export] private ProgressBar _progressBar;
+	[Export] public float MaxHealth;
 
 	private float _currentHealth;
 
@@ -21,8 +21,8 @@ public partial class HealthComponent : Node
 	public override void _Ready()
 	{
 
-		CurrentHealth = _maxHealth;
-		_progressBar.MaxValue = _maxHealth;
+		CurrentHealth = MaxHealth;
+		_progressBar.MaxValue = MaxHealth;
 		_progressBar.Value = CurrentHealth;
 	}
 
@@ -48,6 +48,6 @@ public partial class HealthComponent : Node
 			return;
 		}
 
-		CurrentHealth = Mathf.Min(CurrentHealth + healCount, _maxHealth);
+		CurrentHealth = Mathf.Min(CurrentHealth + healCount, MaxHealth);
 	}
 }

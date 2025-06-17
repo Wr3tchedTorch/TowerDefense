@@ -1,3 +1,4 @@
+using Game.Enemy;
 using Game.Enums;
 using Game.Extensions;
 using Game.Turret;
@@ -31,6 +32,10 @@ public partial class TargetComponent : Node
 				return GetLastEnemyInLine();
 			case TurretTargetMode.Closest:
 				return GetClosestEnemyInRadius();
+			case TurretTargetMode.Strongest:
+				return GetStrongestEnemyInRadius();
+			case TurretTargetMode.Weakest:
+				return GetWeakestEnemyInRadius();
 			default:
 				GD.PrintErr("BaseTurret (ln 30): No target mode selected, returning null.");
 				throw new InvalidOperationException("No target mode selected.");
@@ -50,6 +55,34 @@ public partial class TargetComponent : Node
 			Target = newTarget;
 			EmitSignal(SignalName.TargetChanged, Target);
 		}
+	}
+
+	private Node2D GetWeakestEnemyInRadius()
+	{
+		return GetEnemyThroughCondition(
+			(firstEnemy, enemy) => {
+				if (firstEnemy is BaseEnemy fe && enemy is BaseEnemy e)
+				{
+					return fe.TotalHealth <= e.TotalHealth;
+				}
+				GD.PrintErr("{TargetComponent ln68}:Not all units being compared are enemies");
+				return false;
+			}
+		);
+	}
+
+	private Node2D GetStrongestEnemyInRadius()
+	{
+		return GetEnemyThroughCondition(
+			(firstEnemy, enemy) => {
+				if (firstEnemy is BaseEnemy fe && enemy is BaseEnemy e)
+				{
+					return fe.TotalHealth >= e.TotalHealth;
+				}
+				GD.PrintErr("{TargetComponent ln82}:Not all units being compared are enemies");
+				return false;
+			}
+		);
 	}
 
 	private Node2D GetClosestEnemyInRadius()

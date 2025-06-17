@@ -123,7 +123,6 @@ public partial class TurretManager : Node2D
 		{
 			return;
 		}
-
 		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesResource, CurrentTurretAttributesResource);
 	}
 

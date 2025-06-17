@@ -7,6 +7,7 @@ public partial class BaseEnemy : PathFollow2D
 {
 	public float Damage { get; set; }
 	public float MovementSpeed { get; set; }
+	public float TotalHealth { get; set; }	
 
 	private HealthComponent _healthComponent;
 
@@ -15,8 +16,9 @@ public partial class BaseEnemy : PathFollow2D
 	public override void _Ready()
 	{
 		AddToGroup(nameof(BaseEnemy));
-
+		
 		_healthComponent = GetNode<HealthComponent>("HealthComponent");
+		_healthComponent.MaxHealth = TotalHealth;
 		_healthComponent.Death += OnDeath;
 	}
 

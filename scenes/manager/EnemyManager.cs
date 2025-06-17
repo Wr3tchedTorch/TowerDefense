@@ -8,10 +8,6 @@ public partial class EnemyManager : Node
 
 	private float spawnDelay = 0.5f; // Delay between enemy spawns
 
-	public override void _Ready()
-	{
-	}
-
 	public async void SpawnEnemies(int amount)
 	{
 		if (amount <= 0)
@@ -29,6 +25,7 @@ public partial class EnemyManager : Node
 	{
 		var enemy = EnemyResources[index].Scene.Instantiate<BaseEnemy>();
 		enemy.Damage = EnemyResources[index].Damage;
+		enemy.TotalHealth = EnemyResources[index].TotalHealth;
 
 		var randomSpeed = GD.RandRange(0.75, 1.5);
 		enemy.MovementSpeed = EnemyResources[index].Speed * (float)randomSpeed;
