@@ -80,6 +80,7 @@ public partial class TurretUpgradeMenu : Control
 		UpdateFireRateButton();
 		UpdateBulletSpeedButton();
 		UpdateRangeButton();
+		UpdateUpgradeTierButton();
 	}
 
 	private void OnDamageUpgradeButtonPressed()
@@ -124,13 +125,23 @@ public partial class TurretUpgradeMenu : Control
 		var nextTier = (int)currentTurretAttributesResource.Tier + 1;
 		currentTurretAttributesResource.Tier = (TurretTier)nextTier;
 
+		UpdateUpgradeTierButton();
+	}
+
+	private void UpdateUpgradeTierButton()
+	{
+		var button = GetNode<Button>("%UpgradeTierButton");
+
+		if (currentTurretAttributesResource.Tier == TurretTier.TierThree)
+		{
+			CurrentTierLabel.Text = $"Max Tier reached.";
+			button.Disabled = true;
+			return;
+		}
+		
 		var tierLabelContent = currentTurretAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
 		CurrentTierLabel.Text = $"Current Tier: {tierLabelContent}";
-
-		if (nextTier == 2)
-		{
-			GetNode<Button>("%UpgradeTierButton").Disabled = true;
-		}
+		button.Disabled = false;
 	}
 
 	private void UpdateDamageButton()

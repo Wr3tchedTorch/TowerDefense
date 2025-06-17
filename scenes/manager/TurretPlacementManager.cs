@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Game.Autoload;
 using Godot;
 
@@ -18,29 +19,46 @@ public partial class TurretPlacementManager : Node
         GameEvents.Instance.TurretBought += OnTurretBought;
     }
 
-    public override void _Process(double delta)
+    public override void _Input(InputEvent @event)
     {
         if (!isBuilding)
         {
             return;
         }
-        ghostTurret.GlobalPosition = ghostTurret.GetGlobalMousePosition();
 
-        if (Input.IsActionPressed(LeftMbClick))
+        if (@event is InputEventMouseButton mb)
+            {
+                if (mb.ButtonIndex == MouseButton.Left)
+                {
+                    isBuilding = false;
+                    ghostTurret.QueueFree();
+
+                    var scene = GD.Load<PackedScene>(turretManagerScenePath);
+                    var turretManager = scene.Instantiate<Node2D>();
+                    turretManager.GlobalPosition = ghostTurret.GlobalPosition;
+                    AddToTurretsGroup(turretManager);
+                }
+            }
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!isBuilding || ghostTurret == null)
         {
-            ghostTurret.QueueFree();
-
-            var scene = GD.Load<PackedScene>(turretManagerScenePath);
-            var turretManager = scene.Instantiate<Node2D>();
-            turretManager.GlobalPosition = ghostTurret.GlobalPosition;
-            AddToTurretsGroup(turretManager);
-            isBuilding = false;
+            return;
         }
+        ghostTurret.GlobalPosition = ghostTurret.GetGlobalMousePosition();
     }
 
     private void OnTurretBought(TurretAttributesResource turretAttributesResource)
     {
+        if (isBuilding)
+        {
+            return;
+        }
+
         GD.Print($"Turret bought: {turretAttributesResource.Name}");
+        GameEvents.Instance.EmitSignal(GameEvents.SignalName.TogglePlacementMenu);
 
         var scene = GD.Load<PackedScene>(turretAttributesResource.TurretTierScenes[0]);
         ghostTurret = scene.Instantiate<Node2D>();

@@ -19,7 +19,7 @@ public partial class ShootComponent : Node
 
     public override void _Process(double delta)
     {
-		if (!IsInstanceValid(target))
+		if (!IsInstanceValid(target) || !parent.IsBuilt)
 		{
 			target = null;
 			return;

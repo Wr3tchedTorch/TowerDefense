@@ -21,9 +21,21 @@ public partial class MouseClickComponent : Area2D
 
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionPressed(LeftMbClick) && isMouseHovering)
+		// if (Input.IsActionPressed(LeftMbClick) && isMouseHovering)
+		// {
+		// 	EmitSignal(SignalName.MouseClick, GetGlobalMousePosition());
+		// }
+    }
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mb)
 		{
-			EmitSignal(SignalName.MouseClick, GetGlobalMousePosition());
+			if (isMouseHovering &&
+				mb.ButtonIndex == MouseButton.Left)
+			{
+				EmitSignal(SignalName.MouseClick, GetGlobalMousePosition());
+			}
 		}
     }
 

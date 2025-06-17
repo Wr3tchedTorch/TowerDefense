@@ -1,3 +1,4 @@
+using Game.Autoload;
 using Godot;
 
 namespace Game.UI;
@@ -20,6 +21,7 @@ public partial class TurretPlacementMenu : Control
 		menuPanelContainer.Visible = false;
 		toggleButton.Text = "<<";
 
+		GameEvents.Instance.TogglePlacementMenu += Toggle;
 		toggleButton.Pressed += OnToggleMenuPressed;
 
 		foreach (var turret in TurretAttributesResources)
@@ -33,9 +35,14 @@ public partial class TurretPlacementMenu : Control
 		}
 	}
 
-	public void OnToggleMenuPressed()
+	public void Toggle()
 	{
 		menuPanelContainer.Visible = !menuPanelContainer.Visible;
 		toggleButton.Text = menuPanelContainer.Visible ? ">>" : "<<";
+	}
+
+	public void OnToggleMenuPressed()
+	{
+		Toggle();
 	}
 }

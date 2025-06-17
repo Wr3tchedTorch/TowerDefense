@@ -25,19 +25,22 @@ public partial class TurretManager : Node2D
 	public float Damage => _turretAttributes.Damage * (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f);
 	public float FireRate =>
 		Mathf.Clamp(
-        60f / (
-            _turretAttributes.FireRate
-            * (1 + CurrentTurretAttributesResource.FireRateUpgradePercentage / 100f)
-            * (1 + (int)CurrentTurretAttributesResource.Tier * 0.5f)
-        ),
-        TurretAttributesResource.MinFireRateDelay,
-        TurretAttributesResource.MaxFireRateDelay
-    );
+		60f / (
+			_turretAttributes.FireRate
+			* (1 + CurrentTurretAttributesResource.FireRateUpgradePercentage / 100f)
+			* (1 + (int)CurrentTurretAttributesResource.Tier * 0.5f)
+		),
+		TurretAttributesResource.MinFireRateDelay,
+		TurretAttributesResource.MaxFireRateDelay
+	);
 
 	public float BulletSpeed => _turretAttributes.BulletSpeed * (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f);
 	public float Radius => _turretAttributes.Radius * (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f);
 
 	public BaseTurret CurrentTurret { get; private set; }
+
+	[Export] private float buildingCooldown = .2f;
+	public bool IsBuilt = false;
 
 	private TurretAttributesResource _turretAttributes;
 	private CollisionShape2D radiusCollisionShape;
@@ -46,23 +49,22 @@ public partial class TurretManager : Node2D
 	private int currentTierIndex = 0;
 
 	public override void _Ready()
-	{	
+	{
 		CurrentTurretAttributesResource = new CurrentTurretAttributesResource();
 
 		CurrentTurretAttributesResource.AttributesChanged += UpdateTurret;
 		UpdateTurret();
 
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
-		CurrentTurret.MouseClick += OnMouseClick;
-
 		CurrentTurret.IsBuilt = true;
 
-		GD.Print(BulletSpeed);
+		CurrentTurret.MouseClick += OnMouseClick;
+		StartBuildingCooldown();
 	}
 
 	public override void _Process(double delta)
 	{
-		if (!IsInstanceValid(target))
+		if (!IsInstanceValid(target) || !IsBuilt)
 		{
 			target = null;
 			return;
@@ -76,7 +78,7 @@ public partial class TurretManager : Node2D
 
 		if (CurrentTurretAttributesResource != null && (int)CurrentTurretAttributesResource.Tier != currentTierIndex)
 		{
-			UpdateTurretScene();			
+			UpdateTurretScene();
 		}
 	}
 
@@ -115,18 +117,24 @@ public partial class TurretManager : Node2D
 		AddChild(CurrentTurret);
 	}
 
-	private void GetFireRate()
-	{
-		
-	}
-
 	private void OnMouseClick()
 	{
+		if (!IsBuilt)
+		{
+			return;
+		}
+
 		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesResource, CurrentTurretAttributesResource);
 	}
 
 	private void OnTargetChanged(Node2D newTarget)
 	{
 		target = newTarget;
+	}
+
+	private async void StartBuildingCooldown()
+	{
+		await ToSignal(GetTree().CreateTimer(buildingCooldown), "timeout");
+		IsBuilt = true;
 	}
 }
