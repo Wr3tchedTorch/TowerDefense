@@ -1,6 +1,7 @@
 using System.Linq;
 using Game.Autoload;
 using Godot;
+using TurretDefense.enums;
 
 namespace Game.Turret;
 
@@ -15,12 +16,11 @@ public partial class TurretManager : Node2D
 		private set
 		{
 			_turretAttributes = value;
-			UpdateTurret();
+			UpdateRadius();
 		}
 	}
 
 	public CurrentTurretAttributesResource CurrentTurretAttributesResource { get; private set; } = null;
-	public Marker2D CenterMarker { get; private set; }
 
 	public float Damage => _turretAttributes.Damage * (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f);
 	public float FireRate =>
@@ -33,7 +33,6 @@ public partial class TurretManager : Node2D
 		TurretAttributesResource.MinFireRateDelay,
 		TurretAttributesResource.MaxFireRateDelay
 	);
-
 	public float BulletSpeed => _turretAttributes.BulletSpeed * (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f);
 	public float Radius => _turretAttributes.Radius * (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f);
 
@@ -43,10 +42,9 @@ public partial class TurretManager : Node2D
 	public bool IsBuilt = false;
 
 	private TurretAttributesResource _turretAttributes;
-	private CollisionShape2D radiusCollisionShape;
 
-	private Node2D target;
-	private int currentTierIndex = 0;
+	private CollisionShape2D radiusCollisionShape = null;
+	private TurretTier currentTier = TurretTier.TierOne;
 
 	public override void _Ready()
 	{
@@ -62,21 +60,11 @@ public partial class TurretManager : Node2D
 		StartBuildingCooldown();
 	}
 
-	public override void _Process(double delta)
-	{
-		if (!IsInstanceValid(target) || !IsBuilt)
-		{
-			target = null;
-			return;
-		}
-		LookAt(target.GlobalPosition);
-	}
-
 	private void UpdateTurret()
 	{
 		UpdateRadius();
 
-		if (CurrentTurretAttributesResource != null && (int)CurrentTurretAttributesResource.Tier != currentTierIndex)
+		if (currentTier !=CurrentTurretAttributesResource.Tier)
 		{
 			UpdateTurretScene();
 		}
@@ -84,12 +72,8 @@ public partial class TurretManager : Node2D
 
 	private void UpdateRadius()
 	{
-		radiusCollisionShape = GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
-		if (radiusCollisionShape == null)
-		{
-			GD.PrintErr("BaseTurret (ln 60): No radius collision shape found.");
-			return;
-		}
+		radiusCollisionShape ??= GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
+		
 		if (CurrentTurretAttributesResource == null)
 		{
 			radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesResource.Radius };
@@ -103,18 +87,25 @@ public partial class TurretManager : Node2D
 		CurrentTurret.QueueFree();
 		CurrentTurret = null;
 
-		currentTierIndex = (int)CurrentTurretAttributesResource.Tier;
+		currentTier = CurrentTurretAttributesResource.Tier;		
+		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];
 
-		var scene = GD.Load<PackedScene>(TurretAttributesResource.TurretTierScenes[currentTierIndex]);
+		CurrentTurret = InstantiateNewTurret(turretScenePath);
+		AddChild(CurrentTurret);
+	}
+
+	private BaseTurret InstantiateNewTurret(string turretScenePath)
+	{
+		var scene = GD.Load<PackedScene>(turretScenePath);
 		if (scene == null)
 		{
-			GD.PrintErr($"BaseTurret (ln 70): No turret scene found for tier {currentTierIndex}.");
-			return;
+			GD.PrintErr($"BaseTurret (ln 70): No turret scene found for tier {currentTier}.");
+			return null;
 		}
-		CurrentTurret = scene.Instantiate<BaseTurret>();
-		CurrentTurret.MouseClick += OnMouseClick;
-		CurrentTurret.IsBuilt = true;
-		AddChild(CurrentTurret);
+		var newTurret = scene.Instantiate<BaseTurret>();
+		newTurret.MouseClick += OnMouseClick;
+		newTurret.IsBuilt = true;
+		return newTurret;
 	}
 
 	private void OnMouseClick()
@@ -124,11 +115,6 @@ public partial class TurretManager : Node2D
 			return;
 		}
 		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesResource, CurrentTurretAttributesResource);
-	}
-
-	private void OnTargetChanged(Node2D newTarget)
-	{
-		target = newTarget;
 	}
 
 	private async void StartBuildingCooldown()

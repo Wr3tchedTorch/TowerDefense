@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://by0ggy488s0yj"]
+[gd_scene load_steps=19 format=3 uid="uid://by0ggy488s0yj"]
 
 [ext_resource type="Script" uid="uid://cx1053wm14kse" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://clawdiyvi3ihw" path="res://scenes/manager/EnemyManager.tscn" id="2_nheu6"]
 [ext_resource type="PackedScene" uid="uid://qrwrorc1whsq" path="res://scenes/manager/ConsoleManager.tscn" id="2_nltrd"]
 [ext_resource type="Script" uid="uid://ck1pmxaclyjlm" path="res://scenes/world/GameWorld.cs" id="2_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/ui/TurretUpgradeMenu.tscn" id="3_1r1qb"]
+[ext_resource type="Resource" uid="uid://d2wx2inpsmcr5" path="res://resources/enemy/TriangleEnemyResource.tres" id="3_d30nx"]
 [ext_resource type="PackedScene" uid="uid://dogrjo6tw3wsy" path="res://scenes/enemy/EnemyFactory.tscn" id="3_mwfav"]
 [ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="4_7cebm"]
 [ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="4_020b2"]
@@ -49,13 +50,16 @@ MaxFireRateDelay = 3.0
 [node name="Main" type="Node"]
 script = ExtResource("1_7a2j1")
 
-[node name="GameWorld" type="Node2D" parent="." node_paths=PackedStringArray("enemyManager", "enemyFactory", "enemiesGroup")]
+[node name="GameWorld" type="Node2D" parent="." node_paths=PackedStringArray("enemyManager", "enemyFactory", "enemiesGroup", "turretPlacementManager", "turretsGroup")]
 script = ExtResource("2_qmy6f")
 enemyManager = NodePath("EnemyManager")
 enemyFactory = NodePath("EnemyFactory")
 enemiesGroup = [NodePath("Enemies"), NodePath("Enemies2")]
+turretPlacementManager = NodePath("TurretPlacementManager")
+turretsGroup = NodePath("Turrets")
 
 [node name="EnemyFactory" parent="GameWorld" instance=ExtResource("3_mwfav")]
+EnemyResources = Array[Object]([ExtResource("3_d30nx")])
 
 [node name="EnemyManager" parent="GameWorld" instance=ExtResource("2_nheu6")]
 

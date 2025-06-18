@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using Game.Autoload;
 using Godot;
 
@@ -33,7 +32,7 @@ public partial class TurretPlacementManager : Node
             {
                 isBuilding = false;
                 ghostTurret.QueueFree();
-                
+
                 var turretManager = CreateTurret(turretManagerScenePath);
                 turretManager.GlobalPosition = ghostTurret.GlobalPosition;
 
