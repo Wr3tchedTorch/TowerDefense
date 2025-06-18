@@ -100,3 +100,5 @@ anchors_preset = 11
 anchor_left = 1.0
 grow_horizontal = 0
 TurretAttributesResources = Array[Object]([ExtResource("4_7cebm"), SubResource("Resource_vpcvf"), ExtResource("4_7cebm")])
+
+[connection signal="spawn_enemy_signal" from="GameWorld/ConsoleManager" to="GameWorld/EnemyManager" method="OnSpawnEnemyRequested"]

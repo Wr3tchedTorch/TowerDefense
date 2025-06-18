@@ -6,13 +6,14 @@ namespace Game.Manager;
 
 public partial class TurretPlacementManager : Node
 {
-    [Export] public GridManager gridManager;
+    public Node2D TurretsGroup;
 
+    private readonly StringName LeftMbClick = "left_mb_click";
+
+    private string turretManagerScenePath = "";
     private Node2D ghostTurret;
 
     private bool isBuilding = false;
-    private readonly StringName LeftMbClick = "left_mb_click";
-    private string turretManagerScenePath = "";
 
     public override void _Ready()
     {
@@ -27,18 +28,18 @@ public partial class TurretPlacementManager : Node
         }
 
         if (@event is InputEventMouseButton mb)
+        {
+            if (mb.ButtonIndex == MouseButton.Left)
             {
-                if (mb.ButtonIndex == MouseButton.Left)
-                {
-                    isBuilding = false;
-                    ghostTurret.QueueFree();
+                isBuilding = false;
+                ghostTurret.QueueFree();
+                
+                var turretManager = CreateTurret(turretManagerScenePath);
+                turretManager.GlobalPosition = ghostTurret.GlobalPosition;
 
-                    var scene = GD.Load<PackedScene>(turretManagerScenePath);
-                    var turretManager = scene.Instantiate<Node2D>();
-                    turretManager.GlobalPosition = ghostTurret.GlobalPosition;
-                    AddToTurretsGroup(turretManager);
-                }
+                TurretsGroup.AddChild(turretManager);
             }
+        }
     }
 
     public override void _Process(double delta)
@@ -60,8 +61,7 @@ public partial class TurretPlacementManager : Node
         GD.Print($"Turret bought: {turretAttributesResource.Name}");
         GameEvents.Instance.EmitSignal(GameEvents.SignalName.TogglePlacementMenu);
 
-        var scene = GD.Load<PackedScene>(turretAttributesResource.TurretTierScenes[0]);
-        ghostTurret = scene.Instantiate<Node2D>();
+        var ghostTurret = CreateTurret(turretAttributesResource.TurretTierScenes[0]);
         ghostTurret.Modulate = new Color("#ffffffaf");
         /*
          TODO: Radius indication texture Instantiation
@@ -69,14 +69,16 @@ public partial class TurretPlacementManager : Node
             radiusIndicator = scene.Instantiate<Texture2D>();            
             ghostTurret.AddChild(radiusIndicator);
         */
-        AddToTurretsGroup(ghostTurret);
+        TurretsGroup.AddChild(ghostTurret);
 
         turretManagerScenePath = turretAttributesResource.TurretManagerScenePath;
         isBuilding = true;
     }
 
-    private void AddToTurretsGroup(Node node)
+    private Node2D CreateTurret(string turretScenePath)
     {
-        GetTree().GetFirstNodeInGroup("Turrets").AddChild(node);
+        var scene = GD.Load<PackedScene>(turretScenePath);
+        ghostTurret = scene.Instantiate<Node2D>();
+        return ghostTurret;
     }
 }
