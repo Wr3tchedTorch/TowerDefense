@@ -1,5 +1,6 @@
 using System.Linq;
 using Game.Autoload;
+using Game.scripts.helper;
 using Godot;
 using TurretDefense.enums;
 
@@ -20,22 +21,8 @@ public partial class TurretManager : Node2D
 		}
 	}
 
-	public CurrentTurretAttributesResource CurrentTurretAttributesResource { get; private set; } = null;
-
-	public float Damage => _turretAttributes.Damage * (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f);
-	public float FireRate =>
-		Mathf.Clamp(
-		60f / (
-			_turretAttributes.FireRate
-			* (1 + CurrentTurretAttributesResource.FireRateUpgradePercentage / 100f)
-			* (1 + (int)CurrentTurretAttributesResource.Tier * 0.5f)
-		),
-		TurretAttributesResource.MinFireRateDelay,
-		TurretAttributesResource.MaxFireRateDelay
-	);
-	public float BulletSpeed => _turretAttributes.BulletSpeed * (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f);
-	public float Radius => _turretAttributes.Radius * (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f);
-
+	public CurrentTurretAttributesResource CurrentTurretAttributesResource { get; private set; } = null;	
+	public TurretAttributesCalculator TurretAttributesCalculator { get; private set; }
 	public BaseTurret CurrentTurret { get; private set; }
 
 	[Export] private float buildingCooldown = .2f;
@@ -49,6 +36,7 @@ public partial class TurretManager : Node2D
 	public override void _Ready()
 	{
 		CurrentTurretAttributesResource = new CurrentTurretAttributesResource();
+		TurretAttributesCalculator = new TurretAttributesCalculator(TurretAttributesResource, CurrentTurretAttributesResource);
 
 		CurrentTurretAttributesResource.AttributesChanged += UpdateTurret;
 		UpdateTurret();
@@ -79,7 +67,7 @@ public partial class TurretManager : Node2D
 			radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesResource.Radius };
 			return;
 		}
-		radiusCollisionShape.Shape = new CircleShape2D() { Radius = Radius };
+		radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesCalculator.GetRadius() };
 	}
 
 	private void UpdateTurretScene()
