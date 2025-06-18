@@ -70,7 +70,7 @@ public partial class TargetComponent : Node
 			{
 				if (firstEnemy is BaseEnemy fe && enemy is BaseEnemy e)
 				{
-					return fe.TotalHealth <= e.TotalHealth;
+					return fe.EnemyResource.TotalHealth <= e.EnemyResource.TotalHealth;
 				}
 				GD.PrintErr("{TargetComponent ln68}:Not all units being compared are enemies");
 				return false;
@@ -85,7 +85,7 @@ public partial class TargetComponent : Node
 			{
 				if (firstEnemy is BaseEnemy fe && enemy is BaseEnemy e)
 				{
-					return fe.TotalHealth >= e.TotalHealth;
+					return fe.EnemyResource.TotalHealth >= e.EnemyResource.TotalHealth;
 				}
 				GD.PrintErr("{TargetComponent ln82}:Not all units being compared are enemies");
 				return false;

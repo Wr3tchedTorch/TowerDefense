@@ -8,6 +8,7 @@ public partial class EnemyResource : Resource
 	[ExportGroup("Attributes")]
 	[Export] public string Name { get; set; }
 	[Export] public string Description { get; set; }
+	
 	[Export] public int TotalHealth { get; set; }
 	[Export] public int Damage { get; set; }
 	[Export] public int Speed { get; set; }

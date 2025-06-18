@@ -1,17 +1,16 @@
 using Game.Component;
+using Game.Resources;
 using Godot;
 
 namespace Game.Enemy;
 
 public partial class BaseEnemy : PathFollow2D
 {
-	public float Damage { get; set; }
-	public float MovementSpeed { get; set; }
-	public float TotalHealth { get; set; }	
+	public EnemyResource EnemyResource;
 
 	private HealthComponent _healthComponent;
 
-	private float PathIterationCountPerFrame => 2.5f * (MovementSpeed / 300);
+	private float PathIterationCountPerFrame => 2.5f * (EnemyResource.Speed / 300);
 
 	public override void _Ready()
 	{
@@ -20,7 +19,7 @@ public partial class BaseEnemy : PathFollow2D
 		_healthComponent = GetNode<HealthComponent>("HealthComponent");
 		_healthComponent.Death += OnDeath;
 		
-		_healthComponent.SetMaxHealth(TotalHealth);
+		_healthComponent.SetMaxHealth(EnemyResource.TotalHealth);
 	}
 
 	public override void _PhysicsProcess(double delta)

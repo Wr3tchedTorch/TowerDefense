@@ -1,15 +1,21 @@
-using Game.Enemy;
-using Game.Resources;
 using Godot;
 
 namespace Game.Manager;
 
 public partial class EnemyManager : Node
 {
-	[Export] public EnemyResource[] EnemyResources { get; set; }
+	private readonly float spawnDelay = 0.5f;
 
-	public Node2D EnemiesGroup;
-	private float spawnDelay = 0.5f;
+	public Path2D[] EnemyGroups = [];
+	public EnemyFactory EnemyFactory = null;
+
+	public override void _Ready()
+	{
+		if (EnemyFactory == null || EnemyGroups.Length == 0)
+		{
+			GD.PrintErr("{EnemyManager ln.18}: EnemyFactory and EnemyGroups must be assigned before use.");
+		}
+	}
 
 	public async void SpawnEnemies(int amount)
 	{
@@ -17,7 +23,7 @@ public partial class EnemyManager : Node
 		{
 			return;
 		}
-		var randomIndex = GD.RandRange(0, EnemyResources.Length - 1);
+		var randomIndex = GD.RandRange(0, EnemyFactory.EnemyResources.Length - 1);
 		SpawnEnemy(randomIndex);
 
 		await ToSignal(GetTree().CreateTimer(spawnDelay), "timeout");
@@ -26,17 +32,12 @@ public partial class EnemyManager : Node
 
 	private void SpawnEnemy(int index)
 	{
-		var enemy = EnemyResources[index].Scene.Instantiate<BaseEnemy>();
-		enemy.Damage = EnemyResources[index].Damage;
-		enemy.TotalHealth = EnemyResources[index].TotalHealth;
-
-		var randomSpeed = GD.RandRange(0.75, 1.5);
-		enemy.MovementSpeed = EnemyResources[index].Speed * (float)randomSpeed;
-
-		EnemiesGroup.AddChild(enemy);
+		var enemy = EnemyFactory.CreateEnemy(index);
+		var randomGroup = GD.RandRange(0, EnemyGroups.Length-1);
+		EnemyGroups[randomGroup].AddChild(enemy);
 	}
 
-	private void OnSpawnEnemyConsole(int amount)
+	private void OnSpawnEnemyRequested(int amount)
 	{
 		if (amount <= 0)
 		{

@@ -1,0 +1,116 @@
+[gd_scene load_steps=17 format=3 uid="uid://c3jayqimbctd5"]
+
+[ext_resource type="Script" uid="uid://cx1053wm14kse" path="res://scenes/Main.cs" id="1_6ytyv"]
+[ext_resource type="PackedScene" uid="uid://clawdiyvi3ihw" path="res://scenes/manager/EnemyManager.tscn" id="2_ffkxm"]
+[ext_resource type="PackedScene" uid="uid://qrwrorc1whsq" path="res://scenes/manager/ConsoleManager.tscn" id="4_p7m2e"]
+[ext_resource type="PackedScene" uid="uid://b8wv31xs8hop4" path="res://scenes/manager/TurretPlacementManager.tscn" id="5_hcabm"]
+[ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="6_ukj8a"]
+[ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="7_ggret"]
+[ext_resource type="Script" uid="uid://bkqllypffl1cv" path="res://resources/TurretAttributesResource.cs" id="8_orwa5"]
+[ext_resource type="PackedScene" uid="uid://b86eyu1kxwifp" path="res://scenes/ui/TurretUpgradeMenu.tscn" id="9_b3540"]
+[ext_resource type="Texture2D" uid="uid://ycyf4rdrmo38" path="res://assets/tiles/tile.png" id="10_h0cpg"]
+[ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="11_jyi5u"]
+[ext_resource type="Texture2D" uid="uid://064d1ay8u22c" path="res://assets/tiles/tile_tilted.png" id="12_xw6cr"]
+[ext_resource type="Script" uid="uid://bbuh0fkjsjmov" path="res://scenes/groups/TurretsGroup.cs" id="13_yf250"]
+[ext_resource type="Script" uid="uid://ddjprh3wtiubm" path="res://scenes/groups/BulletsGroup.cs" id="14_4bavx"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
+
+[sub_resource type="Resource" id="Resource_vpcvf"]
+script = ExtResource("8_orwa5")
+Name = "Cachorro Quente"
+Description = "A fast shooting turret with long range and average damage/penetration."
+Price = 350.0
+ClicksRequiredForBuilding = 50
+DisplayImage = SubResource("PlaceholderTexture2D_dqdw5")
+Damage = 40.0
+BulletSpeed = 900.0
+Radius = 150.0
+FireRate = 90.0
+Penetration = 1
+TurretManagerScenePath = ""
+TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn", "res://scenes/turret/gunner/GunnerTierTwo.tscn", "res://scenes/turret/gunner/GunnerTierThree.tscn"])
+BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
+MinFireRateDelay = 0.2
+MaxFireRateDelay = 3.0
+
+[sub_resource type="Curve2D" id="Curve2D_7xq2v"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 256, -96, 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 1344, 256, 0, 0, 0, 0, 1344, 640, 0, 0, 0, 0, 160, 640, 0, 0, 0, 0, 160, 992)
+}
+point_count = 6
+
+[node name="Main" type="Node" groups=["Main"]]
+script = ExtResource("1_6ytyv")
+
+[node name="EnemyManager" parent="." instance=ExtResource("2_ffkxm")]
+
+[node name="ConsoleManager" parent="." instance=ExtResource("4_p7m2e")]
+
+[node name="TurretPlacementManager" parent="." instance=ExtResource("5_hcabm")]
+
+[node name="TowerPlacementMenu" type="CanvasLayer" parent="."]
+
+[node name="TurretPlacementMenu" parent="TowerPlacementMenu" instance=ExtResource("6_ukj8a")]
+anchors_preset = 11
+anchor_left = 1.0
+grow_horizontal = 0
+TurretAttributesResources = Array[Object]([ExtResource("7_ggret"), SubResource("Resource_vpcvf"), ExtResource("7_ggret")])
+
+[node name="UpgradeMenu" type="CanvasLayer" parent="."]
+
+[node name="TurretUpgradeMenu" parent="UpgradeMenu" instance=ExtResource("9_b3540")]
+visible = false
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.0244414, 0.120967, 0.2035, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("10_h0cpg")
+stretch_mode = 1
+
+[node name="Map" type="Node" parent="."]
+
+[node name="NonBuildableArea2D" type="Area2D" parent="Map" groups=["NonBuildable"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Map/NonBuildableArea2D"]
+polygon = PackedVector2Array(192, -32, 192, 320, 1280, 320, 1280, 576, 96, 576, 96, 1024, 224, 1024, 224, 704, 1408, 704, 1408, 192, 320, 192, 320, -32)
+
+[node name="BuildablePolygon2D" type="Polygon2D" parent="Map"]
+texture_repeat = 2
+color = Color(0.920995, 0.920995, 0.920995, 1)
+texture = ExtResource("10_h0cpg")
+texture_scale = Vector2(2.2, 2.2)
+invert_enabled = true
+invert_border = 150.0
+polygon = PackedVector2Array(192, -32, 192, 320, 1280, 320, 1280, 576, 96, 576, 96, 1024, 224, 1024, 224, 704, 1408, 704, 1408, 192, 320, 192, 320, -32)
+
+[node name="BorderLine2D" parent="Map" node_paths=PackedStringArray("Polygon2D") instance=ExtResource("11_jyi5u")]
+texture_repeat = 2
+points = PackedVector2Array(192, -32, 192, 320, 1280, 320, 1280, 576, 96, 576, 96, 1024, 224, 1024, 224, 704, 1408, 704, 1408, 192, 320, 192, 320, -32)
+closed = true
+width = 15.0
+texture = ExtResource("12_xw6cr")
+texture_mode = 1
+joint_mode = 2
+Polygon2D = NodePath("../BuildablePolygon2D")
+
+[node name="EnemiesPath2D" type="Path2D" parent="." groups=["Enemies"]]
+y_sort_enabled = true
+curve = SubResource("Curve2D_7xq2v")
+
+[node name="Camera2D2" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(1.25, 1.25)
+
+[node name="Turrets" type="Node" parent="." groups=["Turrets"]]
+script = ExtResource("13_yf250")
+
+[node name="Bullets" type="Node" parent="." groups=["Bullets"]]
+script = ExtResource("14_4bavx")
+
+[connection signal="spawn_enemy_signal" from="ConsoleManager" to="EnemyManager" method="OnSpawnEnemyConsole"]
