@@ -2,11 +2,14 @@ using Game.Enemy;
 using Game.Resources;
 using Godot;
 
+namespace Game.Manager;
+
 public partial class EnemyManager : Node
 {
 	[Export] public EnemyResource[] EnemyResources { get; set; }
 
-	private float spawnDelay = 0.5f; // Delay between enemy spawns
+	public Node2D EnemiesGroup;
+	private float spawnDelay = 0.5f;
 
 	public async void SpawnEnemies(int amount)
 	{
@@ -29,7 +32,8 @@ public partial class EnemyManager : Node
 
 		var randomSpeed = GD.RandRange(0.75, 1.5);
 		enemy.MovementSpeed = EnemyResources[index].Speed * (float)randomSpeed;
-		GetTree().GetFirstNodeInGroup("Enemies").AddChild(enemy);
+
+		EnemiesGroup.AddChild(enemy);
 	}
 
 	private void OnSpawnEnemyConsole(int amount)

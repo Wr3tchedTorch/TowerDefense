@@ -1,7 +1,7 @@
 using System;
-using System.Linq;
 using Game.Autoload;
 using Game.Enums;
+using Game.Turret;
 using Godot;
 using TurretDefense.enums;
 
@@ -16,6 +16,7 @@ public partial class TurretUpgradeMenu : Control
 	private Label NameLabel;
 	private Label DescriptionLabel;
 	private Label CurrentTierLabel;
+	
 	private ProgressBar damageProgressBar;
 	private ProgressBar fireRateProgressBar;
 	private ProgressBar bulletSpeedProgressBar;
@@ -24,6 +25,7 @@ public partial class TurretUpgradeMenu : Control
 
 	private TurretAttributesResource turretAttributesResource;
 	private CurrentTurretAttributesResource currentTurretAttributesResource;
+	private TurretManager currentTurret;
 
 	public override void _Ready()
 	{
@@ -44,8 +46,8 @@ public partial class TurretUpgradeMenu : Control
 		{
 			targetModeOptionButton.AddItem(
 				turretTargetModeNames.GetValue(i).ToString(),
-				(int) turretTargetModeValues.GetValue(i)
-			);	
+				(int)turretTargetModeValues.GetValue(i)
+			);
 		}
 	}
 
@@ -146,7 +148,7 @@ public partial class TurretUpgradeMenu : Control
 			button.Disabled = true;
 			return;
 		}
-		
+
 		var tierLabelContent = currentTurretAttributesResource.Tier.ToString().Replace("Tier", "").ToLower();
 		CurrentTierLabel.Text = $"Current Tier: {tierLabelContent}";
 		button.Disabled = false;
@@ -162,7 +164,7 @@ public partial class TurretUpgradeMenu : Control
 		}
 		button.Disabled = false;
 	}
-	
+
 	private void UpdateFireRateButton()
 	{
 		var button = GetNode<Button>("%FireRateButton");
@@ -173,7 +175,7 @@ public partial class TurretUpgradeMenu : Control
 		}
 		button.Disabled = false;
 	}
-	
+
 	private void UpdateBulletSpeedButton()
 	{
 		var button = GetNode<Button>("%BulletSpeedButton");

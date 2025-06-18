@@ -16,7 +16,7 @@ public partial class TurretPlacementManager : Node
 
     public override void _Ready()
     {
-        GameEvents.Instance.TurretBought += OnTurretBought;        
+        GameEvents.Instance.TurretBought += OnTurretBought;
     }
 
     public override void _Input(InputEvent @event)
