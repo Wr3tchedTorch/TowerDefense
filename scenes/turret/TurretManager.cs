@@ -1,5 +1,6 @@
 using System.Linq;
 using Game.Autoload;
+using Game.Component;
 using Game.scripts.helper;
 using Godot;
 using TurretDefense.enums;
@@ -19,30 +20,28 @@ public partial class TurretManager : Node2D
 			_turretAttributes = value;
 			UpdateRadius();
 		}
+
 	}
-
-	public CurrentTurretAttributesResource CurrentTurretAttributesResource { get; private set; } = null;	
-	public TurretAttributesCalculator TurretAttributesCalculator { get; private set; }
-	public BaseTurret CurrentTurret { get; private set; }
-
 	[Export] private float buildingCooldown = .2f;
 	public bool IsBuilt = false;
 
-	private TurretAttributesResource _turretAttributes;
+	public TurretAttributesCalculator TurretAttributesCalculator { get; private set; }
+	public BaseTurret CurrentTurret { get; private set; }
 
+	private TurretAttributesResource _turretAttributes;
 	private CollisionShape2D radiusCollisionShape = null;
 	private TurretTier currentTier = TurretTier.TierOne;
 
 	public override void _Ready()
-	{
-		CurrentTurretAttributesResource = new CurrentTurretAttributesResource();
-		TurretAttributesCalculator = new TurretAttributesCalculator(TurretAttributesResource, CurrentTurretAttributesResource);
+	{		
+		var currentTurretAttributesResource = new CurrentTurretAttributesResource();
+		TurretAttributesCalculator = new TurretAttributesCalculator(TurretAttributesResource, currentTurretAttributesResource);
 
-		CurrentTurretAttributesResource.AttributesChanged += UpdateTurret;
+		TurretAttributesCalculator.CurrentTurretAttributesResource.AttributesChanged += UpdateTurret;
 		UpdateTurret();
 
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
-		CurrentTurret.IsBuilt = true;
+		CurrentTurret.IsBuilt = true;		
 
 		CurrentTurret.MouseClick += OnMouseClick;
 		StartBuildingCooldown();
@@ -52,7 +51,7 @@ public partial class TurretManager : Node2D
 	{
 		UpdateRadius();
 
-		if (currentTier !=CurrentTurretAttributesResource.Tier)
+		if (currentTier != TurretAttributesCalculator.CurrentTurretAttributesResource.Tier)
 		{
 			UpdateTurretScene();
 		}
@@ -62,7 +61,7 @@ public partial class TurretManager : Node2D
 	{
 		radiusCollisionShape ??= GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
 		
-		if (CurrentTurretAttributesResource == null)
+		if (TurretAttributesCalculator.CurrentTurretAttributesResource == null)
 		{
 			radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesResource.Radius };
 			return;
@@ -75,7 +74,7 @@ public partial class TurretManager : Node2D
 		CurrentTurret.QueueFree();
 		CurrentTurret = null;
 
-		currentTier = CurrentTurretAttributesResource.Tier;		
+		currentTier = TurretAttributesCalculator.CurrentTurretAttributesResource.Tier;		
 		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];
 
 		CurrentTurret = InstantiateNewTurret(turretScenePath);
@@ -102,7 +101,7 @@ public partial class TurretManager : Node2D
 		{
 			return;
 		}
-		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesResource, CurrentTurretAttributesResource);
+		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesResource, TurretAttributesCalculator.CurrentTurretAttributesResource);
 	}
 
 	private async void StartBuildingCooldown()

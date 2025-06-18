@@ -1,11 +1,14 @@
 using Game.Enemy;
 using Game.Enums;
 using Game.Extensions;
+using Game.scripts.helper;
 using Game.Turret;
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+namespace Game.Component;
 
 public partial class TargetComponent : Node
 {
@@ -14,12 +17,13 @@ public partial class TargetComponent : Node
 	public Node2D Target { get; private set; } = null;
 
 	private TurretManager parent;
-
+	private TurretAttributesCalculator turretAttributesCalculator;
 	private readonly List<PathFollow2D> enemies = [];
 
 	public override void _Ready()
 	{
 		parent = GetOwner<TurretManager>();
+		turretAttributesCalculator = parent.TurretAttributesCalculator;
 	}
 
 	public Node2D GetTargetEnemy()
@@ -29,7 +33,7 @@ public partial class TargetComponent : Node
 			return null;
 		}
 
-		switch (parent.CurrentTurretAttributesResource.TurretTargetMode)
+		switch (turretAttributesCalculator.CurrentTurretAttributesResource.TurretTargetMode)
 		{
 			case TurretTargetMode.First:
 				return GetFirstEnemyInLine();
@@ -123,7 +127,7 @@ public partial class TargetComponent : Node
 		{
 			return null;
 		}
-		
+
 		foreach (var enemy in enemies)
 		{
 			if (enemy == null)

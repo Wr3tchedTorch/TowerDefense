@@ -1,4 +1,5 @@
 using Game.Bullet;
+using Game.scripts.helper;
 using Game.Turret;
 using Godot;
 
@@ -6,6 +7,8 @@ public partial class ShootComponent : Node
 {
 	[Signal] public delegate void ShootingEventHandler();
 
+	private TurretAttributesCalculator turretAttributesCalculator;
+	
 	private TurretManager parent;
 	private Node2D target = null;
 	private bool canShoot = true;
@@ -13,6 +16,7 @@ public partial class ShootComponent : Node
 	public override void _Ready()
 	{
 		parent = GetOwner<TurretManager>();
+		turretAttributesCalculator = parent.TurretAttributesCalculator;
 	}
 
     public override void _Process(double delta)
@@ -45,9 +49,9 @@ public partial class ShootComponent : Node
 
 			bullet.GlobalPosition = barrel.GlobalPosition;
 			bullet.Target = target;
-			bullet.Damage = parent.Damage;
-			bullet.Speed = parent.BulletSpeed;
-			bullet.Penetration = parent.TurretAttributesResource.Penetration;
+			bullet.Damage = turretAttributesCalculator.GetDamage();
+			bullet.Speed = turretAttributesCalculator.GetBulletSpeed();
+			bullet.Penetration = turretAttributesCalculator.TurretAttributesResource.Penetration;
 			GetTree().GetFirstNodeInGroup("Bullets").AddChild(bullet);
 		}
 		ShootingCountdown();
@@ -55,7 +59,7 @@ public partial class ShootComponent : Node
 
 	private async void ShootingCountdown()
 	{
-		await ToSignal(GetTree().CreateTimer(parent.FireRate), "timeout");
+		await ToSignal(GetTree().CreateTimer(turretAttributesCalculator.GetFireRate()), "timeout");
 		canShoot = true;
 	}
 
