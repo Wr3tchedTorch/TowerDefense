@@ -33,13 +33,13 @@ public partial class TurretPlacementManager : Node
             if (mb.ButtonIndex == MouseButton.Left)
             {
                 isBuilding = false;
-                ghostTurret.QueueFree();
 
                 var turretManager = (TurretManager) CreateTurret(turretManagerScenePath);
                 turretManager.GlobalPosition = ghostTurret.GlobalPosition;
                 turretManager.BulletsGroup = BulletsGroup;
 
                 TurretsGroup.AddChild(turretManager);
+                ghostTurret.QueueFree();
             }
         }
     }

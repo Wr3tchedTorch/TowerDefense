@@ -62,7 +62,7 @@ public partial class TurretManager : Node2D
 			currentTarget = TargetComponent.GetTargetEnemy(new Callable(TargetComponent, TargetComponent.GetFirstEnemyInLineCallableName));
 		}
 
-		ShootComponent.SetTarget(currentTarget);		
+		ShootComponent.SetTarget(currentTarget);
 	}
 
 	private void UpdateTurret()
@@ -77,7 +77,12 @@ public partial class TurretManager : Node2D
 
 	private void UpdateRadius()
 	{
-		radiusCollisionShape ??= GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
+		radiusCollisionShape = GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
+		if (radiusCollisionShape == null)
+		{
+			GD.PrintErr("BaseTurret (ln 60): No radius collision shape found.");
+			return;
+		}
 
 		if (TurretAttributesComponent.CurrentTurretAttributesResource == null)
 		{
