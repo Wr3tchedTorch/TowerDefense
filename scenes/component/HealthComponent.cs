@@ -16,6 +16,11 @@ public partial class HealthComponent : Node
 		private set
 		{
 			_currentHealth = value;
+
+			if (HealthBar == null)
+			{
+				return;
+			}
 			HealthBar.Value = value;
 		}
 	}

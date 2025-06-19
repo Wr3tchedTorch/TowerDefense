@@ -7,9 +7,9 @@
 script = ExtResource("1_gac5j")
 Name = "Triangle of Evil"
 Description = "A triangle that was corrupted by evil."
-TotalHealth = 100
-Damage = 10
-Speed = 120
+TotalHealth = 100.0
+Damage = 15.0
+Speed = 200.0
 SpawnChance = 80
 StartingWave = 1
 Scene = ExtResource("1_1ck50")
