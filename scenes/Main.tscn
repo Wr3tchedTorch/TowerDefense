@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://by0ggy488s0yj"]
+[gd_scene load_steps=17 format=3 uid="uid://by0ggy488s0yj"]
 
 [ext_resource type="Script" uid="uid://cx1053wm14kse" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://clawdiyvi3ihw" path="res://scenes/manager/EnemyManager.tscn" id="2_nheu6"]
@@ -12,8 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://b8wv31xs8hop4" path="res://scenes/manager/TurretPlacementManager.tscn" id="5_3p2gp"]
 [ext_resource type="Script" uid="uid://bkqllypffl1cv" path="res://resources/TurretAttributesResource.cs" id="5_dxsgy"]
 [ext_resource type="Script" uid="uid://d4h8adu32a3q7" path="res://scenes/ui/Gui.cs" id="9_mwfav"]
-[ext_resource type="Script" uid="uid://bbuh0fkjsjmov" path="res://scenes/groups/TurretsGroup.cs" id="13_mwfav"]
-[ext_resource type="Script" uid="uid://ddjprh3wtiubm" path="res://scenes/groups/BulletsGroup.cs" id="14_3p2gp"]
 
 [sub_resource type="Curve2D" id="Curve2D_qmy6f"]
 _data = {
@@ -23,9 +21,9 @@ point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_mwfav"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 893, -59)
+"points": PackedVector2Array(0, 0, 0, 0, 688, -125, 0, 0, 0, 0, 688, 1165)
 }
-point_count = 1
+point_count = 2
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
 
@@ -50,13 +48,14 @@ MaxFireRateDelay = 3.0
 [node name="Main" type="Node"]
 script = ExtResource("1_7a2j1")
 
-[node name="GameWorld" type="Node2D" parent="." node_paths=PackedStringArray("enemyManager", "enemyFactory", "enemiesGroup", "turretPlacementManager", "turretsGroup")]
+[node name="GameWorld" type="Node2D" parent="." node_paths=PackedStringArray("enemyManager", "enemyFactory", "enemiesGroup", "turretPlacementManager", "turretsGroup", "bulletsGroup")]
 script = ExtResource("2_qmy6f")
 enemyManager = NodePath("EnemyManager")
 enemyFactory = NodePath("EnemyFactory")
 enemiesGroup = [NodePath("Enemies"), NodePath("Enemies2")]
 turretPlacementManager = NodePath("TurretPlacementManager")
 turretsGroup = NodePath("Turrets")
+bulletsGroup = NodePath("Bullets")
 
 [node name="EnemyFactory" parent="GameWorld" instance=ExtResource("3_mwfav")]
 EnemyResources = Array[Object]([ExtResource("3_d30nx")])
@@ -78,11 +77,9 @@ curve = SubResource("Curve2D_qmy6f")
 y_sort_enabled = true
 curve = SubResource("Curve2D_mwfav")
 
-[node name="Turrets" type="Node2D" parent="GameWorld" groups=["Turrets"]]
-script = ExtResource("13_mwfav")
+[node name="Turrets" type="Node2D" parent="GameWorld"]
 
-[node name="Bullets" type="Node2D" parent="GameWorld" groups=["Bullets"]]
-script = ExtResource("14_3p2gp")
+[node name="Bullets" type="Node2D" parent="GameWorld"]
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -92,9 +89,9 @@ offset_bottom = 40.0
 script = ExtResource("9_mwfav")
 
 [node name="UpgradeMenuCanvasLayer" type="CanvasLayer" parent="GUI"]
+visible = false
 
 [node name="TurretUpgradeMenu" parent="GUI/UpgradeMenuCanvasLayer" instance=ExtResource("3_1r1qb")]
-visible = false
 
 [node name="TowerPlacementMenuCanvasLayer" type="CanvasLayer" parent="GUI"]
 layer = 2

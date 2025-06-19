@@ -1,33 +1,51 @@
 using Game.Bullet;
-using Game.scripts.helper;
-using Game.Turret;
+using Game.Component;
 using Godot;
 
 public partial class ShootComponent : Node
 {
 	[Signal] public delegate void ShootingEventHandler();
 
-	private TurretAttributesCalculator turretAttributesCalculator;
-	
-	private TurretManager parent;
-	private Node2D target = null;
-	private bool canShoot = true;
+	public Marker2D[] BarrelMarkers;
+	public Node2D BulletsGroup { get; set; } = null;
 
-	public override void _Ready()
+	private TurretAttributesComponent turretAttributesComponent;
+	private Node2D target = null;
+	private bool canShoot = true;	
+	
+	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup)
 	{
-		parent = GetOwner<TurretManager>();
-		turretAttributesCalculator = parent.TurretAttributesCalculator;
+		if (bulletsGroup == null)
+		{
+			GD.PrintErr("ShootComponent (ln 6): BulletsGroup is null.");
+		}
+
+		this.turretAttributesComponent = turretAttributesComponent;
+		BulletsGroup = bulletsGroup;
+	}
+
+	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup, Callable OnShooting)
+	{
+		if (bulletsGroup == null)
+		{
+			GD.PrintErr("ShootComponent (ln 6): BulletsGroup is null.");
+		}
+
+		this.turretAttributesComponent = turretAttributesComponent;
+		BulletsGroup = bulletsGroup;
+
+		Connect(SignalName.Shooting, OnShooting);
 	}
 
     public override void _Process(double delta)
-    {
-		if (!IsInstanceValid(target) || !parent.IsBuilt)
+	{
+		if (!IsInstanceValid(target))
 		{
 			target = null;
 			return;
 		}
 		Shoot(target);
-    }
+	}
 
 	public void Shoot(Node2D target)
 	{
@@ -38,45 +56,46 @@ public partial class ShootComponent : Node
 		canShoot = false;
 		EmitSignal(SignalName.Shooting);
 
-		var barrels = parent.CurrentTurret.BarrelMarkers;		
+		var barrels = BarrelMarkers;
 		foreach (var barrel in barrels)
 		{
-			var bullet = InstantiateBullet();
-			if (bullet == null)
-			{
-				return;
-			}
+			var bullet = InstantiateBullet(barrel);
 
-			bullet.GlobalPosition = barrel.GlobalPosition;
-			bullet.Target = target;
-			bullet.Damage = turretAttributesCalculator.GetDamage();
-			bullet.Speed = turretAttributesCalculator.GetBulletSpeed();
-			bullet.Penetration = turretAttributesCalculator.TurretAttributesResource.Penetration;
 			GetTree().GetFirstNodeInGroup("Bullets").AddChild(bullet);
 		}
 		ShootingCountdown();
 	}
 
+	public void SetTarget(Node2D target)
+	{
+		if (target == null || !IsInstanceValid(target))
+		{
+			GD.PrintErr("ShootComponent (ln 34): Target is null or invalid.");
+			return;
+		}
+		this.target = target;
+	}
+
 	private async void ShootingCountdown()
 	{
-		await ToSignal(GetTree().CreateTimer(turretAttributesCalculator.GetFireRate()), "timeout");
+		await ToSignal(GetTree().CreateTimer(turretAttributesComponent.GetFireRate()), "timeout");
 		canShoot = true;
 	}
 
-	private BaseBullet InstantiateBullet()
+	private BaseBullet InstantiateBullet(Marker2D barrel)
 	{
-		var scene = GD.Load<PackedScene>(parent.TurretAttributesResource.BulletScenePath);
+		var scene = GD.Load<PackedScene>(turretAttributesComponent.TurretAttributesResource.BulletScenePath);
 		var bullet = scene.Instantiate<BaseBullet>();
 		if (bullet == null)
 		{
 			GD.PrintErr("ShootComponent (ln 10): Bullet scene is not set or could not be instantiated.");
 			return null;
-		}
+		}					
+		bullet.GlobalPosition = barrel.GlobalPosition;
+		bullet.Target 	   = target;
+		bullet.Damage 	   = turretAttributesComponent.GetDamage();
+		bullet.Speed 	   = turretAttributesComponent.GetBulletSpeed();
+		bullet.Penetration = turretAttributesComponent.TurretAttributesResource.Penetration;
 		return bullet;
-	}
-
-	private void OnTargetChanged(Node2D target)
-	{
-		this.target = target;
 	}
 }

@@ -1,70 +1,48 @@
 using Game.Enemy;
 using Game.Enums;
-using Game.Extensions;
-using Game.scripts.helper;
-using Game.Turret;
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TowerDefense.scripts.helper;
 
 namespace Game.Component;
 
 public partial class TargetComponent : Node
 {
 	[Signal] public delegate void TargetChangedEventHandler(Node2D newTarget);
+	[Signal] public delegate void NodeOutOfRangeEventHandler(Node2D node);
 
-	public Node2D Target { get; private set; } = null;
+	public readonly string GetFirstEnemyInLineCallableName = nameof(GetFirstEnemyInLine);
+	public readonly string GetLastEnemyInLineCallableName = nameof(GetLastEnemyInLine);
+	public readonly string GetClosestEnemyInRadiusCallableName = nameof(GetClosestEnemyInRadius);
+	public readonly string GetStrongestEnemyInRadiusCallableName = nameof(GetStrongestEnemyInRadius);
+	public readonly string GetWeakestEnemyInRadiusCallableName = nameof(GetWeakestEnemyInRadius);
 
-	private TurretManager parent;
-	private TurretAttributesCalculator turretAttributesCalculator;
+	private Node2D user;
+	private Callable GetTargetCallable;
+	private TurretAttributesComponent turretAttributesComponent;
 	private readonly List<PathFollow2D> enemies = [];
 
-	public override void _Ready()
+	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D user)
 	{
-		parent = GetOwner<TurretManager>();
-		turretAttributesCalculator = parent.TurretAttributesCalculator;
+		this.turretAttributesComponent = turretAttributesComponent;
+		this.user = user;
 	}
 
-	public Node2D GetTargetEnemy()
+	public Node2D GetTargetEnemy(Callable getTargetCallable)
 	{
 		if (enemies.Count == 0)
 		{
 			return null;
 		}
 
-		switch (turretAttributesCalculator.CurrentTurretAttributesResource.TurretTargetMode)
+		if (enemies.Count == 1)
 		{
-			case TurretTargetMode.First:
-				return GetFirstEnemyInLine();
-			case TurretTargetMode.Last:
-				return GetLastEnemyInLine();
-			case TurretTargetMode.Closest:
-				return GetClosestEnemyInRadius();
-			case TurretTargetMode.Strongest:
-				return GetStrongestEnemyInRadius();
-			case TurretTargetMode.Weakest:
-				return GetWeakestEnemyInRadius();
-			default:
-				GD.PrintErr("BaseTurret (ln 30): No target mode selected, returning null.");
-				throw new InvalidOperationException("No target mode selected.");
-		}
-	}
-
-	public override void _Process(double delta)
-	{
-		if (enemies.Count == 0 ||
-			enemies.All(x => x == null))
-		{
-			return;
+			return enemies.FirstOrDefault();
 		}
 
-		Node2D newTarget = enemies.Count == 1 ? enemies.FirstOrDefault() : GetTargetEnemy();
-		if (newTarget != Target || newTarget == null)
-		{
-			Target = newTarget;
-			EmitSignal(SignalName.TargetChanged, Target);
-		}
+		return (Node2D)getTargetCallable.Call();
 	}
 
 	private Node2D GetWeakestEnemyInRadius()
@@ -100,7 +78,7 @@ public partial class TargetComponent : Node
 	private Node2D GetClosestEnemyInRadius()
 	{
 		return GetEnemyThroughCondition(
-			(firstEnemy, enemy) => parent.GetDistanceToNode(firstEnemy) <= parent.GetDistanceToNode(enemy)
+			(firstEnemy, enemy) => user.DistanceTo(firstEnemy) <= user.DistanceTo(enemy)
 		);
 	}
 
@@ -159,10 +137,6 @@ public partial class TargetComponent : Node
 		var enemy = area.GetOwner<PathFollow2D>();
 		enemies.Remove(enemy);
 
-		if (Target == enemy)
-		{
-			Target = null;
-			EmitSignal(SignalName.TargetChanged, Target);
-		}
+		EmitSignal(SignalName.NodeOutOfRange, enemy);
 	}
 }

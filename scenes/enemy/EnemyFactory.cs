@@ -8,9 +8,9 @@ public partial class EnemyFactory : Node
 
     public Node2D CreateEnemy(int index)
     {
-        var enemy = EnemyResources[index].Scene.Instantiate<BaseEnemy>();
-		var randomSpeed = GD.RandRange(0.75, 1.5);
-        enemy.EnemyResource = EnemyResources[index];
+        var enemyResource = EnemyResources[index];
+        var enemy = enemyResource.Scene.Instantiate<BaseEnemy>();
+        enemy.EnemyResource = enemyResource;
         return enemy;
     }
 }

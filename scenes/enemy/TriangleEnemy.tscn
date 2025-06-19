@@ -26,7 +26,6 @@ anti_aliasing = false
 script = ExtResource("1_4j6nw")
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("_progressBar") instance=ExtResource("2_tb1i7")]
-_maxHealth = 100.0
 _progressBar = NodePath("../ProgressBar")
 
 [node name="BorderLine2D" parent="." node_paths=PackedStringArray("Polygon2D") instance=ExtResource("4_h0w64")]

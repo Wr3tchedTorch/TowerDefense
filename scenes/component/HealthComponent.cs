@@ -7,25 +7,42 @@ public partial class HealthComponent : Node
 
 	[Signal] public delegate void DeathEventHandler();
 
-	[Export] private ProgressBar _progressBar;
-
+	public ProgressBar HealthBar = null;
 	public float MaxHealth { get; set; }
 
 	public float CurrentHealth
 	{
 		get { return _currentHealth; }
-		private set { _currentHealth = value; _progressBar.Value = value; }
+		private set
+		{
+			_currentHealth = value;
+			HealthBar.Value = value;
+		}
 	}
 
 	private float _currentHealth;
 
-	public void SetMaxHealth(float toMaxHealth)
+	public void Initialize(float maxHealth)
 	{
-		MaxHealth = toMaxHealth;
-		CurrentHealth = toMaxHealth;
-		_progressBar.MaxValue = toMaxHealth;
-		_progressBar.Value = CurrentHealth;
+		MaxHealth = maxHealth;
+		CurrentHealth = maxHealth;
 	}
+
+	public void Initialize(float maxHealth, ProgressBar healthBar)
+	{
+		HealthBar = healthBar;
+
+		MaxHealth = maxHealth;
+		CurrentHealth = maxHealth;
+
+		if (HealthBar == null)
+		{
+			GD.Print($"{nameof(HealthComponent)}: HealthBar is not assigned. Please assign a ProgressBar node.");
+			return;
+		}
+		HealthBar.MaxValue = maxHealth;
+		HealthBar.Value = CurrentHealth;
+	}	
 
 	public void Damage(float damageCount)
 	{

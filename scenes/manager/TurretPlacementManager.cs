@@ -1,11 +1,13 @@
 using Game.Autoload;
+using Game.Turret;
 using Godot;
 
 namespace Game.Manager;
 
 public partial class TurretPlacementManager : Node
 {
-    public Node2D TurretsGroup;
+    public Node2D TurretsGroup { get; set; } = null;
+    public Node2D BulletsGroup { get; set; } = null;
 
     private readonly StringName LeftMbClick = "left_mb_click";
 
@@ -33,8 +35,9 @@ public partial class TurretPlacementManager : Node
                 isBuilding = false;
                 ghostTurret.QueueFree();
 
-                var turretManager = CreateTurret(turretManagerScenePath);
+                var turretManager = (TurretManager) CreateTurret(turretManagerScenePath);
                 turretManager.GlobalPosition = ghostTurret.GlobalPosition;
+                turretManager.BulletsGroup = BulletsGroup;
 
                 TurretsGroup.AddChild(turretManager);
             }
@@ -52,6 +55,12 @@ public partial class TurretPlacementManager : Node
 
     private void OnTurretBought(TurretAttributesResource turretAttributesResource)
     {
+        if (BulletsGroup == null || TurretsGroup == null)
+        {
+            GD.PrintErr("TurretsGroup or BulletsGroup is not set in TurretPlacementManager.");
+            return;
+        }
+
         if (isBuilding)
         {
             return;

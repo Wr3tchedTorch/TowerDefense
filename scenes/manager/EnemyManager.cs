@@ -7,18 +7,16 @@ public partial class EnemyManager : Node
 	private readonly float spawnDelay = 0.5f;
 
 	public Path2D[] EnemyGroups = [];
-	public EnemyFactory EnemyFactory = null;
+	public EnemyFactory EnemyFactory = null;	
 
-	public override void _Ready()
+	public async void SpawnEnemies(int amount)
 	{
 		if (EnemyFactory == null || EnemyGroups.Length == 0)
 		{
 			GD.PrintErr("{EnemyManager ln.18}: EnemyFactory and EnemyGroups must be assigned before use.");
+			return;
 		}
-	}
-
-	public async void SpawnEnemies(int amount)
-	{
+		
 		if (amount <= 0)
 		{
 			return;

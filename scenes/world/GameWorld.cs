@@ -15,6 +15,7 @@ public partial class GameWorld : Node2D
     [ExportGroup("Turret Manager")]
     [Export] private TurretPlacementManager turretPlacementManager;
     [Export] private Node2D turretsGroup;
+    [Export] private Node2D bulletsGroup;
 
     public override void _Ready()
     {
@@ -22,5 +23,6 @@ public partial class GameWorld : Node2D
         enemyManager.EnemyFactory = enemyFactory;
 
         turretPlacementManager.TurretsGroup = turretsGroup;
+        turretPlacementManager.BulletsGroup = bulletsGroup;
     }
 }
