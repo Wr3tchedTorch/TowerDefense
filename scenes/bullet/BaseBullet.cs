@@ -56,7 +56,6 @@ public partial class BaseBullet : Area2D
 
 	private void OnDestinationReached()
 	{
-		GD.PrintErr("BaseBullet: destination reached.");
 		QueueFree();
 	}
 }

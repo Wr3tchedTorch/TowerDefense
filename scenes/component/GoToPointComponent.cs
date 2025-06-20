@@ -11,6 +11,7 @@ public partial class GoToPointComponent : Node, IMovementComponent
 
 	private BaseBullet parent;
 	private bool isMoving = false;
+	const float REACH_THRESHOLD = 2.0f; // Adjust as needed
 
 	public override void _Ready()
 	{
@@ -29,9 +30,15 @@ public partial class GoToPointComponent : Node, IMovementComponent
 		var distance = Speed * (float)delta;
 
 		parent.GlobalPosition += direction * distance;
+		
+		GD.Print($"Distance: {parent.GlobalPosition.DistanceTo(TargetPosition)}");
 
-		if (parent.GlobalPosition.IsEqualApprox(TargetPosition))
-		{			
+		var distanceToTarget = parent.GlobalPosition.DistanceTo(TargetPosition);
+		if (distanceToTarget <= REACH_THRESHOLD)
+		{
+			parent.GlobalPosition = TargetPosition;
+			isMoving = false;
+			GD.Print("Reached target position.");
 			EmitSignal(SignalName.DestinationReached);
 		}
     }
