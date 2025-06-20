@@ -78,16 +78,10 @@ public partial class TurretManager : Node2D
 				ShootComponent.StopShooting();
 			}
 
-			var targetCallableName = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode switch
-			{
-				Enums.TurretTargetMode.First => TargetComponent.GetFirstEnemyInLineCallableName,
-				Enums.TurretTargetMode.Strongest => TargetComponent.GetStrongestEnemyInRadiusCallableName,
-				Enums.TurretTargetMode.Weakest => TargetComponent.GetWeakestEnemyInRadiusCallableName,
-				Enums.TurretTargetMode.Last => TargetComponent.GetLastEnemyInLineCallableName,
-				Enums.TurretTargetMode.Closest => TargetComponent.GetClosestEnemyInRadiusCallableName,
-				_ => throw new ArgumentOutOfRangeException(nameof(TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode))
-			};
-			currentTarget = TargetComponent.GetTargetEnemy(new Callable(TargetComponent, targetCallableName));
+			var targetMode = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode;
+			var callable = TargetComponent.GetTargetModeCallable(targetMode);
+
+			currentTarget = TargetComponent.GetTargetEnemy(callable.Value);
 			return;
 		}
 		ShootComponent.SetTarget(currentTarget);

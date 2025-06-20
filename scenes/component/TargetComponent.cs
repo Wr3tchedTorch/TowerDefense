@@ -9,15 +9,18 @@ using TowerDefense.scripts.helper;
 namespace Game.Component;
 
 public partial class TargetComponent : Node
-{
+{	
 	[Signal] public delegate void TargetChangedEventHandler(Node2D newTarget);
 	[Signal] public delegate void NodeOutOfRangeEventHandler(Node2D node);
 
-	public readonly string GetFirstEnemyInLineCallableName = nameof(GetFirstEnemyInLine);
-	public readonly string GetLastEnemyInLineCallableName = nameof(GetLastEnemyInLine);
-	public readonly string GetClosestEnemyInRadiusCallableName = nameof(GetClosestEnemyInRadius);
-	public readonly string GetStrongestEnemyInRadiusCallableName = nameof(GetStrongestEnemyInRadius);
-	public readonly string GetWeakestEnemyInRadiusCallableName = nameof(GetWeakestEnemyInRadius);
+	public static readonly Dictionary<TurretTargetMode, string> TargetModeToCallableName = new()
+	{
+		{ TurretTargetMode.First, nameof(GetFirstEnemyInLine) },
+		{ TurretTargetMode.Last, nameof(GetLastEnemyInLine) },
+		{ TurretTargetMode.Closest, nameof(GetClosestEnemyInRadius) },
+		{ TurretTargetMode.Strongest, nameof(GetStrongestEnemyInRadius) },
+		{ TurretTargetMode.Weakest, nameof(GetWeakestEnemyInRadius) }
+	};
 
 	private Node2D user;
 	private Callable GetTargetCallable;
@@ -43,6 +46,16 @@ public partial class TargetComponent : Node
 		}
 
 		return (Node2D)getTargetCallable.Call();
+	}
+
+	public Callable? GetTargetModeCallable(TurretTargetMode targetMode)
+	{
+		if (!TargetModeToCallableName.ContainsKey(targetMode))
+		{
+			GD.PrintErr($"TargetComponent: Target mode {targetMode} is not supported.");
+			return null;
+		}
+		return new Callable(this, TargetModeToCallableName[targetMode]);
 	}
 
 	private Node2D GetWeakestEnemyInRadius()
