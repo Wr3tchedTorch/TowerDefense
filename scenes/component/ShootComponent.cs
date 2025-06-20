@@ -15,7 +15,7 @@ public partial class ShootComponent : Node
 	private TurretAttributesComponent turretAttributesComponent;
 	private Node2D target = null;
 	private bool canShoot = true;
-	
+
 	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup, Marker2D[] barrelMarkers)
 	{
 		if (bulletsGroup == null)

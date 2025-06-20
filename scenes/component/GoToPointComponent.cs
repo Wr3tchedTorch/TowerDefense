@@ -31,10 +31,8 @@ public partial class GoToPointComponent : Node, IMovementComponent
 
 		parent.GlobalPosition += direction * distance;
 		
-		GD.Print($"Distance: {parent.GlobalPosition.DistanceTo(TargetPosition)}");
-
 		var distanceToTarget = parent.GlobalPosition.DistanceTo(TargetPosition);
-		if (distanceToTarget <= REACH_THRESHOLD)
+		if (distanceToTarget <= distance)
 		{
 			parent.GlobalPosition = TargetPosition;
 			isMoving = false;

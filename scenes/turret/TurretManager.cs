@@ -60,7 +60,12 @@ public partial class TurretManager : Node2D
 		ShootComponent.Shooting += CurrentTurret.OnShooting;
 		CurrentTurret.MouseClick += OnMouseClick;
 
-		ShootComponent.Initialize(TurretAttributesComponent, BulletsGroup, CurrentTurret.BarrelMarkers);
+		ShootComponent.Initialize(
+			TurretAttributesComponent,
+			BulletsGroup,
+			CurrentTurret.BarrelMarkers
+		);	
+
 		TurretAttributesComponent.Initialize(TurretAttributesResource, Callable.From(UpdateTurret));
 		TargetComponent.Initialize(TurretAttributesComponent, this);
 

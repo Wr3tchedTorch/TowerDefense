@@ -37,7 +37,7 @@ public partial class BaseBullet : Area2D
 	public override void _Process(double delta)
 	{
 		if (!IsInstanceValid(Target))
-		{
+		{			
 			QueueFree();
 			return;
 		}
