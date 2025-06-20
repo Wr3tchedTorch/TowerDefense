@@ -31,7 +31,5 @@ public partial class BaseEnemy : PathFollow2D
 	private void OnDeath()
 	{
 		QueueFree();
-
-		GD.Print("OH NO! I JUST DIED");
 	}
 }

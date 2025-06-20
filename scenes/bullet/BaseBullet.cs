@@ -20,6 +20,18 @@ public partial class BaseBullet : Area2D
 
 		currentPenetration = Penetration;
 		movementComponent = GetChildren().OfType<IMovementComponent>().FirstOrDefault();
+
+        if (movementComponent is not Node movementComponentNode)
+        {
+            GD.PrintErr("BaseBullet: Movement component is not set or not found.");
+            return;
+        }
+		if (!movementComponentNode.HasSignal("DestinationReached"))
+		{
+			GD.PrintErr("BaseBullet: Movement component does not have DestinationReached signal.");
+			return;
+		}
+        movementComponentNode.Connect("DestinationReached", Callable.From(OnDestinationReached));
 	}
 
 	public override void _Process(double delta)
@@ -44,6 +56,7 @@ public partial class BaseBullet : Area2D
 
 	private void OnDestinationReached()
 	{
+		GD.PrintErr("BaseBullet: destination reached.");
 		QueueFree();
 	}
 }

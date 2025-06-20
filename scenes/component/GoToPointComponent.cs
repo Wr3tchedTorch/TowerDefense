@@ -19,9 +19,9 @@ public partial class GoToPointComponent : Node, IMovementComponent
 		Speed = parent.Speed;
 	}
 
-	public override void _Process(double delta)
-	{
-		if (!isMoving)
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!isMoving)
 		{
 			return;
 		}
@@ -31,10 +31,10 @@ public partial class GoToPointComponent : Node, IMovementComponent
 		parent.GlobalPosition += direction * distance;
 
 		if (parent.GlobalPosition.IsEqualApprox(TargetPosition))
-		{
+		{			
 			EmitSignal(SignalName.DestinationReached);
 		}
-	}
+    }
 
 	public void Stop()
 	{

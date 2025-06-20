@@ -36,6 +36,7 @@ public partial class TurretPlacementManager : Node
 
                 var turretManager = (TurretManager) CreateTurret(turretManagerScenePath);
                 turretManager.GlobalPosition = ghostTurret.GlobalPosition;
+                GD.Print($"BulletsGroup: {BulletsGroup}");
                 turretManager.BulletsGroup = BulletsGroup;
 
                 TurretsGroup.AddChild(turretManager);
@@ -69,7 +70,7 @@ public partial class TurretPlacementManager : Node
         GD.Print($"Turret bought: {turretAttributesResource.Name}");
         GameEvents.Instance.EmitSignal(GameEvents.SignalName.TogglePlacementMenu);
 
-        var ghostTurret = CreateTurret(turretAttributesResource.TurretTierScenes[0]);
+        ghostTurret = CreateTurret(turretAttributesResource.TurretTierScenes[0]);
         ghostTurret.Modulate = new Color("#ffffffaf");
         /*
          TODO: Radius indication texture Instantiation
@@ -86,7 +87,7 @@ public partial class TurretPlacementManager : Node
     private Node2D CreateTurret(string turretScenePath)
     {
         var scene = GD.Load<PackedScene>(turretScenePath);
-        ghostTurret = scene.Instantiate<Node2D>();
-        return ghostTurret;
+        var node = scene.Instantiate<Node2D>();
+        return node;
     }
 }

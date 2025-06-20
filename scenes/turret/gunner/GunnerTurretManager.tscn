@@ -8,8 +8,12 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_klsbt"]
 radius = 150.0
 
-[node name="GunnerTurretManager" instance=ExtResource("1_gg1br")]
+[node name="GunnerTurretManager" node_paths=PackedStringArray("ShootComponent", "TurretAttributesComponent", "TargetComponent") instance=ExtResource("1_gg1br")]
+position = Vector2(1, 2)
 TurretAttributesResource = ExtResource("2_4kc6a")
+ShootComponent = NodePath("ShootComponent")
+TurretAttributesComponent = NodePath("TurretAttributesComponent")
+TargetComponent = NodePath("TargetComponent")
 
 [node name="TurretAttributesComponent" parent="." index="2" instance=ExtResource("3_8t3kc")]
 

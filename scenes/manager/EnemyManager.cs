@@ -13,7 +13,7 @@ public partial class EnemyManager : Node
 	{
 		if (EnemyFactory == null || EnemyGroups.Length == 0)
 		{
-			GD.PrintErr("{EnemyManager ln.18}: EnemyFactory and EnemyGroups must be assigned before use.");
+			GD.PrintErr("EnemyManager: EnemyFactory and EnemyGroups must be assigned before use.");
 			return;
 		}
 		

@@ -1,5 +1,6 @@
 using System;
 using Game.Autoload;
+using Game.Component;
 using Game.Enums;
 using Game.Turret;
 using Godot;
@@ -51,15 +52,16 @@ public partial class TurretUpgradeMenu : Control
 		}
 	}
 
-	private void OnOpenUpgradeMenu(TurretAttributesResource turretAttributesResource, CurrentTurretAttributesResource currentTurretAttributesResource)
+	private void OnOpenUpgradeMenu(TurretAttributesComponent turretAttributesComponent, TurretManager turretManager)
 	{
 		if (isOpen)
 		{
 			GD.PrintErr("UpgradeComponent is already open.");
 			return;
 		}
-		this.turretAttributesResource = turretAttributesResource;
-		this.currentTurretAttributesResource = currentTurretAttributesResource;
+		turretAttributesResource = turretAttributesComponent.TurretAttributesResource;
+		currentTurretAttributesResource = turretAttributesComponent.CurrentTurretAttributesResource;
+		currentTurret = turretManager;
 		UpdateInfo();
 		Visible = true;
 		isOpen = true;

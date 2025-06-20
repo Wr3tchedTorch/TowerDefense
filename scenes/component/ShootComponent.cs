@@ -4,44 +4,32 @@ using Godot;
 
 public partial class ShootComponent : Node
 {
-	[Signal] public delegate void ShootingEventHandler();
+	[Signal] public delegate void ShootingEventHandler(Node2D target);
 
 	public Marker2D[] BarrelMarkers;
 	public Node2D BulletsGroup { get; set; } = null;
+	public bool IsShooting { get; private set; } = false;
 
 	private TurretAttributesComponent turretAttributesComponent;
 	private Node2D target = null;
-	private bool canShoot = true;	
+	private bool canShoot = true;
 	
-	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup)
+	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup, Marker2D[] barrelMarkers)
 	{
 		if (bulletsGroup == null)
 		{
-			GD.PrintErr("ShootComponent (ln 6): BulletsGroup is null.");
+			GD.PrintErr("ShootComponent: BulletsGroup is null.");
 		}
 
 		this.turretAttributesComponent = turretAttributesComponent;
 		BulletsGroup = bulletsGroup;
-	}
-
-	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup, Callable OnShooting)
-	{
-		if (bulletsGroup == null)
-		{
-			GD.PrintErr("ShootComponent (ln 6): BulletsGroup is null.");
-		}
-
-		this.turretAttributesComponent = turretAttributesComponent;
-		BulletsGroup = bulletsGroup;
-
-		Connect(SignalName.Shooting, OnShooting);
+		BarrelMarkers = barrelMarkers;
 	}
 
     public override void _Process(double delta)
 	{
-		if (!IsInstanceValid(target))
+		if (!IsInstanceValid(target) || target == null)
 		{
-			target = null;
 			return;
 		}
 		Shoot(target);
@@ -49,19 +37,19 @@ public partial class ShootComponent : Node
 
 	public void Shoot(Node2D target)
 	{
-		if (!canShoot)
+		if (!canShoot || !IsShooting)
 		{
 			return;
 		}
 		canShoot = false;
-		EmitSignal(SignalName.Shooting);
+		EmitSignal(SignalName.Shooting, target);
 
 		var barrels = BarrelMarkers;
 		foreach (var barrel in barrels)
 		{
 			var bullet = InstantiateBullet(barrel);
 
-			GetTree().GetFirstNodeInGroup("Bullets").AddChild(bullet);
+			BulletsGroup.AddChild(bullet);
 		}
 		ShootingCountdown();
 	}
@@ -70,10 +58,28 @@ public partial class ShootComponent : Node
 	{
 		if (target == null || !IsInstanceValid(target))
 		{
-			GD.PrintErr("ShootComponent (ln 34): Target is null or invalid.");
+			GD.PrintErr("ShootComponent: Target is null or invalid.");
 			return;
 		}
 		this.target = target;
+	}
+
+	public void StartShooting()
+	{
+		if (IsShooting)
+		{
+			return;
+		}
+		IsShooting = true;
+	}
+
+	public void StopShooting()
+	{
+		if (!IsShooting)
+		{
+			return;
+		}
+		IsShooting = false;
 	}
 
 	private async void ShootingCountdown()
@@ -88,7 +94,7 @@ public partial class ShootComponent : Node
 		var bullet = scene.Instantiate<BaseBullet>();
 		if (bullet == null)
 		{
-			GD.PrintErr("ShootComponent (ln 10): Bullet scene is not set or could not be instantiated.");
+			GD.PrintErr("ShootComponent: Bullet scene is not set or could not be instantiated.");
 			return null;
 		}					
 		bullet.GlobalPosition = barrel.GlobalPosition;

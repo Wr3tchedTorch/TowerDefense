@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Game.Autoload;
 using Game.Component;
@@ -8,7 +9,6 @@ using TurretDefense.enums;
 
 namespace Game.Turret;
 
-[Tool]
 public partial class TurretManager : Node2D
 {
 	[ExportGroup("Attributes")]
@@ -19,7 +19,6 @@ public partial class TurretManager : Node2D
 		private set
 		{
 			_turretAttributes = value;
-			UpdateRadius();
 		}
 
 	}
@@ -31,8 +30,22 @@ public partial class TurretManager : Node2D
 	[Export] private TargetComponent TargetComponent { get; set; }
 
 	public bool IsBuilt = false;
-	public Node2D BulletsGroup { get; set; } = null;
+	public Node2D BulletsGroup
+	{
+		get => bulletsGroup;
+		set
+		{
+			bulletsGroup = value;
+			if (CurrentTurret == null)
+			{
+				GD.PrintErr("BaseTurret (ln 55): CurrentTurret is null, cannot initialize ShootComponent.");
+				return;
+			}
+			ShootComponent.Initialize(TurretAttributesComponent, value, CurrentTurret.BarrelMarkers);
+		}
+	}
 
+	private Node2D bulletsGroup = null;
 	private BaseTurret CurrentTurret { get; set; }
 
 	private TurretAttributesResource _turretAttributes;
@@ -43,29 +56,50 @@ public partial class TurretManager : Node2D
 
 	public override void _Ready()
 	{
-		TurretAttributesComponent.Initialize(TurretAttributesResource, Callable.From(UpdateTurret));
-		ShootComponent.Initialize(TurretAttributesComponent, BulletsGroup);
-		TargetComponent.Initialize(TurretAttributesComponent, this);
-
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
+		ShootComponent.Shooting += CurrentTurret.OnShooting;
 		CurrentTurret.MouseClick += OnMouseClick;
 
+		ShootComponent.Initialize(TurretAttributesComponent, BulletsGroup, CurrentTurret.BarrelMarkers);
+		TurretAttributesComponent.Initialize(TurretAttributesResource, Callable.From(UpdateTurret));
+		TargetComponent.Initialize(TurretAttributesComponent, this);
+
 		UpdateTurret();
-		StartBuildingCooldown();
+		StartBuildingCooldown();	
 	}
 
 	public override void _Process(double delta)
 	{
-		var isTargetInvalid = currentTarget == null || DistanceTo(currentTarget) > TurretAttributesComponent.GetRadius();
+		var isTargetInvalid = currentTarget == null || !IsInstanceValid(currentTarget) || IsOutOfRange(currentTarget);
 		if (isTargetInvalid)
 		{
-			currentTarget = TargetComponent.GetTargetEnemy(new Callable(TargetComponent, TargetComponent.GetFirstEnemyInLineCallableName));
-		}
+			if (ShootComponent.IsShooting)
+			{
+				ShootComponent.StopShooting();
+			}
 
+			var targetCallableName = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode switch
+			{
+				Enums.TurretTargetMode.First => TargetComponent.GetFirstEnemyInLineCallableName,
+				Enums.TurretTargetMode.Strongest => TargetComponent.GetStrongestEnemyInRadiusCallableName,
+				Enums.TurretTargetMode.Weakest => TargetComponent.GetWeakestEnemyInRadiusCallableName,
+				Enums.TurretTargetMode.Last => TargetComponent.GetLastEnemyInLineCallableName,
+				Enums.TurretTargetMode.Closest => TargetComponent.GetClosestEnemyInRadiusCallableName,
+				_ => throw new ArgumentOutOfRangeException(nameof(TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode))
+			};
+			currentTarget = TargetComponent.GetTargetEnemy(new Callable(TargetComponent, targetCallableName));
+			return;
+		}
 		ShootComponent.SetTarget(currentTarget);
+		ShootComponent.StartShooting();
+    }
+
+	public bool IsOutOfRange(Node2D enemy)
+	{
+		return GlobalPosition.DistanceTo(enemy.GlobalPosition) > TurretAttributesComponent.GetRadius();
 	}
 
-	private void UpdateTurret()
+    private void UpdateTurret()
 	{
 		UpdateRadius();
 
@@ -80,10 +114,10 @@ public partial class TurretManager : Node2D
 		radiusCollisionShape = GetNodeOrNull<CollisionShape2D>("%RadiusCollisionShape2D");
 		if (radiusCollisionShape == null)
 		{
-			GD.PrintErr("BaseTurret (ln 60): No radius collision shape found.");
+			GD.PrintErr("BaseTurret (ln 82): No radius collision shape found.");
 			return;
 		}
-
+		GD.Print($"BaseTurret (ln 85): {TurretAttributesComponent.Name}.");
 		if (TurretAttributesComponent.CurrentTurretAttributesResource == null)
 		{
 			radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesResource.Radius };
@@ -98,9 +132,10 @@ public partial class TurretManager : Node2D
 		CurrentTurret = null;
 
 		currentTier = TurretAttributesComponent.CurrentTurretAttributesResource.Tier;
-		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];
+		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];		
 
 		CurrentTurret = InstantiateNewTurret(turretScenePath);
+		ShootComponent.Shooting += CurrentTurret.OnShooting;
 		AddChild(CurrentTurret);
 	}
 
@@ -123,7 +158,7 @@ public partial class TurretManager : Node2D
 		{
 			return;
 		}
-		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, this, TurretAttributesComponent);
+		GameEvents.Instance.EmitSignal(GameEvents.SignalName.OpenUpgradeMenu, TurretAttributesComponent, this);
 	}
 
 	private async void StartBuildingCooldown()

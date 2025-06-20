@@ -89,9 +89,9 @@ offset_bottom = 40.0
 script = ExtResource("9_mwfav")
 
 [node name="UpgradeMenuCanvasLayer" type="CanvasLayer" parent="GUI"]
-visible = false
 
 [node name="TurretUpgradeMenu" parent="GUI/UpgradeMenuCanvasLayer" instance=ExtResource("3_1r1qb")]
+visible = false
 
 [node name="TowerPlacementMenuCanvasLayer" type="CanvasLayer" parent="GUI"]
 layer = 2
