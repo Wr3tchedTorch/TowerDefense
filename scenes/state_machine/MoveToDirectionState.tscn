@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dt0jykephrjsl"]
+
+[ext_resource type="Script" uid="uid://2dqp1sjb0asa" path="res://scenes/state_machine/MoveToDirectionState.cs" id="1_qat4u"]
+
+[node name="MoveToDirectionState" type="Node"]
+script = ExtResource("1_qat4u")

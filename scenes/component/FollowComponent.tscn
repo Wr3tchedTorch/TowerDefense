@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bekvfu00ajete"]
-
-[ext_resource type="Script" uid="uid://dn52ihq5cibyl" path="res://scenes/component/FollowComponent.cs" id="1_2is7l"]
-
-[node name="FollowComponent" type="Node"]
-script = ExtResource("1_2is7l")
