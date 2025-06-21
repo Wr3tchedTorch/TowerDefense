@@ -17,7 +17,7 @@ public partial class MoveToDirectionState : State
 
     public override void Enter()
     {
-        parent = GetOwner<BaseBullet>();
+        parent = GetParent<StateMachine>().GetParent<BaseBullet>();
 
         if (parent == null)
         {

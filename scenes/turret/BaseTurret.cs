@@ -1,5 +1,6 @@
-using Game.Turret;
 using Godot;
+
+namespace Game.Turret;
 
 public partial class BaseTurret : Node2D
 {
@@ -7,19 +8,10 @@ public partial class BaseTurret : Node2D
 
 	[Export] public Marker2D[] BarrelMarkers { get; private set; }
 
-	private TurretManager owner;
-
-	public override void _Ready()
-	{
-		var owner = GetOwner<TurretManager>();
-	}
-
 	public void OnShooting(Node2D target)
-	{
-		if (target == null ||
-			!IsInstanceValid(target) ||
-			!IsInstanceValid(owner) ||
-			owner.IsOutOfRange(target))
+	{		
+		if (target == null || !IsInstanceValid(target) || target.IsQueuedForDeletion() ||
+			!IsInstanceValid(this) || this.IsQueuedForDeletion())
 		{
 			return;
 		}
@@ -29,5 +21,5 @@ public partial class BaseTurret : Node2D
 	private void OnMouseClick(Vector2 _)
 	{
 		EmitSignal(SignalName.MouseClick);
-	}
+	}		
 }

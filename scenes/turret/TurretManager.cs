@@ -1,9 +1,6 @@
-using System;
 using System.Linq;
 using Game.Autoload;
 using Game.Component;
-using Game.Extensions;
-using Game.scripts.helper;
 using Godot;
 using TurretDefense.enums;
 
@@ -46,7 +43,7 @@ public partial class TurretManager : Node2D
 	}
 
 	private Node2D bulletsGroup = null;
-	private BaseTurret CurrentTurret { get; set; }
+	private BaseTurret CurrentTurret { get; set; } = null;
 
 	private TurretAttributesResource _turretAttributes;
 	private CollisionShape2D radiusCollisionShape = null;
@@ -131,11 +128,11 @@ public partial class TurretManager : Node2D
 		CurrentTurret = null;
 
 		currentTier = TurretAttributesComponent.CurrentTurretAttributesResource.Tier;
-		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];		
+		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];
 
 		CurrentTurret = InstantiateNewTurret(turretScenePath);
 		ShootComponent.Shooting += CurrentTurret.OnShooting;
-		ShootComponent.BarrelMarkers = CurrentTurret.BarrelMarkers;
+		ShootComponent.BarrelMarkers = CurrentTurret.BarrelMarkers;	
 		AddChild(CurrentTurret);
 	}
 

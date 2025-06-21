@@ -35,7 +35,17 @@ public partial class StateMachine : Node
 
     public void SwitchTo(string stateName)
     {
-        if (!States.ContainsKey(stateName))
+        if (CurrentState != null && CurrentState.Name == stateName)
+        {
+            GD.Print($"Already in state '{stateName}'. No switch needed.");
+            return;
+        }
+        if (string.IsNullOrEmpty(stateName))
+        {
+            GD.PrintErr("State name cannot be null or empty.");
+            return;
+        }        
+        if (!States.TryGetValue(stateName, out State value))
         {
             GD.PrintErr($"State '{stateName}' not found in the state machine.");
             return;
@@ -43,7 +53,7 @@ public partial class StateMachine : Node
         CurrentState?.Exit();
         RemoveChild(CurrentState);
 
-        CurrentState = States[stateName];
+        CurrentState = value;
         CurrentState.Enter();
     }
 
