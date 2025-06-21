@@ -6,7 +6,6 @@ using Godot;
 
 	public partial class GameEvents : Node
 	{
-		[Signal] public delegate void TurretPlacedEventHandler(BuildingComponent buildingComponent);
 		[Signal] public delegate void OpenUpgradeMenuEventHandler(TurretAttributesComponent turretAttributesComponent, TurretManager turretManager);
 		[Signal] public delegate void TogglePlacementMenuEventHandler();
 		[Signal] public delegate void TurretBoughtEventHandler(TurretAttributesResource turretResource);

@@ -9,6 +9,7 @@ public partial class BaseBullet : Area2D
 	public float Damage { get; set; }
 	public float Speed { get; set; }
 	public float MaxDistance { get; set; }
+	public Vector2 TurretPosition { get; set; }
 	public Node2D Target { get; set; }	
 
 	private int currentPenetration = 0;
@@ -19,6 +20,8 @@ public partial class BaseBullet : Area2D
 		AreaEntered += OnAreaEntered;
 
 		currentPenetration = Penetration;
+
+		stateMachine = GetNode<StateMachine>("StateMachine");
 		stateMachine.SwitchTo("MoveToDirectionState");
 	}
 	

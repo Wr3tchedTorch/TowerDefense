@@ -25,7 +25,7 @@ public partial class MoveToDirectionState : State
             return;
         }
 
-        initialPosition = parent.GlobalPosition;
+        initialPosition = parent.TurretPosition;
         maxDistance = parent.MaxDistance;
         speed = parent.Speed;
         direction = parent.GlobalPosition.DirectionTo(parent.Target.GlobalPosition);
