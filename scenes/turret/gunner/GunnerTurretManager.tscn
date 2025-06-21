@@ -1,26 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://cn1xu2fefdt3m"]
+[gd_scene load_steps=8 format=3 uid="uid://cn1xu2fefdt3m"]
 
 [ext_resource type="PackedScene" uid="uid://cxcf33hthqo0e" path="res://scenes/turret/TurretManager.tscn" id="1_gg1br"]
 [ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="2_4kc6a"]
 [ext_resource type="PackedScene" uid="uid://0uiqnoqx12ls" path="res://scenes/turret/gunner/GunnerTierOne.tscn" id="3_3sj5s"]
 [ext_resource type="PackedScene" uid="uid://dc1sfvwahvwls" path="res://scenes/component/TurretAttributesComponent.tscn" id="3_8t3kc"]
+[ext_resource type="PackedScene" uid="uid://bcpcpmqmprrwf" path="res://scenes/turret/gunner/GunnerTierTwo.tscn" id="5_ty2g2"]
+[ext_resource type="PackedScene" uid="uid://ftr6dmyfefbk" path="res://scenes/turret/gunner/GunnerTierThree.tscn" id="6_mtajh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_klsbt"]
 radius = 150.0
 
-[node name="GunnerTurretManager" node_paths=PackedStringArray("ShootComponent", "TurretAttributesComponent", "TargetComponent") instance=ExtResource("1_gg1br")]
+[node name="GunnerTurretManager" node_paths=PackedStringArray("ShootComponent", "TurretAttributesComponent", "TargetComponent", "TurretFactory") instance=ExtResource("1_gg1br")]
 position = Vector2(1, 2)
 TurretAttributesResource = ExtResource("2_4kc6a")
 ShootComponent = NodePath("ShootComponent")
 TurretAttributesComponent = NodePath("TurretAttributesComponent")
 TargetComponent = NodePath("TargetComponent")
+TurretFactory = NodePath("TurretFactory")
 
 [node name="TurretAttributesComponent" parent="." index="2" instance=ExtResource("3_8t3kc")]
 
-[node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
-shape = SubResource("CircleShape2D_klsbt")
-
 [node name="GunnerTierOne" parent="." index="4" instance=ExtResource("3_3sj5s")]
 position = Vector2(3, 0)
+
+[node name="GunnerTierTwo" parent="." index="5" instance=ExtResource("5_ty2g2")]
+visible = false
+
+[node name="GunnerTierThree" parent="." index="6" instance=ExtResource("6_mtajh")]
+visible = false
+
+[node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
+shape = SubResource("CircleShape2D_klsbt")
 
 [connection signal="MouseClick" from="GunnerTierOne" to="." method="OnMouseClick"]

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Game.Bullet;
 using Game.Component;
 using Game.Enums;
+using Game.Turret;
 using Godot;
 
 public partial class ShootComponent : Node
@@ -28,7 +29,7 @@ public partial class ShootComponent : Node
 		BarrelMarkers = barrelMarkers;
 	}
 
-    public override void _Process(double delta)
+	public override void _Process(double delta)
 	{
 		if (!IsInstanceValid(target) || target == null)
 		{
@@ -98,14 +99,20 @@ public partial class ShootComponent : Node
 		{
 			GD.PrintErr("ShootComponent: Bullet scene is not set or could not be instantiated.");
 			return null;
-		}					
+		}
 		bullet.GlobalPosition = barrel.GlobalPosition;
-		bullet.Target 	   = target;
-		bullet.Damage 	   = turretAttributesComponent.GetDamage();
-		bullet.Speed 	   = turretAttributesComponent.GetBulletSpeed();
+		bullet.Target = target;
+		bullet.Damage = turretAttributesComponent.GetDamage();
+		bullet.Speed = turretAttributesComponent.GetBulletSpeed();
 		bullet.Penetration = turretAttributesComponent.TurretAttributesResource.Penetration;
 		bullet.MaxDistance = turretAttributesComponent.GetRadius();
 		bullet.TurretPosition = GetOwner<Node2D>().GlobalPosition;
 		return bullet;
+	}
+
+	public void OnTurretSwitched(BaseTurret newTurret)
+	{	
+		Shooting += newTurret.OnShooting;
+		BarrelMarkers = newTurret.BarrelMarkers;
 	}
 }

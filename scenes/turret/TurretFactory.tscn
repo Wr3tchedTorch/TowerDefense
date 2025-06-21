@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsl8pj1q2l4fs"]
+
+[ext_resource type="Script" uid="uid://dy023a5vxo2lg" path="res://scenes/turret/TurretFactory.cs" id="1_kq0g3"]
+
+[node name="TurretFactory" type="Node"]
+script = ExtResource("1_kq0g3")

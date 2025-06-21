@@ -25,6 +25,7 @@ public partial class TurretManager : Node2D
 	[Export] private ShootComponent ShootComponent { get; set; }
 	[Export] private TurretAttributesComponent TurretAttributesComponent { get; set; }
 	[Export] private TargetComponent TargetComponent { get; set; }
+	[Export] private TurretFactory TurretFactory { get; set; }
 
 	public bool IsBuilt = false;
 	public Node2D BulletsGroup
@@ -54,14 +55,18 @@ public partial class TurretManager : Node2D
 	public override void _Ready()
 	{
 		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
-		ShootComponent.Shooting += CurrentTurret.OnShooting;
 		CurrentTurret.MouseClick += OnMouseClick;
 
+		ShootComponent.Shooting += CurrentTurret.OnShooting;
 		ShootComponent.Initialize(
 			TurretAttributesComponent,
 			BulletsGroup,
 			CurrentTurret.BarrelMarkers
-		);	
+		);
+
+		TurretFactory.Parent = this;
+		TurretFactory.TurretSwitched += ShootComponent.OnTurretSwitched;
+		TurretFactory.Initialize();
 
 		TurretAttributesComponent.Initialize(TurretAttributesResource, Callable.From(UpdateTurret));
 		TargetComponent.Initialize(TurretAttributesComponent, this);
@@ -99,9 +104,10 @@ public partial class TurretManager : Node2D
 	{
 		UpdateRadius();
 
-		if (currentTier != TurretAttributesComponent.CurrentTurretAttributesResource.Tier)
+		var toTier = TurretAttributesComponent.CurrentTurretAttributesResource.Tier;
+		if (currentTier != toTier)
 		{
-			UpdateTurretScene();
+			TurretFactory.SwitchTurrets((int) toTier);
 		}
 	}
 
@@ -122,34 +128,7 @@ public partial class TurretManager : Node2D
 		radiusCollisionShape.Shape = new CircleShape2D() { Radius = TurretAttributesComponent.GetRadius() };
 	}
 
-	private void UpdateTurretScene()
-	{
-		CurrentTurret.QueueFree();
-		CurrentTurret = null;
-
-		currentTier = TurretAttributesComponent.CurrentTurretAttributesResource.Tier;
-		var turretScenePath = TurretAttributesResource.TurretTierScenes[(int)currentTier];
-
-		CurrentTurret = InstantiateNewTurret(turretScenePath);
-		ShootComponent.Shooting += CurrentTurret.OnShooting;
-		ShootComponent.BarrelMarkers = CurrentTurret.BarrelMarkers;	
-		AddChild(CurrentTurret);
-	}
-
-	private BaseTurret InstantiateNewTurret(string turretScenePath)
-	{
-		var scene = GD.Load<PackedScene>(turretScenePath);
-		if (scene == null)
-		{
-			GD.PrintErr($"BaseTurret (ln 70): No turret scene found for tier {currentTier}.");
-			return null;
-		}
-		var newTurret = scene.Instantiate<BaseTurret>();
-		newTurret.MouseClick += OnMouseClick;
-		return newTurret;
-	}
-
-	private void OnMouseClick()
+	public void OnMouseClick()
 	{
 		if (!IsBuilt)
 		{
