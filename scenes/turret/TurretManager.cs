@@ -135,6 +135,7 @@ public partial class TurretManager : Node2D
 
 		CurrentTurret = InstantiateNewTurret(turretScenePath);
 		ShootComponent.Shooting += CurrentTurret.OnShooting;
+		ShootComponent.BarrelMarkers = CurrentTurret.BarrelMarkers;
 		AddChild(CurrentTurret);
 	}
 

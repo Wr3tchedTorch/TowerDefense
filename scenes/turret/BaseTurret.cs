@@ -7,9 +7,19 @@ public partial class BaseTurret : Node2D
 
 	[Export] public Marker2D[] BarrelMarkers { get; private set; }
 
+	private TurretManager owner;
+
+	public override void _Ready()
+	{
+		var owner = GetOwner<TurretManager>();
+	}
+
 	public void OnShooting(Node2D target)
 	{
-		if (target == null || !IsInstanceValid(target) || GetOwner<TurretManager>().IsOutOfRange(target))
+		if (target == null ||
+			!IsInstanceValid(target) ||
+			!IsInstanceValid(owner) ||
+			owner.IsOutOfRange(target))
 		{
 			return;
 		}
