@@ -39,7 +39,11 @@ public partial class TurretManager : Node2D
 				GD.PrintErr("BaseTurret (ln 55): CurrentTurret is null, cannot initialize ShootComponent.");
 				return;
 			}
-			ShootComponent.Initialize(TurretAttributesComponent, value, CurrentTurret.BarrelMarkers);
+			ShootComponent.Initialize(
+				TurretAttributesComponent,
+				value,
+				CurrentTurret.BarrelMarkers,
+				TurretAttributesComponent.TurretAttributesResource.FramePredictionAmount);
 		}
 	}
 
@@ -61,7 +65,8 @@ public partial class TurretManager : Node2D
 		ShootComponent.Initialize(
 			TurretAttributesComponent,
 			BulletsGroup,
-			CurrentTurret.BarrelMarkers
+			CurrentTurret.BarrelMarkers,
+			TurretAttributesComponent.TurretAttributesResource.FramePredictionAmount
 		);
 
 		TurretFactory.Parent = this;
@@ -72,11 +77,16 @@ public partial class TurretManager : Node2D
 		TargetComponent.Initialize(TurretAttributesComponent, this);
 
 		UpdateTurret();
-		StartBuildingCooldown();	
+		StartBuildingCooldown();
 	}
 
 	public override void _Process(double delta)
 	{
+		var targetMode = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode;
+
+		var callable = TargetComponent.GetTargetModeCallable(targetMode);
+		currentTarget = TargetComponent.GetTargetEnemy(callable.Value);
+
 		var isTargetInvalid = currentTarget == null || !IsInstanceValid(currentTarget) || IsOutOfRange(currentTarget);
 		if (isTargetInvalid)
 		{
@@ -84,30 +94,25 @@ public partial class TurretManager : Node2D
 			{
 				ShootComponent.StopShooting();
 			}
-
-			var targetMode = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode;
-			
-			var callable = TargetComponent.GetTargetModeCallable(targetMode);
-			currentTarget = TargetComponent.GetTargetEnemy(callable.Value);
 			return;
 		}
 		ShootComponent.SetTarget(currentTarget);
 		ShootComponent.StartShooting();
-    }
+	}
 
 	public bool IsOutOfRange(Node2D enemy)
 	{
 		return GlobalPosition.DistanceTo(enemy.GlobalPosition) > TurretAttributesComponent.GetRadius();
 	}
 
-    private void UpdateTurret()
+	private void UpdateTurret()
 	{
 		UpdateRadius();
 
 		var toTier = TurretAttributesComponent.CurrentTurretAttributesResource.Tier;
 		if (currentTier != toTier)
 		{
-			TurretFactory.SwitchTurrets((int) toTier);
+			TurretFactory.SwitchTurrets((int)toTier);
 		}
 	}
 

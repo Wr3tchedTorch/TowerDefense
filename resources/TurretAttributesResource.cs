@@ -26,4 +26,5 @@ public partial class TurretAttributesResource : Resource
     [ExportGroup("Tecnical Details")]
     [Export] public float MinFireRateDelay { get; private set; } = 0.2f;   // 5 shots/second at max fire rate
     [Export] public float MaxFireRateDelay { get; private set; } = 3.0f;   // 1 shot/3 seconds at min fire rate
+    [Export] public int FramePredictionAmount { get; private set; } = 7; // How many frames ahead the turret will predict the enemy's position
 }

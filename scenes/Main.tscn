@@ -44,6 +44,7 @@ TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn
 BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 MinFireRateDelay = 0.2
 MaxFireRateDelay = 3.0
+FramePredictionAmount = 7
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7a2j1")
@@ -80,6 +81,9 @@ curve = SubResource("Curve2D_mwfav")
 [node name="Turrets" type="Node2D" parent="GameWorld"]
 
 [node name="Bullets" type="Node2D" parent="GameWorld"]
+
+[node name="Marker2D" type="Marker2D" parent="GameWorld"]
+position = Vector2(960, 612)
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3

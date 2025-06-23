@@ -16,15 +16,21 @@ public partial class ShootComponent : Node
 	private TurretAttributesComponent turretAttributesComponent;
 	private Node2D target = null;
 	private bool canShoot = true;
+	private int framePredictionAmount;
 
-	public void Initialize(TurretAttributesComponent turretAttributesComponent, Node2D bulletsGroup, Marker2D[] barrelMarkers)
+	public void Initialize(
+		TurretAttributesComponent turretAttributesComponent,
+		Node2D bulletsGroup,
+		Marker2D[] barrelMarkers,
+		int framePredictionAmount
+	)
 	{
 		if (bulletsGroup == null)
 		{
 			GD.PrintErr("ShootComponent: BulletsGroup is null.");
 		}
-
 		this.turretAttributesComponent = turretAttributesComponent;
+		this.framePredictionAmount = framePredictionAmount;
 		BulletsGroup = bulletsGroup;
 		BarrelMarkers = barrelMarkers;
 	}
@@ -61,7 +67,6 @@ public partial class ShootComponent : Node
 	{
 		if (target == null || !IsInstanceValid(target))
 		{
-			GD.PrintErr("ShootComponent: Target is null or invalid.");
 			return;
 		}
 		this.target = target;
@@ -107,6 +112,8 @@ public partial class ShootComponent : Node
 		bullet.Penetration = turretAttributesComponent.TurretAttributesResource.Penetration;
 		bullet.MaxMovementDistance = turretAttributesComponent.GetRadius();
 		bullet.TurretPosition = GetOwner<Node2D>().GlobalPosition;
+
+		bullet.Init(framePredictionAmount);
 		return bullet;
 	}
 

@@ -1,3 +1,4 @@
+using Game.Enemy;
 using Game.State;
 using Godot;
 using TowerDefense.scripts.interfaces;
@@ -12,37 +13,42 @@ public partial class BaseBullet : Area2D, IMovableToDirection
 	public int Penetration { get; set; }
 	public float Damage { get; set; }
 	public Vector2 TurretPosition { get; set; }
-	public Node2D Target { get; set; }	
+	public Node2D Target { get; set; }
 
 	public float Speed { get; set; }
-    public float MaxMovementDistance { get; set; }
-    public Vector2 MovementDirection { get; set; }
-    public Vector2 InitialPosition
+	public float MaxMovementDistance { get; set; }
+	public Vector2 MovementDirection { get; set; }
+	public Vector2 InitialPosition
 	{
 		get => _initialPosition;
 		set => _initialPosition = value;
 	}
 
 	private Vector2 _initialPosition;
+	private int currentPenetration = 0;
 
-    private int currentPenetration = 0;
+	public void Init(int framePredictionAmount)
+	{
+		_initialPosition = TurretPosition;
+
+		var enemy = Target as BaseEnemy;
+		var nextEnemyPosition = enemy.GetPositionInFrames(10);
+		GD.Print($"Next position: {nextEnemyPosition}, Current position: {enemy.GlobalPosition}");
+
+		MovementDirection = _initialPosition.DirectionTo(nextEnemyPosition);
+		currentPenetration = Penetration;
+	}
 
 	public override void _Ready()
 	{
-		_initialPosition = TurretPosition;		
-		MovementDirection = GlobalPosition.DirectionTo(Target.GlobalPosition);
-
 		AreaEntered += OnAreaEntered;
-
-		currentPenetration = Penetration;
-
 		StateMachine.Init(this);
 	}
-	
+
 	public override void _Process(double delta)
 	{
 		if (!IsInstanceValid(Target))
-		{			
+		{
 			QueueFree();
 			return;
 		}
@@ -61,5 +67,5 @@ public partial class BaseBullet : Area2D, IMovableToDirection
 	private void OnDestinationReached()
 	{
 		QueueFree();
-	}
+	}	
 }
