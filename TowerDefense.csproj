@@ -4,7 +4,4 @@
     <CodeAnalysisRuleSet>c:\Users\ericm\Desktop\01_Work\01_Game Dev\01_Projects\TowerDefense\.vscode\ruleset.xml</CodeAnalysisRuleSet>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="scripts/interfaces/" />
-  </ItemGroup>
 </Project>

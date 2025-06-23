@@ -1,5 +1,5 @@
-using Game.Bullet;
 using Godot;
+using TowerDefense.scripts.interfaces;
 
 namespace Game.State;
 
@@ -7,40 +7,34 @@ public partial class MoveToDirectionState : State
 {
     [Signal] public delegate void DestinationReachedEventHandler();
 
-    private Vector2 initialPosition;
-    private Vector2 direction;
-    private float maxDistance;
-    private float speed = 200f;
+    public override Node2D Parent { get; set; } = null;
 
+    private IMovableToDirection movableToDirectionParent;
     private bool isMoving = false;
-    private BaseBullet parent;
 
     public override void Enter()
     {
-        parent = GetParent<StateMachine>().GetParent<BaseBullet>();
+        movableToDirectionParent = Parent as IMovableToDirection;
 
-        if (parent == null)
+        if (movableToDirectionParent == null)
         {
-            GD.PrintErr("MoveToDirectionState must be a child of BaseBullet.");
+            GD.PrintErr("MoveToDirectionState must be a child of a class implementing IMovableToDirection.");
             return;
         }
-
-        initialPosition = parent.TurretPosition;
-        maxDistance = parent.MaxDistance;
-        speed = parent.Speed;
-        direction = parent.GlobalPosition.DirectionTo(parent.Target.GlobalPosition);
         isMoving = true;
     }
 
     public override void PhysicsUpdate(double delta)
     {
-        if (!isMoving)
+        bool areAttributesValid = movableToDirectionParent.InitialPosition != Vector2.Zero &&
+                                    movableToDirectionParent.MovementDirection != Vector2.Zero &&
+                                    movableToDirectionParent.Speed > 0;
+        if (!isMoving || !areAttributesValid)
         {
             return;
         }
-        var distance = speed * (float)delta;
-
-        parent.GlobalPosition += direction * distance;
+        var distance = movableToDirectionParent.Speed * (float)delta;
+        Parent.GlobalPosition += movableToDirectionParent.MovementDirection * distance;
 
         if (IsOutOfRange())
         {
@@ -57,6 +51,6 @@ public partial class MoveToDirectionState : State
 
     private bool IsOutOfRange()
     {
-        return parent.GlobalPosition.DistanceTo(initialPosition) >= maxDistance;
+        return Parent.GlobalPosition.DistanceTo(movableToDirectionParent.InitialPosition) >= movableToDirectionParent.MaxMovementDistance;
     }
 }

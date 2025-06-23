@@ -86,8 +86,8 @@ public partial class TurretManager : Node2D
 			}
 
 			var targetMode = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode;
+			
 			var callable = TargetComponent.GetTargetModeCallable(targetMode);
-
 			currentTarget = TargetComponent.GetTargetEnemy(callable.Value);
 			return;
 		}

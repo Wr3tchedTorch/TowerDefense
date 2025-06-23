@@ -6,10 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="3_k3ddo"]
 [ext_resource type="PackedScene" uid="uid://dt0jykephrjsl" path="res://scenes/state_machine/MoveToDirectionState.tscn" id="3_mdijr"]
 
-[node name="TurretBullet" type="Area2D"]
+[node name="TurretBullet" type="Area2D" node_paths=PackedStringArray("StateMachine")]
 collision_layer = 8
 collision_mask = 2
 script = ExtResource("1_5sn2d")
+StateMachine = NodePath("StateMachine")
 
 [node name="StateMachine" parent="." instance=ExtResource("2_8fr5m")]
 

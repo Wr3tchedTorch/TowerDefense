@@ -105,7 +105,7 @@ public partial class ShootComponent : Node
 		bullet.Damage = turretAttributesComponent.GetDamage();
 		bullet.Speed = turretAttributesComponent.GetBulletSpeed();
 		bullet.Penetration = turretAttributesComponent.TurretAttributesResource.Penetration;
-		bullet.MaxDistance = turretAttributesComponent.GetRadius();
+		bullet.MaxMovementDistance = turretAttributesComponent.GetRadius();
 		bullet.TurretPosition = GetOwner<Node2D>().GlobalPosition;
 		return bullet;
 	}

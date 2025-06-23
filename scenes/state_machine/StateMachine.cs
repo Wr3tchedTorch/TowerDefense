@@ -8,9 +8,16 @@ public partial class StateMachine : Node
     public Dictionary<string, State> States { get; private set; } = [];
 
     public State CurrentState { get; private set; } = null;
+    public Node2D Parent { get; private set; } = null;
 
-    public override void _Ready()
+    public void Init(Node2D parent)
     {
+        if (parent == null)
+        {
+            GD.PrintErr("StateMachine must be initialized with a valid parent Node2D.");
+            return;
+        }
+        Parent = parent;
         AddStates();
     }
 
@@ -21,6 +28,7 @@ public partial class StateMachine : Node
         {
             if (child is State state && !States.ContainsKey(state.Name))
             {
+                state.Parent = Parent;
                 States[state.Name] = state;
                 if (CurrentState == null)
                 {
