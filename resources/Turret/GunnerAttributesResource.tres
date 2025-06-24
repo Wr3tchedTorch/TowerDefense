@@ -21,4 +21,4 @@ TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn
 BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
 MinFireRateDelay = 0.2
 MaxFireRateDelay = 3.0
-FramePredictionAmount = 7
+FramePredictionAmount = 20

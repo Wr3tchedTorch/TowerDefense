@@ -32,7 +32,7 @@ public partial class BaseBullet : Area2D, IMovableToDirection
 		_initialPosition = TurretPosition;
 
 		var enemy = Target as BaseEnemy;
-		var nextEnemyPosition = enemy.GetPositionInFrames(10);
+		var nextEnemyPosition = enemy.GetPositionInFrames(framePredictionAmount);
 		GD.Print($"Next position: {nextEnemyPosition}, Current position: {enemy.GlobalPosition}");
 
 		MovementDirection = _initialPosition.DirectionTo(nextEnemyPosition);
