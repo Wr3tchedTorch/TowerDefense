@@ -36,13 +36,11 @@ public partial class TurretManager : Node2D
 			bulletsGroup = value;
 			if (CurrentTurret == null)
 			{
-				GD.PrintErr("BaseTurret (ln 55): CurrentTurret is null, cannot initialize ShootComponent.");
 				return;
 			}
 			ShootComponent.Initialize(
 				TurretAttributesComponent,
 				value,
-				CurrentTurret.BarrelMarkers,
 				TurretAttributesComponent.TurretAttributesResource.FramePredictionAmount);
 		}
 	}
@@ -57,47 +55,31 @@ public partial class TurretManager : Node2D
 	private Node2D currentTarget = null;
 
 	public override void _Ready()
-	{
-		CurrentTurret = GetChildren().OfType<BaseTurret>().FirstOrDefault();
-		CurrentTurret.MouseClick += OnMouseClick;
+	{				
+		TurretAttributesComponent.Initialize(TurretAttributesResource, Callable.From(UpdateTurret));
 
-		ShootComponent.Shooting += CurrentTurret.OnShooting;
 		ShootComponent.Initialize(
 			TurretAttributesComponent,
-			BulletsGroup,
-			CurrentTurret.BarrelMarkers,
+			bulletsGroup,
 			TurretAttributesComponent.TurretAttributesResource.FramePredictionAmount
 		);
 
+		TargetComponent.Initialize(TurretAttributesComponent, this);
+
 		TurretFactory.Parent = this;
 		TurretFactory.TurretSwitched += ShootComponent.OnTurretSwitched;
-		TurretFactory.Initialize();
-
-		TurretAttributesComponent.Initialize(TurretAttributesResource, Callable.From(UpdateTurret));
-		TargetComponent.Initialize(TurretAttributesComponent, this);
+		TurretFactory.Initialize(
+			ShootComponent,
+			TurretAttributesComponent,
+			TargetComponent,
+			new Callable(this, "IsOutOfRange")
+		);
+		CurrentTurret = TurretFactory.CurrentTurret;
+		ShootComponent.BarrelMarkers = CurrentTurret.BarrelMarkers;
+		ShootComponent.Shooting += CurrentTurret.OnShooting;
 
 		UpdateTurret();
 		StartBuildingCooldown();
-	}
-
-	public override void _Process(double delta)
-	{
-		var targetMode = TurretAttributesComponent.CurrentTurretAttributesResource.TurretTargetMode;
-
-		var callable = TargetComponent.GetTargetModeCallable(targetMode);
-		currentTarget = TargetComponent.GetTargetEnemy(callable.Value);
-
-		var isTargetInvalid = currentTarget == null || !IsInstanceValid(currentTarget) || IsOutOfRange(currentTarget);
-		if (isTargetInvalid)
-		{
-			if (ShootComponent.IsShooting)
-			{
-				ShootComponent.StopShooting();
-			}
-			return;
-		}
-		ShootComponent.SetTarget(currentTarget);
-		ShootComponent.StartShooting();
 	}
 
 	public bool IsOutOfRange(Node2D enemy)

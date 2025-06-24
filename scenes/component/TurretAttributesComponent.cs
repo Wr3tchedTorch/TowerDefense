@@ -9,9 +9,8 @@ public partial class TurretAttributesComponent : Node
 
     public void Initialize(TurretAttributesResource turretAttributesResource, Callable OnAttributesChanged)
     {
-        var currentTurretAttributesResource = new CurrentTurretAttributesResource();
+        CurrentTurretAttributesResource = new CurrentTurretAttributesResource();
         TurretAttributesResource = turretAttributesResource;
-        CurrentTurretAttributesResource = currentTurretAttributesResource;
 
         CurrentTurretAttributesResource.Connect(
             CurrentTurretAttributesResource.SignalName.AttributesChanged,

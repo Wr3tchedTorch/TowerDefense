@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Game.Component;
 using Game.Turret;
 using Godot;
 
@@ -11,21 +12,33 @@ public partial class TurretFactory : Node
 
     public TurretManager Parent { get; set; }
 
-    private BaseTurret CurrentTurret { get; set; } = null;
+    public BaseTurret CurrentTurret { get; private set; } = null;
     private List<BaseTurret> Turrets { get; set; } = [];
 
     private int currentTier = 0;
 
-    public void Initialize()
+    public void Initialize(
+        ShootComponent shootComponent,
+		TurretAttributesComponent turretAttributesComponent,
+		TargetComponent targetComponent,
+		Callable parentIsOutOfRangeCallable
+    )
     {
         var children = Parent.GetChildren().OfType<BaseTurret>();
         foreach (var child in children)
         {
             Turrets.Add(child);
+            child.Initialize(
+                shootComponent,
+                turretAttributesComponent,
+                targetComponent,
+                parentIsOutOfRangeCallable
+            );
+            child.MouseClick += Parent.OnMouseClick;
+
             if (CurrentTurret == null)
             {
                 CurrentTurret = child;
-                CurrentTurret.MouseClick += Parent.OnMouseClick;
                 continue;
             }
             Parent.RemoveChild(child);

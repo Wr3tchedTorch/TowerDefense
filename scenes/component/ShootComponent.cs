@@ -21,7 +21,6 @@ public partial class ShootComponent : Node
 	public void Initialize(
 		TurretAttributesComponent turretAttributesComponent,
 		Node2D bulletsGroup,
-		Marker2D[] barrelMarkers,
 		int framePredictionAmount
 	)
 	{
@@ -32,7 +31,6 @@ public partial class ShootComponent : Node
 		this.turretAttributesComponent = turretAttributesComponent;
 		this.framePredictionAmount = framePredictionAmount;
 		BulletsGroup = bulletsGroup;
-		BarrelMarkers = barrelMarkers;
 	}
 
 	public override void _Process(double delta)
