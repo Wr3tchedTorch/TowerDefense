@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjb6xk6qdkmt0"]
+[gd_scene load_steps=8 format=3 uid="uid://bjb6xk6qdkmt0"]
 
 [ext_resource type="PackedScene" uid="uid://cxcf33hthqo0e" path="res://scenes/turret/TurretManager.tscn" id="1_l2dw3"]
 [ext_resource type="Resource" uid="uid://rg6dn23dlpdw" path="res://resources/Turret/SniperAttributesResource.tres" id="2_86b6b"]
 [ext_resource type="PackedScene" uid="uid://dc1sfvwahvwls" path="res://scenes/component/TurretAttributesComponent.tscn" id="3_mhy1b"]
+[ext_resource type="PackedScene" uid="uid://dl7noj5xn7ko6" path="res://scenes/turret/sniper/SniperTierOne.tscn" id="4_c6vyy"]
+[ext_resource type="PackedScene" uid="uid://njqe30x774b8" path="res://scenes/turret/sniper/SniperTierTwo.tscn" id="5_bo7be"]
+[ext_resource type="PackedScene" uid="uid://br01k2hvyxfwl" path="res://scenes/turret/sniper/SniperTierThree.tscn" id="6_83g3b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_klsbt"]
 radius = 150.0
 
 [node name="SniperTurretManager" node_paths=PackedStringArray("ShootComponent", "TurretAttributesComponent", "TargetComponent", "TurretFactory") instance=ExtResource("1_l2dw3")]
-position = Vector2(1, 2)
 TurretAttributesResource = ExtResource("2_86b6b")
 ShootComponent = NodePath("ShootComponent")
 TurretAttributesComponent = NodePath("TurretAttributesComponent")
@@ -16,6 +18,14 @@ TargetComponent = NodePath("TargetComponent")
 TurretFactory = NodePath("TurretFactory")
 
 [node name="TurretAttributesComponent" parent="." index="2" instance=ExtResource("3_mhy1b")]
+
+[node name="SniperTierOne" parent="." index="4" instance=ExtResource("4_c6vyy")]
+
+[node name="SniperTierTwo" parent="." index="5" instance=ExtResource("5_bo7be")]
+visible = false
+
+[node name="SniperTierThree" parent="." index="6" instance=ExtResource("6_83g3b")]
+visible = false
 
 [node name="RadiusCollisionShape2D" parent="RadiusArea2D" index="0"]
 shape = SubResource("CircleShape2D_klsbt")

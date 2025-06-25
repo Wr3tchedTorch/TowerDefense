@@ -19,9 +19,10 @@ public partial class TurretFactory : Node
 
     public void Initialize(
         ShootComponent shootComponent,
-		TurretAttributesComponent turretAttributesComponent,
-		TargetComponent targetComponent,
-		Callable parentIsOutOfRangeCallable
+        TurretAttributesComponent turretAttributesComponent,
+        TargetComponent targetComponent,
+        Callable parentIsOutOfRangeCallable,
+        int framePredictionAmount
     )
     {
         var children = Parent.GetChildren().OfType<BaseTurret>();
@@ -32,8 +33,9 @@ public partial class TurretFactory : Node
                 shootComponent,
                 turretAttributesComponent,
                 targetComponent,
-                parentIsOutOfRangeCallable
-            );
+                parentIsOutOfRangeCallable,
+                framePredictionAmount
+            );            
             child.MouseClick += Parent.OnMouseClick;
 
             if (CurrentTurret == null)

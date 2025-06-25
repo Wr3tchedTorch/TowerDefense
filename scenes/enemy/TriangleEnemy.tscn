@@ -32,6 +32,7 @@ healthComponent = NodePath("HealthComponent")
 [node name="HealthComponent" parent="." instance=ExtResource("2_tb1i7")]
 
 [node name="BorderLine2D" parent="." node_paths=PackedStringArray("Polygon2D") instance=ExtResource("4_h0w64")]
+position = Vector2(0, -15)
 points = PackedVector2Array(0, -30.0222, 26, 15.0111, -26, 15.0111)
 closed = true
 joint_mode = 2
@@ -40,11 +41,11 @@ Polygon2D = NodePath("../TrianglePolygon2D")
 [node name="TrianglePolygon2D" parent="." instance=ExtResource("4_sfb70")]
 modulate = Color(0.982224, 0.576535, 0.625555, 1)
 color = Color(0.205631, 0.0694867, 0.116378, 1)
+offset = Vector2(0, -15)
 polygon = PackedVector2Array(0, -30.0222, 26, 15.0111, -26, 15.0111)
 Size = 52.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("_healthComponent") instance=ExtResource("3_afhbi")]
-visible = false
 collision_layer = 2
 collision_mask = 8
 _healthComponent = NodePath("../HealthComponent")

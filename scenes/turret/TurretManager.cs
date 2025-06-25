@@ -72,9 +72,11 @@ public partial class TurretManager : Node2D
 			ShootComponent,
 			TurretAttributesComponent,
 			TargetComponent,
-			new Callable(this, "IsOutOfRange")
+			new Callable(this, "IsOutOfRange"),
+			TurretAttributesComponent.TurretAttributesResource.FramePredictionAmount
 		);
 		CurrentTurret = TurretFactory.CurrentTurret;
+
 		ShootComponent.BarrelMarkers = CurrentTurret.BarrelMarkers;
 		ShootComponent.Shooting += CurrentTurret.OnShooting;
 

@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://5m1wyefdnt0t"]
+[gd_scene load_steps=5 format=3 uid="uid://5m1wyefdnt0t"]
 
 [ext_resource type="Script" uid="uid://cg7i018k23kc1" path="res://scenes/bullet/BaseBullet.cs" id="1_falnh"]
 [ext_resource type="PackedScene" uid="uid://ja30jyi7lrj5" path="res://scenes/state_machine/StateMachine.tscn" id="2_mfv2k"]
 [ext_resource type="PackedScene" uid="uid://dt0jykephrjsl" path="res://scenes/state_machine/MoveToDirectionState.tscn" id="3_xjeon"]
-[ext_resource type="PackedScene" uid="uid://bkiko76ftkx7g" path="res://scenes/polygon/TrianglePolygon2D.tscn" id="4_falnh"]
 [ext_resource type="PackedScene" uid="uid://chdwa26a720ie" path="res://scenes/polygon/BorderLine2D.tscn" id="5_wydcf"]
 
 [node name="HighPenBullet" type="Area2D" node_paths=PackedStringArray("StateMachine")]
@@ -19,16 +18,15 @@ StateMachine = NodePath("StateMachine")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(14, 0, -7, 12, -7, -12)
 
-[node name="TrianglePolygon2D" parent="." instance=ExtResource("4_falnh")]
-modulate = Color(0, 0.117647, 0.133333, 1)
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 0.117647, 0.133333, 1)
 polygon = PackedVector2Array(14, 0, -7, 12, -7, -12)
-Size = 25.0
 
 [node name="BorderLine2D" parent="." node_paths=PackedStringArray("Polygon2D") instance=ExtResource("5_wydcf")]
 points = PackedVector2Array(14, 0, -7, 12, -7, -12)
 closed = true
 width = 3.0
 joint_mode = 2
-Polygon2D = NodePath("../TrianglePolygon2D")
+Polygon2D = NodePath("../Polygon2D")
 
 [connection signal="DestinationReached" from="StateMachine/MoveToDirectionState" to="." method="OnDestinationReached"]

@@ -29,6 +29,9 @@ public partial class BaseBullet : Area2D, IMovableToDirection
 
 	public void Init(int framePredictionAmount)
 	{
+		float movementDistanceOffsetZone = 40;
+		MaxMovementDistance += movementDistanceOffsetZone;
+
 		_initialPosition = TurretPosition;
 
 		var enemy = Target as BaseEnemy;
@@ -36,6 +39,8 @@ public partial class BaseBullet : Area2D, IMovableToDirection
 		GD.Print($"Next position: {nextEnemyPosition}, Current position: {enemy.GlobalPosition}");
 
 		MovementDirection = _initialPosition.DirectionTo(nextEnemyPosition);
+		LookAt(nextEnemyPosition);
+
 		currentPenetration = Penetration;
 	}
 

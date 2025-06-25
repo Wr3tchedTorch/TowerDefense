@@ -10,7 +10,7 @@ public partial class BaseTurret : Node2D
 
 	[Export] public Marker2D[] BarrelMarkers { get; private set; }
 
-	public int FramePredictionAmount { get; }	
+	public int FramePredictionAmount { get; set; }	
 	public ShootComponent ShootComponent { get; set; }
 	public TurretAttributesComponent TurretAttributesComponent { get; set; }
 	public TargetComponent TargetComponent { get; set; }
@@ -23,13 +23,15 @@ public partial class BaseTurret : Node2D
 		ShootComponent shootComponent,
 		TurretAttributesComponent turretAttributesComponent,
 		TargetComponent targetComponent,
-		Callable parentIsOutOfRangeCallable
+		Callable parentIsOutOfRangeCallable,
+		int framePredictionAmount
 	)
 	{
 		ShootComponent = shootComponent;
 		TurretAttributesComponent = turretAttributesComponent;
 		TargetComponent = targetComponent;
 		ParentIsOutOfRangeCallable = parentIsOutOfRangeCallable;
+		FramePredictionAmount = framePredictionAmount;
 
 		isInitialized = true;
 	}
