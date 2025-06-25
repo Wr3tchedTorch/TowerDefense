@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://by0ggy488s0yj"]
+[gd_scene load_steps=15 format=3 uid="uid://by0ggy488s0yj"]
 
 [ext_resource type="Script" uid="uid://cx1053wm14kse" path="res://scenes/Main.cs" id="1_7a2j1"]
 [ext_resource type="PackedScene" uid="uid://clawdiyvi3ihw" path="res://scenes/manager/EnemyManager.tscn" id="2_nheu6"]
@@ -10,8 +10,8 @@
 [ext_resource type="Resource" uid="uid://cjsvbrxuahd30" path="res://resources/Turret/GunnerAttributesResource.tres" id="4_7cebm"]
 [ext_resource type="PackedScene" uid="uid://sjjtb5be62mn" path="res://scenes/ui/TurretPlacementMenu.tscn" id="4_020b2"]
 [ext_resource type="PackedScene" uid="uid://b8wv31xs8hop4" path="res://scenes/manager/TurretPlacementManager.tscn" id="5_3p2gp"]
-[ext_resource type="Script" uid="uid://bkqllypffl1cv" path="res://resources/TurretAttributesResource.cs" id="5_dxsgy"]
 [ext_resource type="Script" uid="uid://d4h8adu32a3q7" path="res://scenes/ui/Gui.cs" id="9_mwfav"]
+[ext_resource type="Resource" uid="uid://rg6dn23dlpdw" path="res://resources/Turret/SniperAttributesResource.tres" id="12_bjd11"]
 
 [sub_resource type="Curve2D" id="Curve2D_qmy6f"]
 _data = {
@@ -24,27 +24,6 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 688, -125, 0, 0, 0, 0, 688, 1165)
 }
 point_count = 2
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dqdw5"]
-
-[sub_resource type="Resource" id="Resource_vpcvf"]
-script = ExtResource("5_dxsgy")
-Name = "Cachorro Quente"
-Description = "A fast shooting turret with long range and average damage/penetration."
-Price = 350.0
-ClicksRequiredForBuilding = 50
-DisplayImage = SubResource("PlaceholderTexture2D_dqdw5")
-Damage = 40.0
-BulletSpeed = 900.0
-Radius = 150.0
-FireRate = 90.0
-Penetration = 1
-TurretManagerScenePath = ""
-TurretTierScenes = Array[String](["res://scenes/turret/gunner/GunnerTierOne.tscn", "res://scenes/turret/gunner/GunnerTierTwo.tscn", "res://scenes/turret/gunner/GunnerTierThree.tscn"])
-BulletScenePath = "res://scenes/bullet/TurretBullet.tscn"
-MinFireRateDelay = 0.2
-MaxFireRateDelay = 3.0
-FramePredictionAmount = 7
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7a2j1")
@@ -104,6 +83,6 @@ layer = 2
 anchors_preset = 11
 anchor_left = 1.0
 grow_horizontal = 0
-TurretAttributesResources = Array[Object]([ExtResource("4_7cebm"), SubResource("Resource_vpcvf"), ExtResource("4_7cebm")])
+TurretAttributesResources = Array[Object]([ExtResource("4_7cebm"), ExtResource("12_bjd11")])
 
 [connection signal="spawn_enemy_signal" from="GameWorld/ConsoleManager" to="GameWorld/EnemyManager" method="OnSpawnEnemyRequested"]

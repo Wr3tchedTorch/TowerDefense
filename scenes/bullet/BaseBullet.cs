@@ -52,7 +52,6 @@ public partial class BaseBullet : Area2D, IMovableToDirection
 			QueueFree();
 			return;
 		}
-		LookAt(Target.GlobalPosition);
 	}
 
 	private void OnAreaEntered(Node2D area)

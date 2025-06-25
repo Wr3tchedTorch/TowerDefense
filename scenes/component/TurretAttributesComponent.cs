@@ -21,7 +21,8 @@ public partial class TurretAttributesComponent : Node
     public float GetDamage()
     {
         return TurretAttributesResource.Damage *
-                (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f);
+                (1 + CurrentTurretAttributesResource.DamageUpgradePercentage / 100f)
+                * (1 + (int)CurrentTurretAttributesResource.Tier * 0.5f);
     }
 
     public float GetFireRate()
@@ -40,12 +41,14 @@ public partial class TurretAttributesComponent : Node
     public float GetBulletSpeed()
     {
         return TurretAttributesResource.BulletSpeed *
-                (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f);
+                (1 + CurrentTurretAttributesResource.BulletSpeedUpgradePercentage / 100f)
+                * (1 + (int)CurrentTurretAttributesResource.Tier * 0.5f);
     }
 
     public float GetRadius()
     {
         return TurretAttributesResource.Radius *
-                (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f);
+                (1 + CurrentTurretAttributesResource.RadiusUpgradePercentage / 100f)
+                * (1 + (int)CurrentTurretAttributesResource.Tier * 0.5f);
     }
 }

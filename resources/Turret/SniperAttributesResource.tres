@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="TurretAttributesResource" load_steps=3 format=3 uid="uid://rg6dn23dlpdw"]
+
+[ext_resource type="Script" uid="uid://bkqllypffl1cv" path="res://resources/TurretAttributesResource.cs" id="1_17bus"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_17bus"]
+
+[resource]
+script = ExtResource("1_17bus")
+Name = "Sniper"
+Description = "Slow shots with high range and penetration."
+Price = 400.0
+ClicksRequiredForBuilding = 75
+DisplayImage = SubResource("PlaceholderTexture2D_17bus")
+Damage = 120.0
+BulletSpeed = 1250.0
+Radius = 400.0
+FireRate = 60.0
+Penetration = 3
+TurretManagerScenePath = "uid://bjb6xk6qdkmt0"
+TurretTierScenes = ["res://scenes/turret/sniper/SniperTierOne.tscn"]
+BulletScenePath = "uid://5m1wyefdnt0t"
+MinFireRateDelay = 0.2
+MaxFireRateDelay = 3.0
+FramePredictionAmount = 18
+metadata/_custom_type_script = "uid://bkqllypffl1cv"

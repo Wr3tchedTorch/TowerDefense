@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxcf33hthqo0e"]
+[gd_scene load_steps=7 format=3 uid="uid://cxcf33hthqo0e"]
 
 [ext_resource type="Script" uid="uid://dlq5jy78mqmu0" path="res://scenes/turret/TurretManager.cs" id="1_d8gd0"]
 [ext_resource type="PackedScene" uid="uid://dsl8pj1q2l4fs" path="res://scenes/turret/TurretFactory.tscn" id="2_l26im"]
 [ext_resource type="PackedScene" uid="uid://ce5t514nifkc6" path="res://scenes/component/TargetComponent.tscn" id="2_r86kj"]
 [ext_resource type="PackedScene" uid="uid://fyw55xgcoqnm" path="res://scenes/component/ShootComponent.tscn" id="3_yyerj"]
+[ext_resource type="PackedScene" uid="uid://dl7noj5xn7ko6" path="res://scenes/turret/sniper/SniperTierOne.tscn" id="5_ebi3o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vk2gu"]
 radius = 0.0
@@ -17,6 +18,8 @@ script = ExtResource("1_d8gd0")
 [node name="TargetComponent" parent="." instance=ExtResource("2_r86kj")]
 
 [node name="ShootComponent" parent="." instance=ExtResource("3_yyerj")]
+
+[node name="SniperTierOne" parent="." instance=ExtResource("5_ebi3o")]
 
 [node name="RadiusArea2D" type="Area2D" parent="."]
 collision_mask = 2
